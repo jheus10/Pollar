@@ -77,11 +77,16 @@ if ($result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     echo '<div class="tablelist">';
-    echo ' <div class="content">';
+    echo '<div class="content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
-    echo "<h3> " . $row["event_name"]."</h3>";
+    echo '<a href="admin-event.php?event_code='. $row['event_code'] .'"><h3>'.$row['event_name'].'</h3></a>';
     echo "</div>";
-    echo '<div class="button-wrapper"><a class="view-button" href="">Activate</a></div>';
+    if ($row['active_status']==0){
+      echo '<div class="button-wrapper"><a class="view-button" href="activate-event.php?id='. $row['id'] .'">Activate </a></div>';
+    }else{
+      echo '<div class="button-wrapper"><a class="view-button" href="deactivate-event.php?id='. $row['id'] .'">Deactivate </a></div>';
+    }
+    
     echo '<div class="button-wrapper"><a class="view-button" href="delete-event.php?id='. $row['id'] .'">Delete</a></div>';
     echo "</div>";
   }

@@ -1,0 +1,106 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .dropdown{
+    position: relative;
+    margin: 100px;
+    width: 150px;
+    height: 50px;
+    background-color: #f5feff;
+  }
+  
+  .textbox ion-icon{
+    width: 30px;
+    height: 30px;
+    margin-top: -5px;
+    
+    color:#9119af ;
+  }
+
+  .dropdown::before{
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 2px solid #9119af;
+    right: 27px;
+    top: 20px;
+    z-index: 1000;
+    border-top: 2px solid #f5feff;
+    border-right: 2px solid #f5feff;
+    transform: rotate(-45deg);
+    transition: 0.5s;
+    pointer-events: none;
+  }
+  .dropdown:hover::before{
+    border-top: 2px solid #e0f3f5;
+    border-right: 2px solid #e0f3f5;
+  }
+
+  .dropdown.active::before{
+    top: 22px;
+    transform: rotate(-225deg);
+
+  }
+  .dropdown a {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    background: #f5feff;
+    border: none;
+    outline: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+
+  }
+  .dropdown a:hover{
+    background: #e0f3f5;
+    transition: .3s;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+  }
+  .dropdown .option{
+    position: absolute;
+    top: 50px;
+    width: 120%;
+    background: #fff;
+    box-shadow: 0 30px 30px rgba(0,0,0,0.05);
+    overflow: hidden;
+    display: none;
+    color: #21232e;
+    z-index:1000;
+   
+  }
+  
+  .dropdown.active .option {
+    position: absolute;
+    display: block;
+    right: 0px;
+    border-top: 2px solid #9119af;
+  }
+
+  .dropdown .option div{
+    padding: 12px 20px;
+    cursor: pointer;
+    width: 300px;
+    
+  }
+
+  .dropdown .option div:hover{
+    background: #9119af;
+    color: #fff;
+  }
+
+  .dropdown .option div ion-icon{
+    position: relative;
+    top: 4px;
+    font-size: 1.2em;
+
+  }
+  
