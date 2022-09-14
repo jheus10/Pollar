@@ -2,13 +2,13 @@
 // Initialize the session
 
 session_start();
- 
 require_once('config.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
     exit;
 }
+$_SESSION['event_id'] = $_GET['event_id'];
 ?>
 
 
@@ -26,30 +26,40 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script language="Javascript">
-  var option_counter=0;
+  var option_counter=1;
+
+  
 		function add() {
 
 	//Create an input type dynamically.
   const textoption="option-";
+  const labeloption="textoption-";
+  var div = document.createElement("div");
+  var radio = document.createElement("input");
+  var radio_value=document.getElementById('select_option').value;
+  div.setAttribute('class','form-group');
+  div.setAttribute('id','box_'+option_counter);
+  radio.setAttribute('class','form-group');
+  radio.setAttribute('type','radio');
+  radio.setAttribute('id','box_'+option_counter);
+  radio.setAttribute('name','options');
+  radio.setAttribute('value',radio_value);
+  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"' required><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
+
+	var foo = document.getElementById("choices");
+      div.innerHTML=textbox;
+
+      foo.appendChild(div);
+      document.getElementById('counterbox').value=option_counter;
+      option_counter=option_counter+1;
   
-  option_counter=option_counter+1;
-	var element = document.createElement("input");
-  var label = document.createElement("label");
-  
-	//Assign different attributes to the element.
-	element.setAttribute("type", "radio");
-	element.setAttribute("value", document.getElementById('option').value);
-	element.setAttribute("name", textoption.concat(option_counter));
-
-
-	var foo = document.getElementById("fooBar");
-
-	//Append the element in page (in span).
-	foo.appendChild(element);
-
-
 }
+function removeBox(ele){
+  ele.parentNode.remove();
+}
+
 		</script>
 </head>
 <body>
@@ -57,7 +67,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <div class="textbox"><li><a>Create Poll</a></li></div>
     
         <div class="option">
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event"><ion-icon name="list-outline"></ion-icon>Create Event</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
         </div>
     </div>
 <!-- Multiple Choice Modal -->
@@ -71,23 +81,54 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </button>
       </div>
       <div class="modal-body">
-        <form action="insert-data.php" method="POST">
+        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
         <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
-          
-            
-    <input type="button" value="add option" onclick="add()"/>
-    <input type="text" name="option" id="option"/>
-		<span id="fooBar">&nbsp;</span>
+        
+        <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
+        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
+        <input type="text" value="" name="counterbox" id="counterbox" hidden />  
+        
+        <input type="text" value="" name="select_option" id="select_option"/><input type="button" value="add option" onclick="add()"/>
+    
+		<span id="choices">&nbsp;</span>
             
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button type="submit" class="btn btn-primary">Create Poll</button>
         </form>
       </div>
     </div>
   </div>
+</div>
+<div class="flex-container">
+  <div class="my_polls">
+  <?php
+$event_id=$_GET['event_id'];
+$sql = "SELECT * FROM poll_list WHERE event_id = $event_id ";
+$result = $link->query($sql);
+
+if ($result = mysqli_query($link, $sql)) {
+  // output data of each row
+  while($row = $result->fetch_assoc()) {
+    echo ' <div class="child--poll">';
+    echo '<div class="child--content">';
+    echo '<input type="text" value='.$row['id'].'" hidden>';
+    echo '<h3>'.$row['poll_type'].'</h3>';
+    echo '<h2>'.$row['poll_question'].'</h2>';
+    echo "</div>";
+      echo '<div class="button-wrapper-view"><a class="view-button" href="poll.php?event_id='. $row['event_id'] .'&poll_code='. $row['poll_code'] .'">View </a></div>';
+    echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'">Delete</a></div>';
+    echo "</div>";
+  }
+} else {
+  echo "0 results";
+}
+?>
+  </div>
+  <div class="poll_preview">2</div>
 </div>
 
 <script>

@@ -50,7 +50,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         Event Name:<input type="text" name="event_name" id="event_name" placeholder="Event name" required/><br>
         Start Date: <input type="date"/><br>
         End Date<input type="date"/><br>
-        Event Code: <input type="text" name="event_code" id="event_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
@@ -79,7 +78,7 @@ if ($result->num_rows > 0) {
     echo '<div class="tablelist">';
     echo '<div class="content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
-    echo '<a href="admin-event.php?event_code='. $row['event_code'] .'"><h3>'.$row['event_name'].'</h3></a>';
+    echo '<a href="admin-event.php?event_id='. $row['id'] .'"><h3>'.$row['event_name'].'</h3></a>';
     echo "</div>";
     if ($row['active_status']==0){
       echo '<div class="button-wrapper"><a class="view-button" href="activate-event.php?id='. $row['id'] .'">Activate </a></div>';

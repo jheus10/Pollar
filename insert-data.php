@@ -16,7 +16,7 @@
          
         // Performing insert query execution
         // here our table name is college
-        $sql = "INSERT INTO event_list(event_name,event_code,user_id)  VALUES ('$event_name','$event_code','$user_id')";
+        $sql = "INSERT INTO event_list(event_name,user_id)  VALUES ('$event_name','$user_id')";
          
         if(mysqli_query($link, $sql)){
             header("Location:index.php");
