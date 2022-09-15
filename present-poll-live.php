@@ -74,3 +74,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         // $("#answer").load(location.href + " #answer");
 
 </script> 
+<script>
+   $(document).ready(function(){
+   window.setInterval(function(){
+     $("#options").load(window.location.href + " #options" );
+   }, 1000);
+   });
+</script>
