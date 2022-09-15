@@ -145,6 +145,13 @@
   .child--poll > .child--content > h3{
     font-size: 1rem;
   }
+  .button-wrapper-present{
+    position: absolute;
+    font-size: 1rem;
+    width: 20px;
+    right: 220px;
+    top:10px;
+  }
   .button-wrapper-copy{
     position: absolute;
     font-size: 1rem;

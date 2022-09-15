@@ -52,7 +52,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             for ($i=1; $i < count($exploded)-1; $i++){
         $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND answer_option='$exploded[$i]'";
         $result2 = mysqli_query($link, $sql2);
-           echo '<div class="option-child"><input type="text" value="'.($exploded[$i]).'" readonly><br><input type="text" name="answer" id="answer" onchange="update()" value="'.(mysqli_num_rows($result2)).'"readonly></div>';
+           echo '<div class="option-child" id="mydiv"><input type="text" value="'.($exploded[$i]).'" readonly><br><input type="text" name="answer" id="answer" onchange="update()" value="'.(mysqli_num_rows($result2)).'"readonly></div>';
             }
         ?>
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
@@ -68,10 +68,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
       mysqli_close($link);
       ?>
-<!-- 
-      <script>
-        setTimeout(function(){
-        window.location.reload(1);
-        }, 2000);
-        </script> -->
+
+ <script>
+    
+        // $("#answer").load(location.href + " #answer");
+
+</script> 
         

@@ -120,6 +120,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<h3>'.$row['poll_type'].'</h3>';
     echo '<h2>'.$row['poll_question'].'</h2>';
     echo "</div>";
+    echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" href="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
     echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
     echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'&event_id='. $row['event_id'] .'">Delete</a></div>';
