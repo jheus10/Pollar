@@ -27,6 +27,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script language="Javascript">
   var option_counter=1;
 
@@ -119,16 +120,19 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<h3>'.$row['poll_type'].'</h3>';
     echo '<h2>'.$row['poll_question'].'</h2>';
     echo "</div>";
-      echo '<div class="button-wrapper-view"><a class="view-button" href="poll.php?event_id='. $row['event_id'] .'&poll_code='. $row['poll_code'] .'">View </a></div>';
-    echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'">Delete</a></div>';
+    echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
+    echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
+    echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'&event_id='. $row['event_id'] .'">Delete</a></div>';
     echo "</div>";
+
   }
 } else {
   echo "0 results";
 }
 ?>
   </div>
-  <div class="poll_preview">2</div>
+  
+  <div class="poll_preview" id="poll_preview"><a href ="#" id="contact" > HOME </a> </div>
 </div>
 
 <script>
@@ -141,9 +145,29 @@ dropdown.onclick=function(){
            
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 </body>
+<script>
+  function copy(copy_id) {
+  // Get the text field
+  const link="http://localhost/miles-polling/";
+
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(link+copy_id);
+
+  // Alert the copied text
+  alert("Copied the text: " + link+copy_id);
+}
+ function update(button_id)
+{
+ 
+        $(document).ready(function(){
+          $("#poll_preview").load(button_id);
+          
+      });
+    }
+        </script>
 </html>

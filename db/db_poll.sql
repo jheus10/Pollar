@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2022 at 10:32 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Sep 15, 2022 at 01:21 PM
+-- Server version: 10.4.19-MariaDB
+-- PHP Version: 8.0.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,6 @@ CREATE TABLE `event_list` (
   `event_name` varchar(50) NOT NULL,
   `date_create` date NOT NULL DEFAULT current_timestamp(),
   `date_end` date NOT NULL DEFAULT current_timestamp(),
-  `event_code` int(11) NOT NULL,
   `active_status` tinyint(1) NOT NULL DEFAULT 0,
   `user_id` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -41,8 +40,50 @@ CREATE TABLE `event_list` (
 -- Dumping data for table `event_list`
 --
 
-INSERT INTO `event_list` (`id`, `event_name`, `date_create`, `date_end`, `event_code`, `active_status`, `user_id`) VALUES
-(2, 'test2', '0000-00-00', '0000-00-00', 4718422, 0, 'admin');
+INSERT INTO `event_list` (`id`, `event_name`, `date_create`, `date_end`, `active_status`, `user_id`) VALUES
+(6, 'test1', '2022-09-10', '2022-09-10', 0, 'admin');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `poll_answers`
+--
+
+CREATE TABLE `poll_answers` (
+  `id` int(11) NOT NULL,
+  `poll_code` int(11) NOT NULL,
+  `answer_option` varchar(1000) NOT NULL,
+  `date_answered` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  `user_id` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `poll_list`
+--
+
+CREATE TABLE `poll_list` (
+  `id` int(11) NOT NULL,
+  `poll_type` varchar(100) NOT NULL,
+  `poll_question` varchar(1000) NOT NULL,
+  `poll_correct` varchar(1000) NOT NULL,
+  `poll_choices` varchar(4000) NOT NULL,
+  `show_answer` tinyint(1) NOT NULL DEFAULT 0,
+  `lock_voting` tinyint(1) NOT NULL DEFAULT 0,
+  `poll_code` int(11) NOT NULL,
+  `date_created` date NOT NULL,
+  `event_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `poll_list`
+--
+
+INSERT INTO `poll_list` (`id`, `poll_type`, `poll_question`, `poll_correct`, `poll_choices`, `show_answer`, `lock_voting`, `poll_code`, `date_created`, `event_id`) VALUES
+(8, 'Multiple Choice', ' How are you?', 'fine thank you', ',fine thank you,not fine,', 0, 0, 4575508, '0000-00-00', 6),
+(12, 'Multiple Choice', ' hii', 'helo', ',helo,helo,henlo,hilo,', 0, 0, 4833741, '0000-00-00', 7);
 
 -- --------------------------------------------------------
 
@@ -82,6 +123,18 @@ ALTER TABLE `event_list`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `poll_answers`
+--
+ALTER TABLE `poll_answers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `poll_list`
+--
+ALTER TABLE `poll_list`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_info`
 --
 ALTER TABLE `user_info`
@@ -95,13 +148,25 @@ ALTER TABLE `user_info`
 -- AUTO_INCREMENT for table `event_list`
 --
 ALTER TABLE `event_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `poll_answers`
+--
+ALTER TABLE `poll_answers`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `poll_list`
+--
+ALTER TABLE `poll_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `user_info`
 --
 ALTER TABLE `user_info`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

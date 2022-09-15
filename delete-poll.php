@@ -6,7 +6,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
     
     // Prepare a delete statement
     $sql = "DELETE FROM poll_list WHERE id = ?";
-    
+    $event_id = $_GET['id'];
     if($stmt = mysqli_prepare($link, $sql)){
         // Bind variables to the prepared statement as parameters
         mysqli_stmt_bind_param($stmt, "i", $param_id);
@@ -17,7 +17,7 @@ if(isset($_POST["id"]) && !empty($_POST["id"])){
         // Attempt to execute the prepared statement
         if(mysqli_stmt_execute($stmt)){
             // Records deleted successfully. Redirect to landing page
-            header("location: admin-event.php?event_id=".$_GET['event_id']);
+            header("location: index.php");
             exit();
         } else{
             echo "Oops! Something went wrong. Please try again later.";
