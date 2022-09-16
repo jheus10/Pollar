@@ -20,7 +20,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
   crossorigin="anonymous"></script>
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
     <?php
@@ -49,10 +49,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         
         <div class="options" id="options">
         <?php
+        //$sql3 = "SELECT COUNT(*)*100 as total FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code";
+        $result3 = $link->query("SELECT COUNT(*)/100 as total FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code");
+        $row3 = $result3->fetch_row();
             for ($i=1; $i < count($exploded)-1; $i++){
         $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND answer_option='$exploded[$i]'";
         $result2 = mysqli_query($link, $sql2);
-           echo '<div class="option-child" id="mydiv"><input type="text" value="'.($exploded[$i]).'" readonly><br><input type="text" name="answer" id="answer" onchange="update()" value="'.(mysqli_num_rows($result2)).'"readonly></div>';
+           echo '<div class="option-child" id="mydiv"><input type="text" value="'.($exploded[$i]).'" readonly><br><div class="progress"><div class="progress-bar" role="progressbar" style="width:'.((mysqli_num_rows($result2))/$row3[0]).'%;"aria-valuenow="'.((mysqli_num_rows($result2))/$row3[0]).'" aria-valuemin="0" aria-valuemax="100">'.((mysqli_num_rows($result2))/$row3[0]).'%</div></div>';
             }
         ?>
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
@@ -69,8 +72,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       mysqli_close($link);
       ?>
 
- <script>
-    
-        // $("#answer").load(location.href + " #answer");
 
-</script> 
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+
+
+</script>

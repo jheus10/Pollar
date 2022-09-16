@@ -133,7 +133,7 @@ if ($result = mysqli_query($link, $sql)) {
 ?>
   </div>
   
-  <div class="poll_preview" id="poll_preview"></div>
+  <div class="poll_preview" id="poll_preview"><div class="poll_question" id="poll_question"></div></div>
 </div>
 
 <script>
@@ -167,15 +167,15 @@ dropdown.onclick=function(){
  
         $(document).ready(function(){
        
-          $("#poll_preview").load(button_id);         
+          $("#poll_question").load(button_id);         
       });
     }
         </script>
-         <!-- <script>
+          <!-- <script>
    $(document).ready(function(){
    window.setInterval(function(){
-     $("#poll_preview").load(window.location.href + " #poll_preview" );
+     $("#poll_question").load(window.location.href + " #poll_question" );
    }, 5000);
    });
-</script> -->
+</script>  -->
 </html>

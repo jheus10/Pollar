@@ -1,62 +1,56 @@
+<!doctype html>
 
-   
-<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Live Update</title>
-    <meta charset="UTF-8">
-    <script type="text/javascript" src="autoUpdate.js"></script>
+  <meta charset="utf-8">
+
+  <title>Example Seemless Video Navigation</title>
+  <meta name="description" content="This is my description">
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script>
+
+  $(function() {
+    $('#change-title').click( function() {
+      document.title = $('#title').val();
+    });
+
+    $('#change-description').click( function() {
+      $('meta[name=description]').attr('content', $('#description').val());
+    });
+
+    $('#change-url').click( function() {
+      window.history.pushState("", "", $('#url').val());
+    });
+
+  });
+
+
+  </script>
+
+  <style>
+  input[type="text"] {
+  	width: 300px;
+  	margin: 1em;
+  }
+
+
+  </style>
+
+
 </head>
-<select name="" id="">
-    <option value="">hello</option>
-</select>
-<div id="liveData">
-    <p>Loading Data...</p>
+
+<body>
+<h1>Changing page attributes without reload</h1>
+<div>
+  Title: <input type="text" value="Changing page attributes without reload" id="title"/><input type="submit" value="Change" id="change-title">
 </div>
-     <script>
-        window.addEventListener('load', function()
-{
-    var xhr = null;
+<div>
+  Meta Description: <input type="text" value="This is my description" id="description" /><input type="submit" value="Change" id="change-description">
+</div>
+<div>
+  URL: <input type="text" value="meta-test.html" id="url" /><input type="submit" value="Change" id="change-url">
+</div>	
 
-    getXmlHttpRequestObject = function()
-    {
-        if(!xhr)
-        {               
-            // Create a new XMLHttpRequest object 
-            xhr = new XMLHttpRequest();
-        }
-        return xhr;
-    };
 
-    updateLiveData = function()
-    {
-        var now = new Date();
-        // Date string is appended as a query with live data 
-        // for not to use the cached version 
-        var url = 'http://localhost/miles-polling/present-poll.php?event_id=6&poll_code=4575508';
-        xhr = getXmlHttpRequestObject();
-        xhr.onreadystatechange = evenHandler;
-        // asynchronous requests
-        xhr.open("GET", url, true);
-        // Send the request over the network
-        xhr.send(null);
-    };
-
-    updateLiveData();
-
-    function evenHandler()
-    {
-        // Check response is ready or not
-        if(xhr.readyState == 3 && xhr.status == 200)
-        {
-            dataDiv = document.getElementById('liveData');
-            // Set current data text
-            dataDiv.innerHTML = xhr.responseText;
-            // Update the live data every 1 sec
-            setTimeout(updateLiveData(), 10000);
-        }
-    }
-});
-</script>
 </body>
 </html>
