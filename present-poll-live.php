@@ -11,7 +11,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         ?>
 <!doctype html>
 <html lang="en">
-<<<<<<< HEAD
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,22 +18,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/chartjs-chart-wordcloud@3"></script>
-=======
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="css/poll.css">
-    <script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
-<body>
-    <?php
->>>>>>> 538495a4365228bd9b1dd1839503264c4f03692a
    
     <style>
       * {
@@ -67,8 +50,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         display: none;
       }
       #myChart{
-       overflow: scroll
-
+      
+        
       }
       .question{
         margin-bottom: 0px;
@@ -111,7 +94,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     ?>
     <div class="chartCard">
       
-      <div class="chartBox">
+      <div class="chartBox" >
       <div class="question"><?= $row['poll_question']?></div>
         <canvas id="myChart"></canvas>
       </div>
@@ -137,7 +120,14 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
           'rgba(75, 192, 192, 0.2)',
           'rgba(153, 102, 255, 0.2)',
           'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)'
+          'rgba(0, 0, 0, 0.2)',
+          'rgba(255, 26, 104, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(0, 0, 0, 0.2)',
         ],
         backgroundColor: [
           'rgba(255, 26, 104, 1)',
@@ -170,12 +160,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             
         data.datasets[0].data.forEach((datapoint, index)=>{
         //label txt
-        const fontSizeLabel = 20;
         ctx.font = '20px sans-serif';
         ctx.fillStyle = 'rgba(102,102,102,1)';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'middle';
-        ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- fontSizeLabel-25);
+        ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
         
         //value txt
         const fontDatapoint = 20;
@@ -193,7 +182,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
        
         }
         
-<<<<<<< HEAD
     }
     // config 
     const config = {
@@ -220,17 +208,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             },
             ticks: {
                 display: false,
-=======
-        <div class="options" id="options">
-        <?php
-        //$sql3 = "SELECT COUNT(*)*100 as total FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code";
-        $result3 = $link->query("SELECT COUNT(*)/100 as total FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code");
-        $row3 = $result3->fetch_row();
-            for ($i=1; $i < count($exploded)-1; $i++){
-        $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND answer_option='$exploded[$i]'";
-        $result2 = mysqli_query($link, $sql2);
-           echo '<div class="option-child" id="mydiv"><input type="text" value="'.($exploded[$i]).'" readonly><br><div class="progress"><div class="progress-bar" role="progressbar" style="width:'.((mysqli_num_rows($result2))/$row3[0]).'%;"aria-valuenow="'.((mysqli_num_rows($result2))/$row3[0]).'" aria-valuemin="0" aria-valuemax="100">'.((mysqli_num_rows($result2))/$row3[0]).'%</div></div>';
->>>>>>> 538495a4365228bd9b1dd1839503264c4f03692a
             }
           },
           y: {
@@ -334,7 +311,6 @@ const myChart = new Chart(
       ?>
 <!-- <script>
 
-<<<<<<< HEAD
 $(document).ready(function(){
 window.setInterval(function(){
   myChart.update();
@@ -345,19 +321,3 @@ window.setInterval(function(){
 </script> -->
   </body>
 </html>
-=======
-
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-<script>
-
-   $(document).ready(function(){
-   window.setInterval(function(){
-     $("#options").load(window.location.href + " #options" );
-   }, 1000);
-   });
-
-
-</script>
->>>>>>> 538495a4365228bd9b1dd1839503264c4f03692a
