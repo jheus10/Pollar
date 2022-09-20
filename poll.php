@@ -4,7 +4,8 @@ session_start();
 require_once('config.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    $_SESSION["username"] = "anonymous";
+    header("location: login.php");
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -31,6 +32,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             
             
         ?>
+    <?php 
+    //MULTIPLE CHOICE
+    if ($row['poll_type'] == "Multiple Choice"){
+    
+    ?>
 
     <center>
     <div class="poll-container">
@@ -50,6 +56,29 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
     
     </div>
+    <?php
+    // WORD CLOUD
+    }elseif ($row['poll_type'] == "Word Cloud"){
+    
+    ?>
+    <center>
+    <div class="poll-container">
+        <div class="question"><?php echo $row['poll_question']?></div>
+        <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+        
+        <div class="options">
+       
+        <input type="text" id="answer" name="answer" value=""></div>
+         
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Poll</button>
+        </form>    
+
+<?php
+ }
+
+?>
     <?php
         }
         mysqli_free_result($result);

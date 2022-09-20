@@ -66,13 +66,14 @@ function removeBox(ele){
 <body>
 <div class="dropdown">
     <div class="textbox"><li><a>Create Poll</a></li></div>
-    
+<!-- Poll Choices -->    
         <div class="option">
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-multiple"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
         </div>
     </div>
 <!-- Multiple Choice Modal -->
-<div class="modal fade" id="add-event" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+<div class="modal fade" id="add-event-multiple" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -104,6 +105,37 @@ function removeBox(ele){
     </div>
   </div>
 </div>
+<!-- Word Cloud Modal -->
+<div class="modal fade" id="add-event-wordcloud" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Multiple Choice</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
+        <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
+        
+        <input type="text" value="Word Cloud" name="poll_type" id="poll_type" hidden/>  
+        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
+        <input type="text" value="" name="counterbox" id="counterbox" hidden />  
+        
+       
+            
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create Poll</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="flex-container">
   <div class="my_polls">
   <?php
@@ -120,7 +152,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<h3>'.$row['poll_type'].'</h3>';
     echo '<h2>'.$row['poll_question'].'</h2>';
     echo "</div>";
-    echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
+    echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
     echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
     echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'&event_id='. $row['event_id'] .'">Delete</a></div>';
