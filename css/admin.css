@@ -152,21 +152,21 @@
     position: absolute;
     font-size: 1rem;
     width: 20px;
-    right: 220px;
+    right: 270px;
     top:10px;
   }
   .button-wrapper-copy{
     position: absolute;
     font-size: 1rem;
     width: 20px;
-    right: 150px;
+    right: 200px;
     top:10px;
   }
-   .button-wrapper-view{
+   .button-wrapper-analytics{
     position: absolute;
     font-size: 1rem;
     width: 20px;
-    right: 100px;
+    right: 150px;
     top:10px;
   }
   .button-wrapper-delete{

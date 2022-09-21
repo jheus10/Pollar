@@ -50,7 +50,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         Event Name:<input type="text" name="event_name" id="event_name" placeholder="Event name" required/><br>
         Start Date: <input type="date"/><br>
         End Date<input type="date"/><br>
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+        <input type="text" name="user_id" id="user_id" value=<?= $_SESSION["username"]?> >
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -69,10 +69,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       
        
 <?php
-$sql = "SELECT * FROM event_list";
+
+$sql = "SELECT * FROM event_list WHERE user_id = '$_SESSION[username]'";
 $result = $link->query($sql);
 
-if ($result->num_rows > 0) {
+if (!empty($result) && $result->num_rows > 0) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
     echo '<div class="tablelist">';

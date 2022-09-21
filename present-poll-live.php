@@ -237,7 +237,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 <?php
     }// WORD CLOUD
         elseif($row['poll_type']=="Word Cloud"){
-          $sql2="SELECT answer_option, COUNT(*) as total_answers FROM poll_answers WHERE poll_code=1655346 AND event_id =6 GROUP BY answer_option";
+          $sql2="SELECT answer_option, COUNT(*) as total_answers FROM poll_answers WHERE poll_code=$poll_code AND event_id =$event_id GROUP BY answer_option";
           if ($result2 = mysqli_query($link, $sql2)) {
             while( $row2 = $result2->fetch_assoc()){           
           ?>
