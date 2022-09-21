@@ -21,7 +21,7 @@
         $x=0;
         while($x <= $counter){
             $choice_container = $_POST['textoption-'.$x];
-            $choices .= $choice_container.",";    
+            $choices .= $choice_container.",*/";    
             $x++;
         }
        

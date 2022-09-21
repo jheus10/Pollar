@@ -28,6 +28,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+       
 <script language="Javascript">
   var option_counter=1;
 
@@ -66,12 +67,15 @@ function removeBox(ele){
 <body>
 <div class="dropdown">
     <div class="textbox"><li><a>Create Poll</a></li></div>
+    
 <!-- Poll Choices -->    
         <div class="option">
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-multiple"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
         </div>
+        
     </div>
+<a href="analytics.php?event_id=<?=$_SESSION['event_id']?>" >Analytics</a>
 <!-- Multiple Choice Modal -->
 <div class="modal fade" id="add-event-multiple" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -154,7 +158,6 @@ if ($result = mysqli_query($link, $sql)) {
     echo "</div>";
     echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
-    echo '<div class="button-wrapper-analytics"><a class="view-button" name="view-poll" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Analytics </a></div>'; 
     //echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
     echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'&event_id='. $row['event_id'] .'">Delete</a></div>';
     echo "</div>";

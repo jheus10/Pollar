@@ -1,12 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Poppins', sans-serif;
-  }
+
   
   .dropdown{
     position: relative;
@@ -152,21 +147,14 @@
     position: absolute;
     font-size: 1rem;
     width: 20px;
-    right: 270px;
+    right: 170px;
     top:10px;
   }
   .button-wrapper-copy{
     position: absolute;
     font-size: 1rem;
     width: 20px;
-    right: 200px;
-    top:10px;
-  }
-   .button-wrapper-analytics{
-    position: absolute;
-    font-size: 1rem;
-    width: 20px;
-    right: 150px;
+    right: 100px;
     top:10px;
   }
   .button-wrapper-delete{

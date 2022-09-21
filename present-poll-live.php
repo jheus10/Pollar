@@ -61,6 +61,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
   </head>
   <body>
   <script>
+    
     var datavalues=[];
     var datalabels=[];
     var word_cloud_key=['key','value'];
@@ -76,7 +77,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
        // Fetch one and one row
        while ($row = $result->fetch_assoc()) {
            $trimmed=trim($row['poll_choices']);
-           $exploded = explode("," ,$trimmed);
+           $exploded = explode(",*/" ,$trimmed);
     // MULTIPLE CHOICE
      if ($row['poll_type']=="Multiple Choice"){      
           $result3 = $link->query("SELECT COUNT(*)/100 as total FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code");

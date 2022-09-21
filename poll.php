@@ -23,12 +23,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       $event_id= $_GET['event_id'];  
       $poll_code= $_GET['poll_code'];  
       $sql = "SELECT * FROM poll_list WHERE event_id = $event_id AND poll_code = $poll_code";
+      $sql2 = "SELECT * FROM event_list WHERE id = $event_id";
+      $result2=mysqli_query($link,$sql2);
 
+      while ($row2 = $result2->fetch_assoc()) {
+        if ($row2['active_status']==1) {
       if ($result = mysqli_query($link, $sql)) {
         // Fetch one and one row
         while ($row = $result->fetch_assoc()) {
             $trimmed=trim($row['poll_choices']);
-            $exploded = explode("," ,$trimmed);
+            $exploded = explode(",*/" ,$trimmed);
             
             
         ?>
@@ -75,16 +79,21 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <button type="submit" class="btn btn-primary">Submit Poll</button>
         </form>    
 
-<?php
- }
 
-?>
     <?php
-        }
-        mysqli_free_result($result);
-      }
 
-      mysqli_close($link);
+    }
+        }
+            }
+                
+            
+                mysqli_free_result($result);
+            }else{
+                    echo "<center>This poll is not active";
+                }
+            }
+
+            mysqli_close($link);
       ?>
 </body>
 </html>
