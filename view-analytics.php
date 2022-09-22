@@ -44,7 +44,34 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             ];
             echo json_encode($res);
             return;
+        }elseif ($row['poll_type']=="Word Cloud"){
+          $sql2="SELECT answer_option, COUNT(*) as total_answers FROM poll_answers WHERE poll_code=$poll_code AND event_id =$event_id GROUP BY answer_option";
+          if ($result2 = mysqli_query($link, $sql2)) {
+            $word_cloud_arrayContainer=array();
+            while( $row2 = $result2->fetch_assoc()){       
+              $wordz_cloud_arrayContainer["key"]=$row2["answer_option"];
+              $wordz_cloud_arrayContainer["value"]=$row2["total_answers"];
+              array_push($word_cloud_arrayContainer,$wordz_cloud_arrayContainer);
+              
+            }    
+            $res = [
+              'status' => 200,
+              'message' => 'View successfully.',
+              'poll_question' => $row['poll_question'],
+              'data_values' => $word_cloud_arrayContainer,
+              'poll_type' =>$row['poll_type'],
+            ];
+            echo json_encode($res);
+            return;
+          }
+              
+          ?>
+
+        
+
+          <?php
         }
+
     }
         
         

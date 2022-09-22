@@ -108,9 +108,6 @@ if ($result = mysqli_query($link, $sql)) {
 <script>
   $(document).on('click', '.viewPollBtn', function (e) {
             e.preventDefault();
-            
-         
-
               var event_id = $(this).val();
               var poll_code = this.id;
                 $.ajax({
@@ -131,7 +128,7 @@ if ($result = mysqli_query($link, $sql)) {
                       alert(res.message);
                       }else{
                         
-                        if (res.poll_type='Multiple Choice'){
+                        if (res.poll_type=='Multiple Choice'){
                             var x = 0;
                             while(x < res.data_values.length){ 
                               res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
@@ -270,13 +267,52 @@ if ($result = mysqli_query($link, $sql)) {
     console.log(res);
 
     
+  }else if(res.poll_type="Word Cloud"){
+    const words = res.data_values;
+
+    const config = {
+      type: "wordCloud",
+      data: {
+        labels: words.map((d) => d.key),
+        datasets: [
+          {
+            label: "Score",
+            data: words.map((d) => 10 + d.value * 20)
+          }
+        ]
+      },
+      options: {
+        title: {
+          display: res.poll_question,
+          text: "Word Cloud Poll"
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
+      }
+    }
+    // render init block
+   // JS - Destroy exiting Chart Instance to reuse <canvas> element
+   let chartStatus = Chart.getChart("myChart"); // <canvas> id
+    if (chartStatus != undefined) {
+      chartStatus.destroy();
+    }
+//-- End of chart destroy   
+    var chartCanvas = $('#myChart'); //<canvas> id
+    chartInstance = new Chart(chartCanvas, config);
+    // render init block
+ 
+
+    console.log(res);
   }
-                        
-}
+                         
+} 
 }
 });
-            
-});
+});           
+
 </script>
 <script>     
     
