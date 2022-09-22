@@ -28,6 +28,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
        
 <script language="Javascript">
   var option_counter=1;
@@ -48,7 +49,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
   radio.setAttribute('id','box_'+option_counter);
   radio.setAttribute('name','options');
   radio.setAttribute('value',radio_value);
-  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"' required><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
+  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"'><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
 
 	var foo = document.getElementById("choices");
       div.innerHTML=textbox;
@@ -87,12 +88,12 @@ function removeBox(ele){
         </button>
       </div>
       <div class="modal-body">
-        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
+        <form action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
         <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
         
         <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
+        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
         <input type="text" value="" name="counterbox" id="counterbox" hidden />  
         
         <input type="text" value="" name="select_option" id="select_option"/><input type="button" value="add option" onclick="add()"/>
@@ -141,7 +142,7 @@ function removeBox(ele){
   </div>
 </div>
 <div class="flex-container">
-  <div class="my_polls">
+  <div class="my_polls" id="my_polls">
   <?php
 $event_id=$_GET['event_id'];
 $sql = "SELECT * FROM poll_list WHERE event_id = $event_id ";
@@ -150,7 +151,7 @@ $result = $link->query($sql);
 if ($result = mysqli_query($link, $sql)) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    echo ' <div class="child--poll">';
+    echo ' <div class="child--poll" id="child--poll">';
     echo '<div class="child--content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
     echo '<h3>'.$row['poll_type'].'</h3>';
@@ -159,7 +160,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
     //echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
-    echo '<div class="button-wrapper-delete"><a class="view-button" href="delete-poll.php?id='. $row['id'] .'&event_id='. $row['event_id'] .'">Delete</a></div>';
+    echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'>Delete</button></div>';
     echo "</div>";
 
   }
@@ -171,7 +172,35 @@ if ($result = mysqli_query($link, $sql)) {
   
   <!-- <div class="poll_preview" id="poll_preview"><div class="poll_question" id="poll_question"></div></div> -->
 </div>
+<script>
+  $(document).on('click', '#deletePollBtn', function (e) {
+            e.preventDefault();
+            
+            if(confirm('Are you sure you want to delete this data?'))
+            {
+              var id = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: "delete-poll.php",
+                    data: {
+                        'id': id
+                    },
+                    success: function (response) {
 
+                        var res = jQuery.parseJSON(response);
+                        if(res.status == 500) {
+
+                            alert(res.message);
+                        }else{
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(res.message);
+                            $('#my_polls').load(location.href + " #my_polls");
+                        }
+                    }
+                });
+            }
+        });
+</script>
 <script>
 
 let dropdown=document.querySelector('.dropdown'); 
@@ -184,7 +213,7 @@ dropdown.onclick=function(){
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 </body>
 <script>
   function copy(copy_id) {

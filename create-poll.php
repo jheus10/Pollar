@@ -17,12 +17,16 @@
         $counter= $_POST['counterbox'];
         $poll_code = $_POST['poll_code'];
         $correct = $_POST['options_radio'];
-        $choices = "";
+        $choices = ",*/";
         $x=0;
         while($x <= $counter){
+            if (!empty($_POST['textoption-'.$x])){
             $choice_container = $_POST['textoption-'.$x];
             $choices .= $choice_container.",*/";    
             $x++;
+            }else{
+            $x++;
+            }
         }
        
         $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";

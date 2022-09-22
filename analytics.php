@@ -28,41 +28,38 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://unpkg.com/chartjs-chart-wordcloud@3"></script>
+        <style>
+        .poll_preview {
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 26, 104, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+       
+        overflow: hidden;
+      }
+      .chartBox {
+        position: relative;
+        height: 500px;
+        width: 100%;
+        padding: 20px;
+        border-radius: 20px;
+        background: white;
+        max-height: 80%;
+        overflow-y:scroll;
         
-<script language="Javascript">
-  var option_counter=1;
-
-  
-		function add() {
-
-	//Create an input type dynamically.
-  const textoption="option-";
-  const labeloption="textoption-";
-  var div = document.createElement("div");
-  var radio = document.createElement("input");
-  var radio_value=document.getElementById('select_option').value;
-  div.setAttribute('class','form-group');
-  div.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('class','form-group');
-  radio.setAttribute('type','radio');
-  radio.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('name','options');
-  radio.setAttribute('value',radio_value);
-  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"' required><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
-
-	var foo = document.getElementById("choices");
-      div.innerHTML=textbox;
-
-      foo.appendChild(div);
-      document.getElementById('counterbox').value=option_counter;
-      option_counter=option_counter+1;
-  
-}
-function removeBox(ele){
-  ele.parentNode.remove();
-}
-
-		</script>
+      }
+      .chartBox::-webkit-scrollbar {
+        display: none;
+      }
+      .question{
+        margin-bottom: 0px;
+      }
+        </style>
 </head>
 <body>
 
@@ -79,7 +76,7 @@ if ($result = mysqli_query($link, $sql)) {
   while($row = $result->fetch_assoc()) {
     $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $row[poll_code]";
     $result2 = $link->query($sql2);
-    echo ' <button class="child--poll">';
+    echo ' <button class="viewPollBtn child--poll" value='.$row["event_id"].' id='.$row["poll_code"].'>';
     echo '<div class="child--content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
     echo '<h3>'.$row['poll_type'].'</h3>';
@@ -96,44 +93,200 @@ if ($result = mysqli_query($link, $sql)) {
 ?>
   </div>
   
-<div class="poll_preview" id="poll_preview"><div class="poll_question" id="poll_question"></div></div>
+<div class="poll_preview" id="poll_preview">
+      
+      <div class="chartBox" id="chartBox" >
+      <div class="question" id="question"></div>
+        <canvas id="myChart"></canvas>
+      </div>
+
 </div>
+</div>
+           
+</body>
 
 <script>
+  $(document).on('click', '.viewPollBtn', function (e) {
+            e.preventDefault();
+            
+         
 
-let dropdown=document.querySelector('.dropdown'); 
-dropdown.onclick=function(){
-    dropdown.classList.toggle('active');
-} //dropdown nav
-</script>
+              var event_id = $(this).val();
+              var poll_code = this.id;
+                $.ajax({
+                    type: "POST",
+                    url: "view-analytics.php",
+                    datatype:'json',
+                    
+                    data: {
+                        'event_id': event_id,
+                        'poll_code': poll_code,
+                        
+                    },
+                    success: function (response) {
+                     
+                      var res = jQuery.parseJSON(response);
+                      if(res.status == 500) {
+                        
+                      alert(res.message);
+                      }else{
+                        
+                        if (res.poll_type='Multiple Choice'){
+                            var x = 0;
+                            while(x < res.data_values.length){ 
+                              res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
+                                x++;
+                            }
+                          document.getElementById('question').innerHTML=res.poll_question;
+                          const data = {
+      labels: res.data_labels,
+      datasets: [{
+        label: 'Weekly Sales',
+        data: res.data_values,
+        borderColor: [
+          'rgba(255, 26, 104, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(0, 0, 0, 0.2)',
+          'rgba(255, 26, 104, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)',
+          'rgba(0, 0, 0, 0.2)',
+        ],
+        backgroundColor: [
+          'rgba(255, 26, 104, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+          'rgba(0, 0, 0, 1)'
+        ],
+        //size of bar
+        borderWidth: 0,
+        borderSkipped: false,
+        borderRadius: 5,
+        barPercentage: 0.5,
+        categoryPercentage: 0.8,
+      }]
+    };
+    // progressBar plugin block
+    if (res.data_labels.length ==2){
+
+    }
+    const progressBar = {
+        id: 'progressBar',
+        beforeDatasetsDraw(chart,args,pluginOptions){
+            const { ctx, data, chartArea: { top,bottom,left,right,width,height}
+            , scales: {x, y} } = chart;
+            ctx.save();
+            const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
+            
+        data.datasets[0].data.forEach((datapoint, index)=>{
+        //label txt
+        ctx.font = '20px sans-serif';
+        ctx.fillStyle = 'rgba(102,102,102,1)';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
+        
+        //value txt
+        const fontDatapoint = 20;
+        ctx.font = '20px sans-serif';
+        ctx.fillStyle = 'rgba(102,102,102,1)';
+        ctx.textAlign = 'right';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(datapoint+"%",right,y.getPixelForValue(index));
+
+        //bg color progress bar
+        ctx.beginPath();
+        ctx.fillStyle= data.datasets[0].borderColor[index];
+        ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
+        })
+       
+        }
+        
+    }
+    // config 
+    const config = {
+      type: 'bar',
+      data,
+      options: {
+        responsive: true,
+        indexAxis: 'y',
+        hover: {
+            mode: 'dataset'
+        },
+        plugins: {
+            legend: {
+                display: false,
+            },
            
+        },
+        scales: {
+            x: {
+                suggestedMax: 100,
+            grid: {
+                display: false,
+                drawBorder:false
+            },
+            ticks: {
+                display: false,
+            }
+          },
+          y: {
+            beginAtZero: true,
+           
+            grid: {
+                display: false,
+                drawBorder:false
+            },
+            ticks: {
+                display: false
+            }
+          }
+          
+        }
+      },
+      plugins: [progressBar]
+    };
+    // JS - Destroy exiting Chart Instance to reuse <canvas> element
+    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+    if (chartStatus != undefined) {
+      chartStatus.destroy();
+    }
+//-- End of chart destroy   
+    var chartCanvas = $('#myChart'); //<canvas> id
+    chartInstance = new Chart(chartCanvas, config);
+    // render init block
+ 
+    
+    console.log(res);
+
+    
+  }
+                        
+}
+}
+});
+            
+});
+</script>
+<script>     
+    
+    </script>
+<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-</body>
-<script>
-  function copy(copy_id) {
-  // Get the text field
-  const link="http://localhost/miles-polling/";
-
-
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(link+copy_id);
-
-  // Alert the copied text
-  alert("Copied the text: " + link+copy_id);
-}
- function update(button_id)
-{
- 
-        $(document).ready(function(){
-       
-          $("#poll_question").load(button_id);         
-      });
-    }
-        </script>
           <!-- <script>
    $(document).ready(function(){
    window.setInterval(function(){
