@@ -129,6 +129,34 @@ if ($result = mysqli_query($link, $sql)) {
                       }else{
                         
                         if (res.poll_type=='Multiple Choice'){
+                        var updated_data=[];
+                        updated_data=res.data_values;
+                        var my_data=updated_data;
+                      //AJAX call for updating values
+                      setInterval(function() {
+                        $.ajax({
+                      type:"POST",
+                      url: "view-analytics.php",
+                      datatype:'json',
+                                      
+                      data: {
+                          'event_id': event_id,
+                          'poll_code': poll_code,
+                                          
+                        },
+                      success: function(db_call) {
+                        var res2 = jQuery.parseJSON(db_call);
+                        var x=0;
+                        while(x < res2.data_values.length){ 
+                                      res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
+                                        x++;
+                                    }
+                        updated_data=res2.data_values;
+                        
+                      }
+                    });
+                  
+                }, 5000);   
                             var x = 0;
                             while(x < res.data_values.length){ 
                               res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
@@ -139,7 +167,7 @@ if ($result = mysqli_query($link, $sql)) {
       labels: res.data_labels,
       datasets: [{
         label: 'Weekly Sales',
-        data: res.data_values,
+        data: my_data,
         borderColor: [
           'rgba(255, 26, 104, 0.2)',
           'rgba(54, 162, 235, 0.2)',
@@ -267,11 +295,14 @@ if ($result = mysqli_query($link, $sql)) {
     var chartCanvas = $('#myChart'); //<canvas> id
     chartInstance = new Chart(chartCanvas, config);
     // render init block
- 
-    
-    console.log(res);
+    setInterval(function() {
+  chartInstance.data.datasets[0].data = updated_data;
+                chartInstance.update();
+                console.log(updated_data);
+          
+        }, 5000);
 
-    
+    //WORD CLOUD
   }else if(res.poll_type="Word Cloud"){
     const words = res.data_values;
     document.getElementById('question').innerHTML=res.poll_question;

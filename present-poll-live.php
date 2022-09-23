@@ -93,10 +93,6 @@ if ($result = mysqli_query($link, $sql)) {
 <script>
   $(document).ready(function () {
               
-              var data_container=document.getElementById('data-container');
-              
-        
-        //console.log(res);
               var event_id = <?=$_GET['event_id']?>;
               var poll_code = <?=$_GET['poll_code']?>;
                 $.ajax({
