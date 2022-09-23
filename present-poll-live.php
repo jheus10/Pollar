@@ -311,7 +311,7 @@ if ($result = mysqli_query($link, $sql)) {
                         },
                       success: function(db_call) {
                         var res2 = jQuery.parseJSON(db_call);
-                        updated_data=res2.data_labels;
+                        updated_data=res2.data_values;
                         
                       }
                     });
@@ -354,8 +354,8 @@ if ($result = mysqli_query($link, $sql)) {
     // render init block
  
     setInterval(function() {
-      
-      chartInstance.data.datasets[0].labels = updated_data;
+      chartInstance.data.labels = updated_data.map((d) => d.key);
+      chartInstance.data.datasets[0].data = updated_data.map((d) => 10 + d.value * 20);
       chartInstance.update();
       console.log(updated_data);
     },5000);
