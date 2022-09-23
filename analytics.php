@@ -18,7 +18,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Event Analytics</title>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="css/analytics.css" rel="stylesheet">
@@ -199,7 +199,7 @@ if ($result = mysqli_query($link, $sql)) {
         ctx.fillStyle = 'rgba(102,102,102,1)';
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
-        ctx.fillText(datapoint+"%",right,y.getPixelForValue(index));
+        ctx.fillText(datapoint+"%",right,y.getPixelForValue(index)-barHeight);
 
         //bg color progress bar
         ctx.beginPath();
@@ -217,6 +217,11 @@ if ($result = mysqli_query($link, $sql)) {
       options: {
         responsive: true,
         indexAxis: 'y',
+        layout: {
+            padding: {
+                top: 20
+            }
+        },
         hover: {
             mode: 'dataset'
         },
@@ -269,7 +274,7 @@ if ($result = mysqli_query($link, $sql)) {
     
   }else if(res.poll_type="Word Cloud"){
     const words = res.data_values;
-
+    document.getElementById('question').innerHTML=res.poll_question;
     const config = {
       type: "wordCloud",
       data: {
@@ -283,7 +288,7 @@ if ($result = mysqli_query($link, $sql)) {
       },
       options: {
         title: {
-          display: res.poll_question,
+          display: false,
           text: "Word Cloud Poll"
         },
         plugins: {
