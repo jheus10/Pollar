@@ -66,6 +66,34 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
           }
               
         }
+        elseif ($row['poll_type']=="Quiz"){
+          $sql2="SELECT user_id, COUNT(*) as total FROM `poll_answers` WHERE event_id=$event_id AND poll_code=$poll_code AND answer_status='correct' GROUP BY user_id ORDER BY total DESC";
+          $sql3="SELECT SUM(length(poll_question) - length(replace(poll_question, ',', '')) -1) AS TotalCount FROM poll_list WHERE poll_code = 6003054 AND event_id= 1";
+          $result3 = mysqli_query($link, $sql3);
+          $row3 = $result3->fetch_assoc();
+          if ($result2 = mysqli_query($link, $sql2)) {
+            $top_contestants=array();
+            $total_correct=array();
+            while( $row2 = $result2->fetch_assoc()){       
+              
+              array_push($top_contestants,$row2['user_id']);
+              array_push($total_correct,$row2['total']);
+              
+            }    
+            $res = [
+              'status' => 200,
+              'message' => 'View successfully.',
+              'poll_question' => "Top 5 scorers",
+              'data_labels' => $top_contestants,
+              'data_values' => $total_correct,
+              'TotalCount' => $row3['TotalCount'],
+              'poll_type' =>$row['poll_type'],
+            ];
+            echo json_encode($res);
+            return;
+          }
+              
+        }
 
     }
         
