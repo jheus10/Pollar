@@ -83,7 +83,7 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             $res = [
               'status' => 200,
               'message' => 'View successfully.',
-              'poll_question' => "Top 5 scorers",
+              'poll_question' => $row['poll_title'],
               'data_labels' => $top_contestants,
               'data_values' => $total_correct,
               'TotalCount' => $row3['TotalCount'],

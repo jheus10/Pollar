@@ -74,18 +74,20 @@ $result = $link->query($sql);
 if ($result = mysqli_query($link, $sql)) {
   // output data of each row
   while($row = $result->fetch_assoc()) {
-    $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $row[poll_code]";
+    $sql1 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $row[poll_code]";
+    $result1 = $link->query($sql1);
+    $sql2 = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $row[poll_code] GROUP BY user_id";
     $result2 = $link->query($sql2);
     echo ' <button class="viewPollBtn child--poll" value='.$row["event_id"].' id='.$row["poll_code"].'>';
     echo '<div class="child--content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
     echo '<h3>'.$row['poll_type'].'</h3>';
     if ($row['poll_type']=="Quiz"){
-      echo '<h2></h2>';
+      echo '<h2>'.$row['poll_title'].'</h2>';
     }else
     echo '<h2>'.$row['poll_question'].'</h2>';
     echo "</div>";
-    echo '<div class="number_participants"><p>'.mysqli_num_rows($result2).'</p><i class="fa-solid fa-users"> </i></div>'; 
+    echo '<div class="number_participants"><p>'.mysqli_num_rows($result2).'</p><i class="fa-solid fa-user"></i><p>'.mysqli_num_rows($result1).'</p><i class="fa-solid fa-users"> </i></div>'; 
 
   echo "</button>";
 

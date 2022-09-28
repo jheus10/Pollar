@@ -214,7 +214,7 @@ function removeBox(ele){
       <div class="modal-body">
         <form  id="quiz-form" action="create-poll-quiz.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
-        
+        <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" /><br> 
         <input type="text" name="add_quiz_question" id="add_quiz_question" placeholder="What would you like to ask?" required/><input type="button" value="add question" onclick="add_question()"/>
         
         <input type="text" value="Quiz" name="poll_type" id="poll_type" hidden/>  
@@ -253,7 +253,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<div class="child--content">';
     echo '<input type="text" value='.$row['id'].'" hidden>';
     echo '<h3>'.$row['poll_type'].'</h3>';
-    echo '<h2></h2>';
+    echo '<h2>'.$row['poll_title'].'</h2>';
     echo "</div>";
     echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
