@@ -16,7 +16,8 @@
         $option_counter= $_POST['option_counter'];
         $question_counter= $_POST['question_counterbox'];
         $poll_code = $_POST['poll_code'];
-        $correct = $_POST['options_radio'];
+        $choices_array=$_POST['choices_array'];
+       
         $quiz_choices = ",*/";
         $questions= ",*/";
         $correct_choice= ",*/";
@@ -50,14 +51,10 @@
         $z++;
         }
     }
-        $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $questions','$correct_choice',' $quiz_choices','$poll_code','$event_id')";
+        $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $questions','$correct_choice','$choices_array','$poll_code','$event_id')";
          
         if(mysqli_query($link, $sql)){
             header("Location:admin-event.php?event_id=".$event_ids);
- 
-        } else{
-            echo "ERROR: Hush! Sorry $sql. "
-                . mysqli_error($link);
         }
          
         // Close connection

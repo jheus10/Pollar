@@ -101,7 +101,7 @@ radio.setAttribute('type','radio');
 radio.setAttribute('id','box_'+option_counter);
 radio.setAttribute('name','options');
 radio.setAttribute('value',radio_value);
-var textbox = "<span id='quiz_choices'><input type='radio' name='"+textoption + question_counter+"' value='"+radio_value+"' required><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'></span>"
+var textbox = "<input type='radio' name='"+textoption + question_counter+"' value='"+radio_value+"' required><span name='span-" + question_counter+"' id='span-" + question_counter+"' ><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly></span> <input type='button' value='-' onclick='removeBox(this)'>"
 
 var foo = document.getElementById("quiz_container");
     div.innerHTML=textbox;
@@ -115,6 +115,11 @@ var foo = document.getElementById("quiz_container");
 function removeBox(ele){
   ele.parentNode.remove();
 }
+//array of delimited choices per question
+
+
+
+
 
 		</script>
 </head>
@@ -207,18 +212,18 @@ function removeBox(ele){
         </button>
       </div>
       <div class="modal-body">
-        <form action="create-poll-quiz.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
+        <form  id="quiz-form" action="create-poll-quiz.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
         
         <input type="text" name="add_quiz_question" id="add_quiz_question" placeholder="What would you like to ask?" required/><input type="button" value="add question" onclick="add_question()"/>
         
         <input type="text" value="Quiz" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="option_counter" id="option_counter"  />  
-        <input type="text" value="" name="question_counterbox" id="question_counterbox" hidden /> 
+        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
+        <input type="text" value="" name="option_counter" id="option_counter"  hidden />  
+        <input type="text" value="" name="question_counterbox" id="question_counterbox" hidden  /> 
+        <input type="text" value="" name="choices_array" id="choices_array"  hidden /> 
         <input type="text" value="" name="select_option_quiz" id="select_option_quiz"/><input type="button" value="add option" onclick="add_choices_quiz()"/>
     <div class="quiz_container" id='quiz_container'>
-        <div class="question_block" id="question_block"></div>
 
         
     </div>     
@@ -226,12 +231,13 @@ function removeBox(ele){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create Poll</button>
+        <button type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
         </form>
       </div>
     </div>
   </div>
 </div>
+
 <div class="flex-container">
   <div class="my_polls" id="my_polls">
   <?php
@@ -279,6 +285,34 @@ if ($result = mysqli_query($link, $sql)) {
   
   <!-- <div class="poll_preview" id="poll_preview"><div class="poll_question" id="poll_question"></div></div> -->
 </div>
+<script>
+    
+     $(document).ready(function(){
+
+          
+          $("#submit-poll-quiz").on("click",function(e) {
+            
+            var choices_array=[];
+            var event_id=<?=$_SESSION['event_id']?>;
+            var poll_code= document.getElementById('poll_code').value;
+            var username = '<?=$_SESSION["username"]?>';
+        
+            var x=2;
+            while(x<=question_counter){
+            var divIds = $.map($('#span-'+ x+'> input'), span => span.value);
+            choices_array.push("//-");
+              for (var i=0; i<divIds.length;i++){
+                choices_array.push(divIds[i]);
+                
+              }           
+              x++
+            };
+            document.getElementById('choices_array').value=choices_array;
+           
+          
+          });
+        });
+        </script>
 <script>
   $(document).on('click', '#deletePollBtn', function (e) {
             e.preventDefault();

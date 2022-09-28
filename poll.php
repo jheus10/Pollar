@@ -14,7 +14,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Poll</title>
     <link rel="stylesheet" href="css/poll.css">
 </head>
 <body>
@@ -30,9 +30,20 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         if ($row2['active_status']==1) {
       if ($result = mysqli_query($link, $sql)) {
         // Fetch one and one row
+       
         while ($row = $result->fetch_assoc()) {
-            $trimmed=trim($row['poll_choices']);
-            $exploded = explode(",*/" ,$trimmed);
+            if ($row['poll_type']=="Quiz"){
+                $choices=[];
+                $trimmed_quiz_question=trim($row['poll_question']);
+                $exploded_quiz_question= explode(",*/" ,$trimmed_quiz_question);
+                $trimmed_quiz_option=trim($row['poll_choices']);
+                $exploded_quiz_option= explode("//-" ,$trimmed_quiz_option);
+
+            }else{
+                $trimmed=trim($row['poll_choices']);
+                $exploded = explode(",*/" ,$trimmed);
+            }
+            
             
             
         ?>
@@ -79,8 +90,51 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <button type="submit" class="btn btn-primary">Submit Poll</button>
         </form>    
 
-
+        </div>
     <?php
+
+    }elseif ($row['poll_type'] == "Quiz"){
+        
+    ?>
+    <center>
+    <div class="poll-container">
+       
+        <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+        
+        
+        <?php
+       $counter=1;
+    
+        for ($j=1; $j<count($exploded_quiz_option);$j++){
+            $explode=explode("," ,$exploded_quiz_option[$j]);
+            echo '<div class="question">'.$exploded_quiz_question[$j].'</div>';
+            for ($f=1; $f<count($explode);$f++){
+                if (!empty($explode[$f])){
+                echo '<div class="option-child"><input type="radio" name=q-'.$counter.' id=q-'.$counter.' value="'.($explode[$f]).'"><input type="text" value="'.($explode[$f]).'" readonly></div>';
+                }
+            }
+               
+                
+             $counter++;
+         }
+         echo '<input type="text" name="counter" id="counter" value='.--$j.' hidden>';
+        ?>
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Poll</button>
+        </form>    
+
+    
+    </div>
+
+
+
+
+
+
+
+        <?php
+
 
     }
         }

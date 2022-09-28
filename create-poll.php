@@ -6,6 +6,9 @@
 </head>
  
 <body>
+    <script>
+    
+    </script>
     <center>
         <?php
         $event_ids=$_GET['event_id'];
@@ -44,6 +47,7 @@
          
         // Close connection
         mysqli_close($link);
+        
         ?>
     </center>
 </body>
