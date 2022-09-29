@@ -348,12 +348,10 @@ if ($result = mysqli_query($link, $sql)) {
 
     console.log(res);
   }else if(res.poll_type=="Quiz"){
-        console.log(res);
-            
-        var updated_data=[];
-            updated_data=res.data_values;
-            var my_data=updated_data;
-                          //AJAX call for updating values
+              var updated_data=[];
+              updated_data=res.data_values;
+              var my_data=updated_data;
+              //AJAX call for updating values
               setInterval(function() {
                   $.ajax({
                           type:"POST",
@@ -530,9 +528,6 @@ if ($result = mysqli_query($link, $sql)) {
 });           
 
 </script>
-<script>     
-    
-    </script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

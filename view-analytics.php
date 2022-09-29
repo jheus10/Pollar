@@ -99,10 +99,7 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
         
         
         
-      } 
-      
-      
-      else {
+    }else{
         $res = [
             'status' => 500,
             'message' => 'Cannot Show this Poll'

@@ -281,10 +281,6 @@ if ($result = mysqli_query($link, $sql)) {
   }
 }
 ?>
-  </div>
-  
-  <!-- <div class="poll_preview" id="poll_preview"><div class="poll_question" id="poll_question"></div></div> -->
-</div>
 <script>
     
      $(document).ready(function(){
