@@ -93,7 +93,35 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             return;
           }
               
+        }elseif ($row['poll_type']=="Rating"){
+          $data_labels=[];
+         
+          $data_values=[];
+          for ($i=1;$i<=$row['poll_correct'];$i++){
+            $sql1="SELECT * FROM poll_answers WHERE answer_option=$i AND event_id=$event_id AND poll_code=$poll_code ";
+            ($result1 = mysqli_query($link, $sql1)); 
+            array_push($data_values,mysqli_num_rows($result1));
+          }
+          for($j=1; $j<=$row['poll_correct'];$j++){
+            array_push($data_labels,$j."★");
+          }
+          
+      
+            $res = [
+              'status' => 200,
+              'message' => 'View successfully.',
+              'poll_question' => $row['poll_question'],
+              'data_labels' => $data_labels,
+              'data_values' => $data_values,
+              'poll_type' =>$row['poll_type'],
+              
+            ];
+            echo json_encode($res);
+            return;
+          
+              
         }
+
     }
         
         

@@ -8,7 +8,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
   
-        ?>
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -532,6 +532,7 @@ if ($result = mysqli_query($link, $sql)) {
             }, 5000);
 
       }else if(res.poll_type=="Rating"){
+        console.log(res);
             var updated_data=[];
             updated_data=res.data_values;
             var my_data=updated_data;
@@ -551,20 +552,16 @@ if ($result = mysqli_query($link, $sql)) {
                             var res2 = jQuery.parseJSON(db_call);
                             var x=0;
                             while(x < res2.data_values.length){ 
-                                          res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
-                                            x++;
-                                        }
+                                  res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
+                                  x++;
+                                }
                             updated_data=res2.data_values;
                             
                           }
                         });
                       
                     }, 5000);   
-                                var x = 0;
-                                while(x < res.data_values.length){ 
-                                  res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
-                                    x++;
-                                }
+                               
                               document.getElementById('question').innerHTML=res.poll_question;
                               const data = {
           labels: res.data_labels,
@@ -605,9 +602,6 @@ if ($result = mysqli_query($link, $sql)) {
           }]
         };
         // progressBar plugin block
-        if (res.data_labels.length ==2){
-
-        }
         const progressBar = {
             id: 'progressBar',
             beforeDatasetsDraw(chart,args,pluginOptions){
@@ -630,7 +624,7 @@ if ($result = mysqli_query($link, $sql)) {
             ctx.fillStyle = 'rgba(102,102,102,1)';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(datapoint+" / "+res.TotalCount,right,y.getPixelForValue(index)-barHeight);
+            ctx.fillText(datapoint,right,y.getPixelForValue(index)-barHeight);
 
             //bg color progress bar
             ctx.beginPath();
@@ -664,7 +658,7 @@ if ($result = mysqli_query($link, $sql)) {
             },
             scales: {
                 x: {
-                    suggestedMax: res.TotalCount,
+                    suggestedMax: Math.max(res.data_values),
                 grid: {
                     display: false,
                     drawBorder:false

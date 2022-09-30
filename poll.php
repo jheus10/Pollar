@@ -151,17 +151,18 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <div class="poll-container">
             <div class="question"><?php echo $row['poll_question']?></div>
             <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
-            
+        <div class="rate-container">
             <ul class="rate-area">
         <?php 
+        $formatter=$row['poll_correct']+1;
         for ($i=1; $i<=$row['poll_correct']; $i++){
-          echo '<input type="radio" id="'.$i.'-star" name="answer" value="'.$i.'" onclick=""/><label for="'.$i.'-star">'.$i.' stars</label>';
+          echo '<input type="radio" id="'.($formatter-$i).'-star" name="answer" value="'.($formatter-$i).'" onclick=""/><label for="'.($formatter-$i).'-star">'.($formatter-$i).' stars</label>';
         }
         
         ?>
         
         </ul>
-
+        </div> 
             <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
             </div>
             <br><br><br>

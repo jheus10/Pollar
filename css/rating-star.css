@@ -1,4 +1,13 @@
+
+.rate-container{
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	text-align: center;
+}
 .rate-area {
+	
+	position: relative;
 	float:left;
 	border-style: none;
 
