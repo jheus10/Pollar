@@ -1,3 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="css/rating-star.css" rel="stylesheet">
+</head>
+<body>
+    
+</body>
+</html>
 <?php
 session_start();
  
@@ -92,7 +105,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
         </div>
     <?php
-
+    //QUIZ POLL
     }elseif ($row['poll_type'] == "Quiz"){
         
     ?>
@@ -127,15 +140,37 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     
     </div>
 
-
-
-
-
-
-
         <?php
 
-
+// RATING POLL
+    }else if ($row['poll_type'] == "Rating"){
+    
+        ?>
+    
+        <center>
+        <div class="poll-container">
+            <div class="question"><?php echo $row['poll_question']?></div>
+            <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+            
+            <ul class="rate-area">
+        <?php 
+        for ($i=1; $i<=$row['poll_correct']; $i++){
+          echo '<input type="radio" id="'.$i.'-star" name="rating" value="'.$i.'" onclick=""/><label for="'.$i.'-star">'.$i.' stars</label>';
+        }
+        
+        ?>
+        
+        </ul>
+    
+            <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Poll</button>
+            </form>    
+    
+        
+        </div>
+        <?php
+        
     }
         }
             }

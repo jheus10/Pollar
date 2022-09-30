@@ -396,7 +396,7 @@ if ($result = mysqli_query($link, $sql)) {
                               const data = {
           labels: res.data_labels,
           datasets: [{
-            label: 'Weekly Sales',
+            label: 'Quiz Poll Type',
             data: my_data,
             borderColor: [
               'rgba(255, 26, 104, 0.2)',

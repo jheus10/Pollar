@@ -68,7 +68,7 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
         }
         elseif ($row['poll_type']=="Quiz"){
           $sql2="SELECT user_id, COUNT(*) as total FROM `poll_answers` WHERE event_id=$event_id AND poll_code=$poll_code AND answer_status='correct' GROUP BY user_id ORDER BY total DESC";
-          $sql3="SELECT SUM(length(poll_question) - length(replace(poll_question, ',', '')) -1) AS TotalCount FROM poll_list WHERE poll_code = 6003054 AND event_id= 1";
+          $sql3="SELECT SUM(length(poll_question) - length(replace(poll_question, ',', '')) -1) AS TotalCount FROM poll_list WHERE poll_code = $poll_code AND event_id= $event_id";
           $result3 = mysqli_query($link, $sql3);
           $row3 = $result3->fetch_assoc();
           if ($result2 = mysqli_query($link, $sql2)) {

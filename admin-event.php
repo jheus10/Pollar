@@ -22,6 +22,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
     <link href="https://fonts.googleapis.com/css?family=Montserrat:500&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="css/admin.css" rel="stylesheet">
+        <link href="css/rating-star.css" rel="stylesheet">
         <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
@@ -132,6 +133,7 @@ function removeBox(ele){
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-multiple"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-quiz"><ion-icon name="list-outline"></ion-icon>Quiz</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-rating"><ion-icon name="list-outline"></ion-icon>Rating</button></div>
 
         </div>
         
@@ -149,7 +151,7 @@ function removeBox(ele){
       </div>
       <div class="modal-body">
         <form action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
         <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
         
         <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
@@ -237,6 +239,56 @@ function removeBox(ele){
     </div>
   </div>
 </div>
+<!-- Rating Modal -->
+<div class="modal fade" id="add-event-rating" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Rating</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form  action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
+        <input type="text" name="rating_question" id="rating_question" placeholder="What would you like to ask?" required/><br>
+
+        <input type="text" value="Rating" name="poll_type" id="poll_type" hidden/>  
+        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
+    <div class="quiz_container" id='quiz_container'>
+      <span id="max_text">Max Value: </span><input type="text" id="max_value" name="max_value" value="5" readonly/>
+      
+    <ul class="rate-area">
+      <input type="radio" id="10-star" name="rating" value="10" onclick="star_rate(event)"/><label for="10-star" title="Amazing">10 stars</label>
+      <input type="radio" id="9-star" name="rating" value="9" onclick="star_rate(event)"/><label for="9-star" title="Good">9 stars</label>
+      <input type="radio" id="8-star" name="rating" value="8" onclick="star_rate(event)"/><label for="8-star" title="Average">8 stars</label>
+      <input type="radio" id="7-star" name="rating" value="7" onclick="star_rate(event)"/><label for="7-star" title="Not Good">7 stars</label>
+      <input type="radio" id="6-star" name="rating" value="6" onclick="star_rate(event)"/><label for="6-star" title="Bad">6 star</label>
+      <input type="radio" id="5-star" name="rating" value="5" onclick="star_rate(event)" checked/><label for="5-star" title="Amazing">5 stars</label>
+      <input type="radio" id="4-star" name="rating" value="4" onclick="star_rate(event)"/><label for="4-star" title="Good">4 stars</label>
+      <input type="radio" id="3-star" name="rating" value="3" onclick="star_rate(event)"/><label for="3-star" title="Average">3 stars</label>
+      <input type="radio" id="2-star" name="rating" value="2" onclick="star_rate(event)"/><label for="2-star" title="Not Good">2 stars</label>
+      <input type="radio" id="1-star" name="rating" value="1" onclick="star_rate(event)"/><label for="1-star" title="Bad">1 star</label>
+    </ul>
+    <script>
+      function star_rate(event){
+     
+        document.getElementById('max_value').value=event.target.value;
+      }
+       
+      </script>  
+    </div>     
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="flex-container">
   <div class="my_polls" id="my_polls">
@@ -262,7 +314,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo "</div>";
 
     }
-    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"){
+    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"||$row['poll_type']=="Rating"){
     
     echo ' <div class="child--poll" id="child--poll">';
     echo '<div class="child--content">';

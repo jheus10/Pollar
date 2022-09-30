@@ -344,8 +344,6 @@ if ($result = mysqli_query($link, $sql)) {
     var chartCanvas = $('#myChart'); //<canvas> id
     chartInstance = new Chart(chartCanvas, config);
     // render init block
- 
-
     console.log(res);
   }else if(res.poll_type=="Quiz"){
               var updated_data=[];
