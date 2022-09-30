@@ -155,15 +155,16 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             <ul class="rate-area">
         <?php 
         for ($i=1; $i<=$row['poll_correct']; $i++){
-          echo '<input type="radio" id="'.$i.'-star" name="rating" value="'.$i.'" onclick=""/><label for="'.$i.'-star">'.$i.' stars</label>';
+          echo '<input type="radio" id="'.$i.'-star" name="answer" value="'.$i.'" onclick=""/><label for="'.$i.'-star">'.$i.' stars</label>';
         }
         
         ?>
         
         </ul>
-    
+
             <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
             </div>
+            <br><br><br>
             <button type="submit" class="btn btn-primary">Submit Poll</button>
             </form>    
     

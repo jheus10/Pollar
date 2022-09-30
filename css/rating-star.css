@@ -1,6 +1,8 @@
 .rate-area {
-	float: left;
+	float:left;
 	border-style: none;
+
+	text-align: center;
 }
 
 .rate-area:not(:checked) > input {

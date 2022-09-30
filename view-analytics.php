@@ -94,7 +94,6 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
           }
               
         }
-
     }
         
         
