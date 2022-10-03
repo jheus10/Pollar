@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Poll</title>
+    <link rel="stylesheet" href="css/poll.css">
     <link href="css/rating-star.css" rel="stylesheet">
+    <link href="css/open-text.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     
@@ -21,18 +24,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Poll</title>
-    <link rel="stylesheet" href="css/poll.css">
-</head>
-<body>
     <?php
-   
+      $username=$_SESSION["username"];
       $event_id= $_GET['event_id'];  
       $poll_code= $_GET['poll_code'];  
       $sql = "SELECT * FROM poll_list WHERE event_id = $event_id AND poll_code = $poll_code";
@@ -173,6 +166,62 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </div>
         <?php
         
+    }else if ($row['poll_type'] == "Open Text"){
+        $sql_opentext = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND user_id='$username'";
+        
+        ?>
+        <center>
+        <div class="poll-container">
+           
+            <section class="msger">
+            <header class="msger-header">
+                <div class="msger-header-title">
+                <i class="fas fa-comment-alt"></i> <?php echo $row['poll_question']?>
+                </div>
+                <div class="msger-header-options">
+                </div>
+            </header>
+            
+           
+                
+            <main class="msger-chat">
+            <?php 
+                            if($result_opentext=mysqli_query($link,$sql_opentext)){
+
+                            
+                            while($row_open = $result_opentext->fetch_assoc()){     
+                        ?>
+                        
+                <div class="msg right-msg">
+                <div class="msg-img"></div>
+                
+                <div class="msg-bubble">
+                    <div class="msg-info">
+                    <div class="msg-info-name"><?=$row_open['user_id']?></div>
+                    <div class="msg-info-time"></div>
+                    </div>
+
+                    <div class="msg-text">
+                    <?=$row_open['answer_option']?>
+                    </div>
+                </div>
+                </div>
+                <?php
+            }
+        }
+        ?>
+            
+            </main>
+        
+  <form class="msger-inputarea" method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+    <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+    <input type="text" class="msger-input" id="answer" name="answer" value="" placeholder="Enter your message..." autocomplete=off>
+    <button type="submit" class="msger-send-btn">Send</button>
+  </form>
+</section>
+        <?php
+
+
     }
         }
             }

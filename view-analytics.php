@@ -4,8 +4,8 @@
 if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
     // Include config file
     require_once "config.php";
-    $event_id= $_POST['event_id'];  
-    $poll_code= $_POST['poll_code'];  
+    $event_id= mysqli_real_escape_string($link,$_POST['event_id']);  
+    $poll_code= mysqli_real_escape_string($link,$_POST['poll_code']);  
     // Prepare a delete statement
     $sql = "SELECT * FROM poll_list WHERE event_id = $event_id AND poll_code = $poll_code";
     $result = $link->query($sql);
@@ -119,6 +119,29 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             echo json_encode($res);
             return;
           
+              
+        }
+        elseif ($row['poll_type']=="Open Text"){
+          $sql2="SELECT * FROM poll_answers WHERE poll_code=$poll_code AND event_id =$event_id";
+          if ($result2 = mysqli_query($link, $sql2)) {
+            $messages_Container=array();
+            $userid_Container=array();
+            while( $row2 = $result2->fetch_assoc()){       
+            
+              array_push($messages_Container,$row2['answer_option']);
+              array_push($userid_Container,$row2['user_id']);
+            }    
+            $res = [
+              'status' => 200,
+              'message' => 'View successfully.',
+              'poll_question' => $row['poll_question'],
+              'user_id' => $userid_Container,
+              'messages' => $messages_Container,
+              'poll_type' =>$row['poll_type'],
+            ];
+            echo json_encode($res);
+            return;
+          }
               
         }
 

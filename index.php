@@ -47,10 +47,8 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       </div>
       <div class="modal-body">
         <form action="insert-data.php" method="POST">
-        Event Name:<input type="text" name="event_name" id="event_name" placeholder="Event name" required/><br>
-        Start Date: <input type="date"/><br>
-        End Date<input type="date"/><br>
-        <input type="text" name="user_id" id="user_id" value=<?= $_SESSION["username"]?> >
+        Event Name:<input type="text" name="event_name" id="event_name" placeholder="Event name" required/><br>   
+        <input type="text" name="user_id" id="user_id" value=<?= $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

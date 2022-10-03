@@ -13,11 +13,11 @@
         
         
         
-        $counter = $_POST['counter'];
+        $counter = mysqli_real_escape_string($link,$_POST['counter']);
         for ($i=1;$i<=$counter;$i++){
         $poll_code =  $_GET['poll_code'];
         $event_id =  $_GET['event_id'];
-        $user_id =  $_POST['user_id'];
+        $user_id =  mysqli_real_escape_string($link,$_POST['user_id']);
         $poll_answer =  $_POST['q-'.$i];
         // Performing insert query execution
         $sql_correct = "INSERT INTO poll_answers(poll_code,answer_option,answer_status,event_id,user_id)  VALUES ('$poll_code','$poll_answer','correct','$event_id','$user_id')";

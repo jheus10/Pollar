@@ -18,6 +18,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://unpkg.com/chartjs-chart-wordcloud@3"></script>
+    <link href="css/open-text.css" rel="stylesheet">
    
     <style>
       * {
@@ -84,9 +85,26 @@ if ($result = mysqli_query($link, $sql)) {
       <div class="question" id="question"></div>
         <canvas id="myChart"></canvas>
       </div>
-
-
-</div> 
+  </div> 
+      
+            <div class="poll-container">
+                <section class="msger">
+                <header class="msger-header">
+                      <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> 
+                        </div>
+                        <div class="msger-header-options">
+                        </div>
+                  </header>  
+                    <main class="msger-chat">
+      
+                     </div>
+                    </div>
+                     </div>
+           </main>
+                  
+            </section>
+            </div> 
            
 </body>
 
@@ -114,6 +132,7 @@ if ($result = mysqli_query($link, $sql)) {
                       }else{
                         
                         if (res.poll_type=='Multiple Choice'){
+                          $('.poll-container').hide();
                         var updated_data=[];
                         updated_data=res.data_values;
                         var my_data=updated_data;
@@ -151,7 +170,7 @@ if ($result = mysqli_query($link, $sql)) {
                           const data = {
       labels: res.data_labels,
       datasets: [{
-        label: 'Weekly Sales',
+        label: 'Poll',
         data: my_data,
         borderColor: [
           'rgba(255, 26, 104, 0.2)',
@@ -288,6 +307,7 @@ if ($result = mysqli_query($link, $sql)) {
         }, 5000);
     
   }else if(res.poll_type=="Word Cloud"){
+    $('.poll-container').hide();
     var updated_data=[];
     updated_data=res.data_values;
     var my_data=updated_data;
@@ -357,7 +377,7 @@ if ($result = mysqli_query($link, $sql)) {
     },5000);
    // QUIZ POLL TYPE
   }else if(res.poll_type=="Quiz"){
-            
+    $('.poll-container').hide();
         var updated_data=[];
             updated_data=res.data_values;
             var my_data=updated_data;
@@ -532,6 +552,7 @@ if ($result = mysqli_query($link, $sql)) {
             }, 5000);
 
       }else if(res.poll_type=="Rating"){
+        $('.poll-container').hide();
         console.log(res);
             var updated_data=[];
             updated_data=res.data_values;
@@ -700,17 +721,49 @@ if ($result = mysqli_query($link, $sql)) {
             }, 5000);
 
 
-        }            
+        }else if(res.poll_type=="Open Text"){  
+          $('.chartCard').hide();
+          var updated_data=[];
+                        updated_data=res.messages;
+                        var my_data=updated_data;
+                      //AJAX call for updating values
+                      setInterval(function() {
+                        $.ajax({
+                      type:"POST",
+                      url: "view-analytics.php",
+                      datatype:'json',
+                                      
+                      data: {
+                          'event_id': event_id,
+                          'poll_code': poll_code,
+                                          
+                        },
+                      success: function(db_call) {
+                        var res2 = jQuery.parseJSON(db_call);
+                        var x=0;
+                       
+                        updated_data=res2.messages;
+                        console.log((updated_data));
+                      }
+                    });
+                  
+                }, 5000);
+          document.querySelector('.msger-header-title').innerHTML=res.poll_question;
+          user_id = document.querySelector('.msger-chat');
+          for(var i=0;i<=(res.user_id).length-1;i++){
+            user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>';                  
+
+          }
+          
+        }       
     } 
   }
   });
 
 });           
-
 </script>
-<script>     
-    
-    </script>
+
+
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

@@ -134,6 +134,7 @@ function removeBox(ele){
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-quiz"><ion-icon name="list-outline"></ion-icon>Quiz</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-rating"><ion-icon name="list-outline"></ion-icon>Rating</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-opentext"><ion-icon name="list-outline"></ion-icon>Open Text</button></div>
 
         </div>
         
@@ -185,14 +186,10 @@ function removeBox(ele){
       <div class="modal-body">
         <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
-        <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
+        <input type="text" name="wordcloud_question" id="wordcloud_question" placeholder="What would you like to ask?" required/><br>
         
         <input type="text" value="Word Cloud" name="poll_type" id="poll_type" hidden/>  
         <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="counterbox" id="counterbox" hidden />  
-        
-       
-            
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
@@ -260,16 +257,15 @@ function removeBox(ele){
       <span id="max_text">Max Value: </span><input type="text" id="max_value" name="max_value" value="5" readonly/>
       
     <ul class="rate-area">
-      <input type="radio" id="10-star" name="rating" value="10" onclick="star_rate(event)"/><label for="10-star" title="Amazing">10 stars</label>
-      <input type="radio" id="9-star" name="rating" value="9" onclick="star_rate(event)"/><label for="9-star" title="Good">9 stars</label>
-      <input type="radio" id="8-star" name="rating" value="8" onclick="star_rate(event)"/><label for="8-star" title="Average">8 stars</label>
-      <input type="radio" id="7-star" name="rating" value="7" onclick="star_rate(event)"/><label for="7-star" title="Not Good">7 stars</label>
-      <input type="radio" id="6-star" name="rating" value="6" onclick="star_rate(event)"/><label for="6-star" title="Bad">6 star</label>
-      <input type="radio" id="5-star" name="rating" value="5" onclick="star_rate(event)" checked/><label for="5-star" title="Amazing">5 stars</label>
-      <input type="radio" id="4-star" name="rating" value="4" onclick="star_rate(event)"/><label for="4-star" title="Good">4 stars</label>
-      <input type="radio" id="3-star" name="rating" value="3" onclick="star_rate(event)"/><label for="3-star" title="Average">3 stars</label>
-      <input type="radio" id="2-star" name="rating" value="2" onclick="star_rate(event)"/><label for="2-star" title="Not Good">2 stars</label>
-      <input type="radio" id="1-star" name="rating" value="1" onclick="star_rate(event)"/><label for="1-star" title="Bad">1 star</label>
+    <?php 
+       
+        for ($i=10; $i>=1; $i--){
+          echo ($i ===5) ? '<input type="radio" id="'.($i).'-star" name="answer" value="'.($i).'" onclick="star_rate(event)" checked/><label for="'.($i).'-star">'.($i).' stars</label>' :
+          '<input type="radio" id="'.($i).'-star" name="answer" value="'.($i).'" onclick="star_rate(event)"/><label for="'.($i).'-star">'.($i).' stars</label>';
+        }
+        
+        ?>
+      
     </ul>
     <script>
       function star_rate(event){
@@ -284,6 +280,34 @@ function removeBox(ele){
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Open Text Modal -->
+<div class="modal fade" id="add-event-opentext" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Open Text</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
+        <input type="text" name="opentext_question" id="opentext_question" placeholder="What would you like to ask?" required/><br>
+        
+        <input type="text" value="Open Text" name="poll_type" id="poll_type" hidden/>  
+        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>   
+         
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create Poll</button>
         </form>
       </div>
     </div>
@@ -309,12 +333,11 @@ if ($result = mysqli_query($link, $sql)) {
     echo "</div>";
     echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
-    //echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
     echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'>Delete</button></div>';
     echo "</div>";
 
     }
-    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"||$row['poll_type']=="Rating"){
+    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"||$row['poll_type']=="Rating"||$row['poll_type']=="Open Text"){
     
     echo ' <div class="child--poll" id="child--poll">';
     echo '<div class="child--content">';
@@ -324,7 +347,6 @@ if ($result = mysqli_query($link, $sql)) {
     echo "</div>";
     echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
     echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
-    //echo '<div class="button-wrapper-view"><a class="view-button" name="view-poll" onclick="update(this.id)" id="present-poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">View </a></div>'; 
     echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'>Delete</button></div>';
     echo "</div>";
   }else {
@@ -414,16 +436,11 @@ dropdown.onclick=function(){
   navigator.clipboard.writeText(link+copy_id);
 
   // Alert the copied text
-  alert("Copied the text: " + link+copy_id);
+  alertify.set('notifier','position', 'top-left');
+  alertify.success('Copied to clipboard');
+  
 }
- function update(button_id)
-{
- 
-        $(document).ready(function(){
-       
-          $("#poll_question").load(button_id);         
-      });
-    }
+
         </script>
           <!-- <script>
    $(document).ready(function(){

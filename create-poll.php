@@ -15,17 +15,17 @@
  require_once('config.php');
        
         
-        $poll_type=  $_POST['poll_type'];
-        $event_id= $_POST['event_id'];
-        $poll_code = $_POST['poll_code'];
+        $poll_type=  mysqli_real_escape_string($link,$_POST['poll_type']);
+        $event_id= mysqli_real_escape_string($link,$_POST['event_id']);
+        $poll_code = mysqli_real_escape_string($link,$_POST['poll_code']);
 
         $x=0;
         if ($poll_type=="Multiple Choice"){
-            $poll_question =  $_POST['multiple_question'];
-            $counter= $_POST['counterbox'];
-            $question_counter= $_POST['question_counterbox'];
+            $poll_question =  mysqli_real_escape_string($link,$_POST['multiple_question']);
+            $counter= mysqli_real_escape_string($link,$_POST['counterbox']);
+            $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);
             
-            $correct = $_POST['options_radio'];
+            $correct = mysqli_real_escape_string($link,$_POST['options_radio']);
             $choices = ",*/";
             while($x <= $counter){
                 if (!empty($_POST['textoption-'.$x])){
@@ -46,9 +46,27 @@
                 echo "ERROR: Hush! Sorry $sql. "
                     . mysqli_error($link);
             }
-        }else if($poll_type=="Rating"){
-            $poll_question =  $_POST['rating_question'];
-            $max_value = $_POST['rating'];
+        }
+            else if ($poll_type=="Word Cloud"){
+                $poll_question =  mysqli_real_escape_string($link,$_POST['wordcloud_question']);
+
+            
+                
+             
+                $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
+                 
+                if(mysqli_query($link, $sql)){
+                    header("Location:admin-event.php?event_id=".$event_ids);
+         
+                } else{
+                    echo "ERROR: Hush! Sorry $sql. "
+                        . mysqli_error($link);
+                }
+              
+        }
+        else if($poll_type=="Rating"){
+            $poll_question =  mysqli_real_escape_string($link,$_POST['rating_question']);
+            $max_value = mysqli_real_escape_string($link,$_POST['max_value']);
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$max_value','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
@@ -58,7 +76,28 @@
                 echo "ERROR: Hush! Sorry $sql. "
                     . mysqli_error($link);
             }
-        }else{
+        }
+        
+        else if ($poll_type=="Open Text"){
+            $poll_question =  mysqli_real_escape_string($link,$_POST['opentext_question']);
+        
+            $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
+             
+            if(mysqli_query($link, $sql)){
+                header("Location:admin-event.php?event_id=".$event_ids);
+     
+            } else{
+                echo "ERROR: Hush! Sorry $sql. "
+                    . mysqli_error($link);
+            }
+          
+        }
+        
+        
+        
+        
+        
+        else{
             echo " HEYYYY";
         }
 

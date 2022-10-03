@@ -10,9 +10,9 @@
         <?php
  require_once('config.php');
        
-        $event_name =  $_POST['event_name'];
-        $event_code =  $_POST['event_code'];
-        $user_id =  $_POST['user_id'];
+        $event_name =  mysqli_real_escape_string($link,$_POST['event_name']);
+        $event_code =  mysqli_real_escape_string($link,$_POST['event_code']);
+        $user_id =  mysqli_real_escape_string($link,$_POST['user_id']);
          
         // Performing insert query execution
         // here our table name is college

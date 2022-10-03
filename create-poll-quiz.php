@@ -11,13 +11,13 @@
         $event_ids=$_GET['event_id'];
  require_once('config.php');
        
-        $poll_type=  $_POST['poll_type'];
-        $event_id= $_POST['event_id'];
-        $option_counter= $_POST['option_counter'];
-        $question_counter= $_POST['question_counterbox'];
-        $poll_code = $_POST['poll_code'];
-        $choices_array=$_POST['choices_array'];
-        $poll_title=$_POST['poll_title'];
+        $poll_type=  mysqli_real_escape_string($link,$_POST['poll_type']);
+        $event_id= mysqli_real_escape_string($link,$_POST['event_id']);
+        $option_counter= mysqli_real_escape_string($link,$_POST['option_counter']);
+        $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);
+        $poll_code = mysqli_real_escape_string($link,$_POST['poll_code']);
+        $choices_array=mysqli_real_escape_string($link,$_POST['choices_array']);
+        $poll_title=mysqli_real_escape_string($link,$_POST['poll_title']);
         $quiz_choices = ",*/";
         $questions= ",*/";
         $correct_choice= ",*/";

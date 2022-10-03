@@ -12,10 +12,10 @@
  require_once('config.php');
         
        
-        $poll_answer = $_POST['answer'];
+        $poll_answer = mysqli_real_escape_string($link,$_POST['answer']);
         $poll_code =  $_GET['poll_code'];
         $event_id =  $_GET['event_id'];
-        $user_id =  $_POST['user_id'];
+        $user_id =  mysqli_real_escape_string($link,$_POST['user_id']);
         // Performing insert query execution
         $sql = "INSERT INTO poll_answers(poll_code,answer_option,event_id,user_id)  VALUES ('$poll_code','$poll_answer','$event_id','$user_id')";
         
