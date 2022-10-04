@@ -31,6 +31,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
         <script src="https://unpkg.com/chartjs-chart-wordcloud@3"></script>
+        <link href="css/open-text.css" rel="stylesheet">
         <style>
         .poll_preview {
         width: 100%;
@@ -103,15 +104,40 @@ if ($result = mysqli_query($link, $sql)) {
       <div class="chartBox" id="chartBox" >
       <div class="question" id="question"></div>
         <canvas id="myChart"></canvas>
-      </div>
 
+
+        
+                <section class="msger" style="width: 100%;height: 410px;border-radius: 15px;">
+      
+                <header class="msger-header">
+                      <div class="msger-header-title">
+                        <i class="fas fa-comment-alt"></i> 
+                        </div>
+                        <div class="msger-header-options">
+                        </div>
+                  </header> 
+                  <div class="container" id="#container">
+                    <main class="msger-chat" >
+                     </div>
+                    </div>
+                     </div>
+            </main>
+            </div> 
+            </section>
+            
+      </div>
+      
 </div>
 </div>
            
 </body>
 
 <script>
+$('.msger').hide();
+    
   $(document).on('click', '.viewPollBtn', function (e) {
+    
+
             e.preventDefault();
               var event_id = $(this).val();
               var poll_code = this.id;
@@ -134,6 +160,9 @@ if ($result = mysqli_query($link, $sql)) {
                       }else{
                         
                         if (res.poll_type=='Multiple Choice'){
+                          $('.msger').hide();
+                          $('#myChart').show();
+                          $('.question').show();
                         var updated_data=[];
                         updated_data=res.data_values;
                         var my_data=updated_data;
@@ -309,6 +338,9 @@ if ($result = mysqli_query($link, $sql)) {
 
     //WORD CLOUD
   }else if(res.poll_type=="Word Cloud"){
+    $('.msger').hide();
+    $('#myChart').show();
+    $('.question').show();
     const words = res.data_values;
     document.getElementById('question').innerHTML=res.poll_question;
     const config = {
@@ -346,6 +378,9 @@ if ($result = mysqli_query($link, $sql)) {
     // render init block
     console.log(res);
   }else if(res.poll_type=="Quiz"){
+    $('.msger').hide();
+    $('.myChart').show();
+    $('.question').show();
               var updated_data=[];
               updated_data=res.data_values;
               var my_data=updated_data;
@@ -520,6 +555,10 @@ if ($result = mysqli_query($link, $sql)) {
 
         }
         else if(res.poll_type=="Rating"){
+          $('.msger').hide();
+          $('#myChart').show();
+          $('.question').show();
+          
         console.log(res);
             var updated_data=[];
             updated_data=res.data_values;
@@ -688,7 +727,53 @@ if ($result = mysqli_query($link, $sql)) {
       //       }, 5000);
 
 
-        }             
+        }else if(res.poll_type=="Open Text"){
+          $('.msger').show();
+          $('#myChart').hide();
+          $('.question').hide();
+          var updated_data=[];
+          var updated_names=[];
+          updated_data=res.messages;
+          var my_data=updated_data;
+                      //AJAX call for updating values
+          document.querySelector('.msger-header-title').innerHTML=res.poll_question;
+          var user_id = document.querySelector('.msger-chat');
+          
+          for(var i=0;i<=(res.user_id).length-1;i++){
+          user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>'; 
+                      setInterval(function() {
+                        $.ajax({
+                      type:"POST",
+                      url: "view-analytics.php",
+                      datatype:'json',
+                                      
+                      data: {
+                          'event_id': event_id,
+                          'poll_code': poll_code,
+                                          
+                        },
+                      success: function(db_call) {
+                        var res2 = jQuery.parseJSON(db_call);   
+                       
+                        updated_data=res2.messages;
+                        updated_names=res2.user_id;
+                        var messages_count = $(".msg-info-name").length;
+                        
+                        if(messages_count != updated_data.length){
+            
+                          for(var j=updated_data.length-1; j>=messages_count;  j--){
+                            user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+updated_names[j]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[j]+'</div></div></div>'; 
+                          
+                          }
+                        }
+                      }
+                    });
+                  
+                }, 5000);
+                           
+
+          }
+        }            
                          
       } 
     }

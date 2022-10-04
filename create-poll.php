@@ -92,7 +92,33 @@
             }
           
         }
-        
+        else if ($poll_type=="Ranking"){
+            $poll_question =  mysqli_real_escape_string($link,$_POST['ranking_question']);
+            $counter= mysqli_real_escape_string($link,$_POST['counterbox_ranking']);
+            $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);
+            
+            $correct = mysqli_real_escape_string($link,$_POST['options_radio']);
+            $choices = ",*/";
+            while($x <= $counter){
+                if (!empty($_POST['textoptionrank-'.$x])){
+                $choice_container = $_POST['textoptionrank-'.$x];
+                $choices .= $choice_container.",*/";    
+                $x++;
+                }else{
+                $x++;
+                }
+            }
+         
+            $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
+             
+            if(mysqli_query($link, $sql)){
+                header("Location:admin-event.php?event_id=".$event_ids);
+     
+            } else{
+                echo "ERROR: Hush! Sorry $sql. "
+                    . mysqli_error($link);
+            }
+        }
         
         
         

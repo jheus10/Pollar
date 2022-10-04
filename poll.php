@@ -183,7 +183,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </header>
             
            
-                
+             <div class="container" id="#container">
             <main class="msger-chat">
             <?php 
                             if($result_opentext=mysqli_query($link,$sql_opentext)){
@@ -212,7 +212,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         ?>
             
             </main>
-        
+            </div>
   <form class="msger-inputarea" method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
     <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
     <input type="text" class="msger-input" id="answer" name="answer" value="" placeholder="Enter your message..." autocomplete=off>
@@ -222,8 +222,32 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <?php
 
 
-    }
+    }//RANKING
+    else if ($row['poll_type'] == "Ranking"){
+    
+        ?>
+    
+        <center>
+        <div class="poll-container">
+            <div class="question"><?php echo $row['poll_question']?></div>
+            <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+            
+            <div class="options">
+            <?php
+                for ($i=1; $i < count($exploded)-1; $i++){
+               echo '<div class="option-child"><input type="radio" name="answer" id="answer" value="'.($exploded[$i]).'"><input type="text" value="'.($exploded[$i]).'" readonly></div>';
+                }
+            ?>
+            <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Poll</button>
+            </form>    
+    
+        
+        </div>
+        <?php
         }
+    }
             }
                 
             

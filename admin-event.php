@@ -38,9 +38,9 @@ $_SESSION['event_id'] = $_GET['event_id'];
 const labelquestion="quiztextquestion-";
 const textoption="option-";
 const labeloption="textoption-";
-
+const labeloptionrank="textoptionrank-";
 function add_choices_multiple_choice() {
-
+  if (document.getElementById('select_option').value){
 	//Create an input type dynamically.
  
   var div = document.createElement("div");
@@ -61,7 +61,7 @@ function add_choices_multiple_choice() {
       foo.appendChild(div);
       document.getElementById('counterbox').value=option_counter;
       option_counter=option_counter+1;
-  
+  }
 }
 function add_question() {
 
@@ -112,7 +112,30 @@ var foo = document.getElementById("quiz_container");
     option_counter=option_counter+1;
   }
 }
+function add_choices_ranking() {
+  if (document.getElementById('select_option_ranking').value){
+	//Create an input type dynamically.
+  
+  var div = document.createElement("div");
+  var radio = document.createElement("input");
+  var radio_value=document.getElementById('select_option_ranking').value;
+  div.setAttribute('class','form-group');
+  div.setAttribute('id','box_'+option_counter);
+  radio.setAttribute('class','form-group');
+  radio.setAttribute('type','radio');
+  radio.setAttribute('id','box_'+option_counter);
+  radio.setAttribute('name','options');
+  radio.setAttribute('value',radio_value);
+  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"'><input type='text' value='"+radio_value+"' name='"+labeloptionrank+option_counter+"' id='"+labeloptionrank+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
 
+	var foo = document.getElementById("choices_ranking");
+      div.innerHTML=textbox;
+
+      foo.appendChild(div);
+      document.getElementById('counterbox_ranking').value=option_counter;
+      option_counter=option_counter+1;
+  }
+}
 function removeBox(ele){
   ele.parentNode.remove();
 }
@@ -135,6 +158,7 @@ function removeBox(ele){
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-quiz"><ion-icon name="list-outline"></ion-icon>Quiz</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-rating"><ion-icon name="list-outline"></ion-icon>Rating</button></div>
             <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-opentext"><ion-icon name="list-outline"></ion-icon>Open Text</button></div>
+            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-ranking"><ion-icon name="list-outline"></ion-icon>Ranking</button></div>
 
         </div>
         
@@ -313,7 +337,39 @@ function removeBox(ele){
     </div>
   </div>
 </div>
-
+<!-- Ranking Modal -->
+<div class="modal fade" id="add-event-ranking" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ranking</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
+        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
+        <input type="text" name="ranking_question" id="ranking_question" placeholder="What would you like to ask?" required/><br>
+        
+        <input type="text" value="Ranking" name="poll_type" id="poll_type" hidden/>  
+        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
+        <input type="text" value="" name="counterbox_ranking" id="counterbox_ranking"  hidden/>  
+        
+        <input type="text" value="" name="select_option_ranking" id="select_option_ranking"/><input type="button" value="add option" onclick="add_choices_ranking()"/>
+    
+		<span id="choices_ranking">&nbsp;</span>
+            
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Create Poll</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="flex-container">
   <div class="my_polls" id="my_polls">
   <?php
@@ -337,7 +393,7 @@ if ($result = mysqli_query($link, $sql)) {
     echo "</div>";
 
     }
-    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"||$row['poll_type']=="Rating"||$row['poll_type']=="Open Text"){
+    else if($row['poll_type']=="Word Cloud" || $row['poll_type']=="Multiple Choice"||$row['poll_type']=="Rating"||$row['poll_type']=="Open Text"||$row['poll_type']=="Ranking"){
     
     echo ' <div class="child--poll" id="child--poll">';
     echo '<div class="child--content">';

@@ -95,14 +95,15 @@ if ($result = mysqli_query($link, $sql)) {
                         </div>
                         <div class="msger-header-options">
                         </div>
-                  </header>  
+                  </header> 
+                  <div class="container" id="#container">
                     <main class="msger-chat">
       
                      </div>
                     </div>
                      </div>
-           </main>
-                  
+            </main>
+            </div> 
             </section>
             </div> 
            
@@ -724,9 +725,15 @@ if ($result = mysqli_query($link, $sql)) {
         }else if(res.poll_type=="Open Text"){  
           $('.chartCard').hide();
           var updated_data=[];
-                        updated_data=res.messages;
-                        var my_data=updated_data;
+          var updated_names=[];
+          updated_data=res.messages;
+          var my_data=updated_data;
                       //AJAX call for updating values
+          document.querySelector('.msger-header-title').innerHTML=res.poll_question;
+          var user_id = document.querySelector('.msger-chat');
+          
+          for(var i=0;i<=(res.user_id).length-1;i++){
+          user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>'; 
                       setInterval(function() {
                         $.ajax({
                       type:"POST",
@@ -739,19 +746,24 @@ if ($result = mysqli_query($link, $sql)) {
                                           
                         },
                       success: function(db_call) {
-                        var res2 = jQuery.parseJSON(db_call);
-                        var x=0;
+                        var res2 = jQuery.parseJSON(db_call);   
                        
                         updated_data=res2.messages;
-                        console.log((updated_data));
+                        updated_names=res2.user_id;
+                        var messages_count = $(".msg-info-name").length;
+                        
+                        if(messages_count != updated_data.length){
+            
+                          for(var j=updated_data.length-1; j>=messages_count;  j--){
+                            user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+updated_names[j]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[j]+'</div></div></div>'; 
+                          
+                          }
+                        }
                       }
                     });
                   
                 }, 5000);
-          document.querySelector('.msger-header-title').innerHTML=res.poll_question;
-          user_id = document.querySelector('.msger-chat');
-          for(var i=0;i<=(res.user_id).length-1;i++){
-            user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>';                  
+                           
 
           }
           
