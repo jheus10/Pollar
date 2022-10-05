@@ -7,7 +7,7 @@
     <title>Poll</title>
     <link rel="stylesheet" href="css/poll.css">
     <link href="css/rating-star.css" rel="stylesheet">
-    <link href="css/open-text.css" rel="stylesheet">
+    
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -167,9 +167,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <?php
         
     }else if ($row['poll_type'] == "Open Text"){
+        
         $sql_opentext = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND user_id='$username'";
         
         ?>
+        <head>
+        <link href="css/open-text.css" rel="stylesheet">
+        </head>
         <center>
         <div class="poll-container">
            
@@ -226,28 +230,174 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     else if ($row['poll_type'] == "Ranking"){
     
         ?>
-    
+        <head>
+        <link href="css/ranking-poll.css" rel="stylesheet">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+        <script src="jquery.ui.touch-punch.min.js"></script>
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+        </head>
         <center>
         <div class="poll-container">
-            <div class="question"><?php echo $row['poll_question']?></div>
-            <form method = 'post' action='submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
-            
-            <div class="options">
+        <h3><?=$row['poll_question']?></h3>
+        <h6>note: drag the elements from the left to your desired ranking on the right.</h6>
+            <div class='container'>
+            <div class="source-container">
             <?php
-                for ($i=1; $i < count($exploded)-1; $i++){
-               echo '<div class="option-child"><input type="radio" name="answer" id="answer" value="'.($exploded[$i]).'"><input type="text" value="'.($exploded[$i]).'" readonly></div>';
-                }
+            for ($i=1; $i < count($exploded)-1; $i++){
             ?>
-            <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+                <div class='source'>
+                <div class='item'>
+                    <p><?=($exploded[$i])?></p>
+                </div>
+                </div>
+                
+            <?php
+            }
+            ?>
+            
             </div>
-            <button type="submit" class="btn btn-primary">Submit Poll</button>
-            </form>    
-    
+            <div class='move-back'>
+            </div>
+            <div class='destination-container'>
+            <?php
+            for ($i=1; $i < count($exploded)-1; $i++){
+            ?>
+            <div class="destination" id="dest<?=$i?>">
+                <span  id="ranking"><?=$i?></span>
+            </div>
+            <?php
+            }
+            ?>
+            
+            
+            </div>
+            
+            </div>
+            <form id="ranking-form" method = 'post' >
+        
+        <div class="options">
+        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?>  hidden>
+        <input type="text" name="event_id" id="event_id" value=<?php echo $row['event_id']?>  hidden>
+        <input type="text" name="poll_code" id="poll_code" value=<?php echo $row['poll_code']?>  hidden>
+        <input type="text" name="ranking_array" id="ranking_array" value="" hidden >
+        </div>
+        <button type="submit" id="ranking-form" class="btn btn-primary">Submit Poll</button>
+        
+        </form> 
+  
         
         </div>
-        <?php
+        
+        <script>//SCRIPT FOR DROPPABLE INPUTS
+       
+        $(function(){
+  
+        item_height=$(".item").outerHeight(true);
+        height=(item_height+2)*($(".item").length+1);
+        $(".source-container,.destination-container").height(height);
+        
+            
+
+        $(".source .item").draggable({
+            revert:"invalid",
+            start:function(){
+            
+            $(this).data("index",$(this).parent().index());
+            
+            }
+        });
+        
+        $(".destination").droppable({
+            drop:function(evern,ui){
+                if($(this).has(".item").length){
+                    if(ui.draggable.parent().hasClass("source")){
+                        index=ui.draggable.data("index");
+                        ui.draggable.css({left:"0",top:"0"}).appendTo($(".source").eq(index));
+                    }
+                    else{
+                    ui.draggable.css({left:"0",top:"0"}).appendTo($(this));
+                    index=ui.draggable.data("index");
+                    $(this).find(".item").eq(0).appendTo($(".destination").eq(index))
+                    }
+                }
+                else{
+                ui.draggable.css({left:"1px",top:"1px"});
+                ui.draggable.appendTo($(this));
+                $(".destination").removeClass("ui-droppable-active");
+                }
+            }
+        });
+        
+        $(".source").droppable({
+            accept: function(draggable) {
+                return $(this).find("*").length == 0;
+            },
+        drop:function(event,ui){
+            ui.draggable.css({left:"0",top:"0"}).appendTo($(this))
         }
+        })
+        })
+        $(document).ready(function () {
+            
+ 
+           $("#ranking-form").submit(function (event) {
+
+            var answer_array=[];
+            <?php
+                for ($index=0; $index < count($exploded)-2; $index++){
+                ?>
+                var rank=document.getElementsByClassName("destination ui-droppable")[<?=$index?>];
+                if (rank.getElementsByTagName("p")[0]==undefined || rank.getElementsByTagName("p")[0]==null){
+                    if(confirm("Are you sure you want to skip rank number "+<?=$index + 1 ?>+"?")){
+                        answer_array.push("");
+                    }else{
+                        return;
+                    }
+                    
+                    
+                
+                }else{
+                    answer_array.push(rank.getElementsByTagName("p")[0].innerHTML);
+                }
+                    
+            <?php
+                }
+                ?>   
+                document.getElementById('ranking_array').value=answer_array;
+                $.ajax({
+                type: "POST",
+                url: "submit-answer-ranking.php",
+                data: {
+                    'poll_code' : $('#poll_code').val(),
+                    'event_id': $('#event_id').val(),
+                    'user_id': $('#user_id').val(),
+                    'ranking_array' : $('#ranking_array').val(),
+                },
+                success : function (response) {
+                    var res = jQuery.parseJSON(response);
+                    if(res.status == 500) {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.error(res.message);
+                    }else{
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(res.message);
+                        window.location.reload();
+                    }
+                 } 
+                });
+                event.preventDefault();
+            });
+           
+            });
+        
+        </script>
+        <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+        
+        <?php
     }
+        }
             }
                 
             
