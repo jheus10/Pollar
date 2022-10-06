@@ -275,7 +275,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </div>
             
             </div>
-            <form id="ranking-form" method = 'post' >
+            <form id="ranking-form" method = 'post' action='submit-answer-ranking.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>'>
         
         <div class="options">
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?>  hidden>
@@ -350,44 +350,40 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 ?>
                 var rank=document.getElementsByClassName("destination ui-droppable")[<?=$index?>];
                 if (rank.getElementsByTagName("p")[0]==undefined || rank.getElementsByTagName("p")[0]==null){
-                    if(confirm("Are you sure you want to skip rank number "+<?=$index + 1 ?>+"?")){
-                        answer_array.push("");
-                    }else{
-                        return;
-                    }
-                    
-                    
-                
+                    alert("Please be sure to rank all choices.")
+                    return false;
+                       
                 }else{
-                    answer_array.push(rank.getElementsByTagName("p")[0].innerHTML);
+                    answer_array.push(rank.getElementsByTagName("p")[0].innerHTML+"***");
                 }
-                    
+                
             <?php
                 }
                 ?>   
+                answer_array.push(",");
                 document.getElementById('ranking_array').value=answer_array;
-                $.ajax({
-                type: "POST",
-                url: "submit-answer-ranking.php",
-                data: {
-                    'poll_code' : $('#poll_code').val(),
-                    'event_id': $('#event_id').val(),
-                    'user_id': $('#user_id').val(),
-                    'ranking_array' : $('#ranking_array').val(),
-                },
-                success : function (response) {
-                    var res = jQuery.parseJSON(response);
-                    if(res.status == 500) {
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.error(res.message);
-                    }else{
-                        alertify.set('notifier','position', 'top-right');
-                        alertify.success(res.message);
-                        window.location.reload();
-                    }
-                 } 
-                });
-                event.preventDefault();
+                // $.ajax({
+                // type: "POST",
+                // url: "submit-answer-ranking.php",
+                // data: {
+                //     'poll_code' : $('#poll_code').val(),
+                //     'event_id': $('#event_id').val(),
+                //     'user_id': $('#user_id').val(),
+                //     'ranking_array' : $('#ranking_array').val(),
+                // },
+                // success : function (response) {
+                //     var res = jQuery.parseJSON(response);
+                //     if(res.status == 500) {
+                //         alertify.set('notifier','position', 'top-right');
+                //         alertify.error(res.message);
+                //     }else{
+                //         alertify.set('notifier','position', 'top-right');
+                //         alertify.success(res.message);
+                //         window.location.reload();
+                //     }
+                //  } 
+                // });
+                // event.preventDefault();
             });
            
             });

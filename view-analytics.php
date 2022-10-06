@@ -30,8 +30,6 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
                 array_push($data_values,mysqli_num_rows($result2));
               }
               }
-        ?>
-    <?php
             $res = [
                 'status' => 200,
                 'message' => 'View successfully.',
@@ -142,6 +140,30 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             echo json_encode($res);
             return;
           }
+              
+        }elseif ($row['poll_type']=="Ranking"){
+          $data_labels=array();
+          $data_values=array();
+              
+          $sql4 = "SELECT * , avg(answer_status) as answer_rank FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code GROUP BY answer_option ORDER BY answer_rank desc";
+          $result4 = mysqli_query($link, $sql4);
+          while($row4 = $result4->fetch_assoc()){ 
+            array_push($data_labels, $row4['answer_option']);
+            array_push($data_values, number_format((float)$row4['answer_rank'], 2, '.', ''));
+          }
+                
+            $res = [
+              'status' => 200,
+              'message' => 'View successfully.',
+              'poll_question' => $row['poll_question'],
+              'data_labels' => $data_labels,
+              'data_values' => $data_values,
+              'poll_type' =>$row['poll_type'],
+              
+            ];
+            echo json_encode($res);
+            return;
+          
               
         }
 
