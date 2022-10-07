@@ -8,7 +8,7 @@ h3{
     margin:0 auto;
     border:1px solid #ccc;
     padding:10px;
-    height:300px;
+    height:100%;
     display:flex;
     justify-content:space-between;
     
@@ -40,6 +40,9 @@ h3{
     width:300px;
     border:1px solid #ccc;
   }
+  .destination-container:last-child{
+    margin-bottom: 100px;
+  }
   .destination{
     height:36px;
     border:1px solid #ccc;
@@ -55,7 +58,7 @@ h3{
     background:#ddd;
   }
   .destination span{
-        position: absolute;
+      position: absolute;
       z-index: 2;
       padding: 9px;
       left: -28px;

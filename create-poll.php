@@ -22,8 +22,8 @@
         $x=0;
         if ($poll_type=="Multiple Choice"){
             $poll_question =  mysqli_real_escape_string($link,$_POST['multiple_question']);
-            $counter= mysqli_real_escape_string($link,$_POST['counterbox']);
-            $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);
+            $counter= mysqli_real_escape_string($link,$_POST['counterbox']); //DETERMINES HOW MANY CHOICES IN THE FORM
+            $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);//DETERMINES HOW MANY QUESTIONS
             
             $correct = mysqli_real_escape_string($link,$_POST['options_radio']);
             $choices = ",*/";
@@ -90,7 +90,6 @@
                 echo "ERROR: Hush! Sorry $sql. "
                     . mysqli_error($link);
             }
-          
         }
         else if ($poll_type=="Ranking"){
             $poll_question =  mysqli_real_escape_string($link,$_POST['ranking_question']);
@@ -119,8 +118,6 @@
                     . mysqli_error($link);
             }
         }
-        
-        
         
         
         else{

@@ -19,7 +19,9 @@ session_start();
  
 require_once('config.php');
 // Check if the user is logged in, if not then redirect him to login page
+
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    $_SESSION['current_page'] = $_SERVER['REQUEST_URI'];
     header("location: login.php");
     exit;
 }
@@ -239,10 +241,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
         </head>
         <center>
-        <div class="poll-container">
+        <div class="poll-container" id="drag_container">
         <h3><?=$row['poll_question']?></h3>
         <h6>note: drag the elements from the left to your desired ranking on the right.</h6>
-            <div class='container'>
+            <div class='container' >
             <div class="source-container">
             <?php
             for ($i=1; $i < count($exploded)-1; $i++){
@@ -275,13 +277,11 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             </div>
             
             </div>
-            <form id="ranking-form" method = 'post' action='submit-answer-ranking.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>'>
-        
+            <form id="ranking-form" method = 'post' > 
         <div class="options">
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?>  hidden>
         <input type="text" name="event_id" id="event_id" value=<?php echo $row['event_id']?>  hidden>
         <input type="text" name="poll_code" id="poll_code" value=<?php echo $row['poll_code']?>  hidden>
-        <input type="text" name="ranking_array" id="ranking_array" value="" hidden >
         </div>
         <button type="submit" id="ranking-form" class="btn btn-primary">Submit Poll</button>
         
@@ -295,7 +295,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         $(function(){
   
         item_height=$(".item").outerHeight(true);
-        height=(item_height+2)*($(".item").length+1);
+        height=(item_height+4)*($(".item").length+1);
         $(".source-container,.destination-container").height(height);
         
             
@@ -343,7 +343,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
             
  
            $("#ranking-form").submit(function (event) {
-
+            event.preventDefault();
             var answer_array=[];
             <?php
                 for ($index=0; $index < count($exploded)-2; $index++){
@@ -361,29 +361,23 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 }
                 ?>   
                 answer_array.push(",");
-                document.getElementById('ranking_array').value=answer_array;
-                // $.ajax({
-                // type: "POST",
-                // url: "submit-answer-ranking.php",
-                // data: {
-                //     'poll_code' : $('#poll_code').val(),
-                //     'event_id': $('#event_id').val(),
-                //     'user_id': $('#user_id').val(),
-                //     'ranking_array' : $('#ranking_array').val(),
-                // },
-                // success : function (response) {
-                //     var res = jQuery.parseJSON(response);
-                //     if(res.status == 500) {
-                //         alertify.set('notifier','position', 'top-right');
-                //         alertify.error(res.message);
-                //     }else{
-                //         alertify.set('notifier','position', 'top-right');
-                //         alertify.success(res.message);
-                //         window.location.reload();
-                //     }
-                //  } 
-                // });
-                // event.preventDefault();
+                $.ajax({
+                type: "POST",
+                url: "submit-answer-ranking.php?ranking_array="+answer_array+"&username=<?php echo $_SESSION["username"]?>&poll_code=<?php echo $row['poll_code']?>&event_id=<?php echo $row['event_id']?>",
+                data: $('#ranking-form').serialize(),
+                success : function (response) {
+                    var res = jQuery.parseJSON(response);
+                    if(res.status == 500) {
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.error(res.message);
+                    }else{
+                        alertify.set('notifier','position', 'top-right');
+                        alertify.success(res.message);
+                        location.reload(); //reloads the website after submitting for RANKING POLL. 
+                    }
+                 } 
+                });
+                
             });
            
             });

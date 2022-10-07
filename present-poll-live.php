@@ -87,326 +87,321 @@ if ($result = mysqli_query($link, $sql)) {
       </div>
   </div> 
       
-            <div class="poll-container">
-                <section class="msger">
-                <header class="msger-header">
-                      <div class="msger-header-title">
-                        <i class="fas fa-comment-alt"></i> 
-                        </div>
-                        <div class="msger-header-options">
-                        </div>
-                  </header> 
-                  <div class="container" id="#container">
-                    <main class="msger-chat">
+    <div class="poll-container">
+      <section class="msger">
+          <header class="msger-header">
+            <div class="msger-header-title">
+              <i class="fas fa-comment-alt"></i> 
+            </div>
+              <div class="msger-header-options"></div>           
+          </header> 
+              <div class="container" id="#container">
+                <main class="msger-chat">
       
-                     </div>
-                    </div>
-                     </div>
-            </main>
-            </div> 
-            </section>
-            </div> 
+              </div>
+              </div>
+              </div>
+                </main>
+        </div> 
+      </section>
+    </div> 
            
 </body>
 
 <script>
-  $(document).ready(function () {
+      $(document).ready(function () {
               
-              var event_id = <?=$_GET['event_id']?>;
-              var poll_code = <?=$_GET['poll_code']?>;
+          var event_id = <?=$_GET['event_id']?>;
+          var poll_code = <?=$_GET['poll_code']?>;
                 $.ajax({
-                    type: "POST",
-                    url: "view-analytics.php",
-                    datatype:'json',
+                  type: "POST",
+                  url: "view-analytics.php",
+                  datatype:'json',
                     
-                    data: {
-                        'event_id': event_id,
-                        'poll_code': poll_code,
+                  data: {
+                      'event_id': event_id,
+                      'poll_code': poll_code,
                         
-                    },
-                    success: function (response) {
+                        },
+                  success: function (response) {
                      
                       var res = jQuery.parseJSON(response);
-                      if(res.status == 500) {
-                        
+                      if(res.status == 500) {                       
                       alert(res.message);
                       }else{
                         
                         if (res.poll_type=='Multiple Choice'){
                           $('.poll-container').hide();
-                        var updated_data=[];
-                        updated_data=res.data_values;
-                        var my_data=updated_data;
-                      //AJAX call for updating values
-                      setInterval(function() {
-                        $.ajax({
-                      type:"POST",
-                      url: "view-analytics.php",
-                      datatype:'json',
+                          var updated_data=[];
+                          updated_data=res.data_values;
+                          var my_data=updated_data;
+                          //AJAX call for updating values
+                          setInterval(function() {
+                          $.ajax({
+                            type:"POST",
+                            url: "view-analytics.php",
+                            datatype:'json',
                                       
-                      data: {
-                          'event_id': event_id,
-                          'poll_code': poll_code,
-                                          
-                        },
-                      success: function(db_call) {
-                        var res2 = jQuery.parseJSON(db_call);
-                        var x=0;
-                        while(x < res2.data_values.length){ 
-                                      res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
-                                        x++;
+                            data: {
+                                'event_id': event_id,
+                                'poll_code': poll_code,
+                                                
+                              },
+                            success: function(db_call) {
+                              var res2 = jQuery.parseJSON(db_call);
+                              var x=0;
+                              while(x < res2.data_values.length){ 
+                                    res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
+                                      x++;
                                     }
-                        updated_data=res2.data_values;
+                              updated_data=res2.data_values;
                         
-                      }
-                    });
+                          }
+                          });
                   
-                }, 5000);   
-                            var x = 0;
-                            while(x < res.data_values.length){ 
+                          }, 5000);   
+                              var x = 0;
+                              while(x < res.data_values.length){ 
                               res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
-                                x++;
-                            }
+                              x++;
+                              }
                           document.getElementById('question').innerHTML=res.poll_question;
                           const data = {
-      labels: res.data_labels,
-      datasets: [{
-        label: 'Poll',
-        data: my_data,
-        borderColor: [
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)',
-          'rgba(255, 26, 104, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-          'rgba(0, 0, 0, 0.2)',
-        ],
-        backgroundColor: [
-          'rgba(255, 26, 104, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-          'rgba(0, 0, 0, 1)'
-        ],
-        //size of bar
-        borderWidth: 0,
-        borderSkipped: false,
-        borderRadius: 5,
-        barPercentage: 0.5,
-        categoryPercentage: 0.8,
-      }]
-    };
-    // progressBar plugin block
-    if (res.data_labels.length ==2){
+                          labels: res.data_labels,
+                          datasets: [{
+                          label: 'Poll',
+                          data: my_data,
+                          borderColor: [
+                            'rgba(255, 26, 104, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(0, 0, 0, 0.2)',
+                            'rgba(255, 26, 104, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(0, 0, 0, 0.2)',
+                          ],
+                          backgroundColor: [
+                            'rgba(255, 26, 104, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(0, 0, 0, 1)'
+                          ],
+                          //size of bar
+                          borderWidth: 0,
+                          borderSkipped: false,
+                          borderRadius: 5,
+                          barPercentage: 0.5,
+                          categoryPercentage: 0.8,
+                        }]
+                      };
+                      // progressBar plugin block
+                      
+                      const progressBar = {
+                          id: 'progressBar',
+                          beforeDatasetsDraw(chart,args,pluginOptions){
+                              const { ctx, data, chartArea: { top,bottom,left,right,width,height}
+                              , scales: {x, y} } = chart;
+                              ctx.save();
+                              const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
+                              
+                          data.datasets[0].data.forEach((datapoint, index)=>{
+                          //label txt
+                          ctx.font = '20px sans-serif';
+                          ctx.fillStyle = 'rgba(102,102,102,1)';
+                          ctx.textAlign = 'left';
+                          ctx.textBaseline = 'middle';
+                          ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
+                          
+                          //value txt
+                          const fontDatapoint = 20;
+                          ctx.font = '20px sans-serif';
+                          ctx.fillStyle = 'rgba(102,102,102,1)';
+                          ctx.textAlign = 'right';
+                          ctx.textBaseline = 'middle';
+                          ctx.fillText(datapoint+"%",right,y.getPixelForValue(index)-barHeight);
 
-    }
-    const progressBar = {
-        id: 'progressBar',
-        beforeDatasetsDraw(chart,args,pluginOptions){
-            const { ctx, data, chartArea: { top,bottom,left,right,width,height}
-            , scales: {x, y} } = chart;
-            ctx.save();
-            const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
-            
-        data.datasets[0].data.forEach((datapoint, index)=>{
-        //label txt
-        ctx.font = '20px sans-serif';
-        ctx.fillStyle = 'rgba(102,102,102,1)';
-        ctx.textAlign = 'left';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
-        
-        //value txt
-        const fontDatapoint = 20;
-        ctx.font = '20px sans-serif';
-        ctx.fillStyle = 'rgba(102,102,102,1)';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(datapoint+"%",right,y.getPixelForValue(index)-barHeight);
-
-        //bg color progress bar
-        ctx.beginPath();
-        ctx.fillStyle= data.datasets[0].borderColor[index];
-        ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
-        })
-       
-        }
-        
-    }
-    // config 
-    const config = {
-      type: 'bar',
-      data,
-      options: {
-        responsive: true,
-        indexAxis: 'y',
-        layout: {
-            padding: {
-                top: 20
-            }
-        },
-        hover: {
-            mode: 'dataset'
-        },
-        plugins: {
-            legend: {
-                display: false,
-            },
-           
-        },
-        scales: {
-            x: {
-                suggestedMax: 100,
-            grid: {
-                display: false,
-                drawBorder:false
-            },
-            ticks: {
-                display: false,
-            }
-          },
-          y: {
-            beginAtZero: true,
-           
-            grid: {
-                display: false,
-                drawBorder:false
-            },
-            ticks: {
-                display: false
-            }
-          }
-          
-        }
-      },
-      plugins: [progressBar]
-    };
-    // JS - Destroy exiting Chart Instance to reuse <canvas> element
-    let chartStatus = Chart.getChart("myChart"); // <canvas> id
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
-    }
-//-- End of chart destroy   
-    var chartCanvas = $('#myChart'); //<canvas> id
-    chartInstance = new Chart(chartCanvas, config);
-    // render init block
-    setInterval(function() {
-  chartInstance.data.datasets[0].data = updated_data;
-                chartInstance.update();
-                //console.log(updated_data);
-          
-        }, 5000);
-    
-  }else if(res.poll_type=="Word Cloud"){
-    $('.poll-container').hide();
-    var updated_data=[];
-    updated_data=res.data_values;
-    var my_data=updated_data;
-    document.getElementById('question').innerHTML=res.poll_question;
-    document.getElementById("chartBox").style.height = "80%";
-        //AJAX call for updating values
-        setInterval(function() {
-                        $.ajax({
-                      type:"POST",
-                      url: "view-analytics.php",
-                      datatype:'json',
-                                      
-                      data: {
-                          'event_id': event_id,
-                          'poll_code': poll_code,
-                                          
-                        },
-                      success: function(db_call) {
-                        var res2 = jQuery.parseJSON(db_call);
-                        updated_data=res2.data_values;
+                          //bg color progress bar
+                          ctx.beginPath();
+                          ctx.fillStyle= data.datasets[0].borderColor[index];
+                          ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
+                          })
                         
+                          }
+                          
                       }
-                    });
-                  
-                }, 5000);   
-
-
-    const config = {
-      type: "wordCloud",
-      data: {
-        labels: my_data.map((d) => d.key),
-        datasets: [
-          {
-            label: "Score",
-            data: my_data.map((d) => 10 + d.value * 20)
-          }
-        ]
-      },
-      options: {
-        title: {
-          display: false,
-          text: "Word Cloud Poll"
-        },
-        plugins: {
-          legend: {
-            display: false
-          }
-        }
-      }
-    }
-    // render init block
-   // JS - Destroy exiting Chart Instance to reuse <canvas> element
-   let chartStatus = Chart.getChart("myChart"); // <canvas> id
-    if (chartStatus != undefined) {
-      chartStatus.destroy();
-    }
-//-- End of chart destroy   
-    var chartCanvas = $('#myChart'); //<canvas> id
-    chartInstance = new Chart(chartCanvas, config);
-    // render init block
- 
-    setInterval(function() {
-      chartInstance.data.labels = updated_data.map((d) => d.key);
-      chartInstance.data.datasets[0].data = updated_data.map((d) => 10 + d.value * 20);
-      chartInstance.update();
-      //.log(updated_data);
-    },5000);
-   // QUIZ POLL TYPE
-  }else if(res.poll_type=="Quiz"){
-    $('.poll-container').hide();
-        var updated_data=[];
-            updated_data=res.data_values;
-            var my_data=updated_data;
-                          //AJAX call for updating values
-              setInterval(function() {
-                  $.ajax({
-                          type:"POST",
-                          url: "view-analytics.php",
-                          datatype:'json',
-                                          
-                          data: {
-                              'event_id': event_id,
-                              'poll_code': poll_code,
-                                              
+                      // config 
+                      const config = {
+                        type: 'bar',
+                        data,
+                        options: {
+                          responsive: true,
+                          indexAxis: 'y',
+                          layout: {
+                              padding: {
+                                  top: 20
+                              }
+                          },
+                          hover: {
+                              mode: 'dataset'
+                          },
+                          plugins: {
+                              legend: {
+                                  display: false,
+                              },
+                            
+                          },
+                          scales: {
+                              x: {
+                                  suggestedMax: 100,
+                              grid: {
+                                  display: false,
+                                  drawBorder:false
+                              },
+                              ticks: {
+                                  display: false,
+                              }
                             },
-                          success: function(db_call) {
-                            var res2 = jQuery.parseJSON(db_call);
-                            var x=0;
-                            while(x < res2.data_values.length){ 
-                                          res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
-                                            x++;
-                                        }
-                            updated_data=res2.data_values;
+                            y: {
+                              beginAtZero: true,
+                            
+                              grid: {
+                                  display: false,
+                                  drawBorder:false
+                              },
+                              ticks: {
+                                  display: false
+                              }
+                            }
                             
                           }
-                        });
-                      
-                    }, 5000);   
+                        },
+                        plugins: [progressBar]
+                      };
+                      // JS - Destroy exiting Chart Instance to reuse <canvas> element
+                      let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                      if (chartStatus != undefined) {
+                        chartStatus.destroy();
+                      }
+                  //-- End of chart destroy   
+                      var chartCanvas = $('#myChart'); //<canvas> id
+                      chartInstance = new Chart(chartCanvas, config);
+                      // render init block
+                      setInterval(function() {
+                      chartInstance.data.datasets[0].data = updated_data;
+                                  chartInstance.update();
+                                  //console.log(updated_data);
+                            
+                          }, 5000);
+                
+                    }else if(res.poll_type=="Word Cloud"){
+                    $('.poll-container').hide();
+                    var updated_data=[];
+                    updated_data=res.data_values;
+                    var my_data=updated_data;
+                    document.getElementById('question').innerHTML=res.poll_question;
+                    document.getElementById("chartBox").style.height = "80%";
+                    //AJAX call for updating values
+                    setInterval(function() {
+                                    $.ajax({
+                                  type:"POST",
+                                  url: "view-analytics.php",
+                                  datatype:'json',
+                                                  
+                                  data: {
+                                      'event_id': event_id,
+                                      'poll_code': poll_code,
+                                                      
+                                    },
+                                  success: function(db_call) {
+                                    var res2 = jQuery.parseJSON(db_call);
+                                    updated_data=res2.data_values;
+                                    
+                                  }
+                                });
+                              
+                            }, 5000);   
+
+
+                            const config = {
+                              type: "wordCloud",
+                              data: {
+                                labels: my_data.map((d) => d.key),
+                                datasets: [
+                                  {
+                                    label: "Score",
+                                    data: my_data.map((d) => 10 + d.value * 20)
+                                  }
+                                ]
+                              },
+                              options: {
+                                title: {
+                                  display: false,
+                                  text: "Word Cloud Poll"
+                                },
+                                plugins: {
+                                  legend: {
+                                    display: false
+                                  }
+                                }
+                              }
+                            }
+                            // render init block
+                          // JS - Destroy exiting Chart Instance to reuse <canvas> element
+                          let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                            if (chartStatus != undefined) {
+                              chartStatus.destroy();
+                            }
+                        //-- End of chart destroy   
+                            var chartCanvas = $('#myChart'); //<canvas> id
+                            chartInstance = new Chart(chartCanvas, config);
+                            // render init block
+                        
+                            setInterval(function() {
+                              chartInstance.data.labels = updated_data.map((d) => d.key);
+                              chartInstance.data.datasets[0].data = updated_data.map((d) => 10 + d.value * 20);
+                              chartInstance.update();
+                              //.log(updated_data);
+                            },5000);
+                            // QUIZ POLL TYPE
+                            }else if(res.poll_type=="Quiz"){
+                              $('.poll-container').hide();
+                                  var updated_data=[];
+                                      updated_data=res.data_values;
+                                      var my_data=updated_data;
+                                        //AJAX call for updating values
+                            setInterval(function() {
+                                $.ajax({
+                                    type:"POST",
+                                    url: "view-analytics.php",
+                                    datatype:'json',
+                                    data: {
+                                            'event_id': event_id,
+                                            'poll_code': poll_code,
+                                                            
+                                          },
+                                        success: function(db_call) {
+                                          var res2 = jQuery.parseJSON(db_call);
+                                          var x=0;
+                                          while(x < res2.data_values.length){ 
+                                                        res2.data_values[x] = Number(res2.data_values[x]).toFixed(0); 
+                                                          x++;
+                                                      }
+                                          updated_data=res2.data_values;
+                                          
+                                        }
+                                      });
+                                    
+                                  }, 5000);   
                                 var x = 0;
                                 while(x < res.data_values.length){ 
                                   res.data_values[x] = Number(res.data_values[x]).toFixed(0); 
@@ -414,153 +409,151 @@ if ($result = mysqli_query($link, $sql)) {
                                 }
                               document.getElementById('question').innerHTML=res.poll_question;
                               const data = {
-          labels: res.data_labels,
-          datasets: [{
-            label: 'Quiz Poll Type',
-            data: my_data,
-            borderColor: [
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-            ],
-            backgroundColor: [
-              'rgba(255, 26, 104, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(0, 0, 0, 1)'
-            ],
-            //size of bar
-            borderWidth: 0,
-            borderSkipped: false,
-            borderRadius: 5,
-            barPercentage: 0.5,
-            categoryPercentage: 0.8,
-          }]
-        };
-        // progressBar plugin block
-        if (res.data_labels.length ==2){
+                              labels: res.data_labels,
+                              datasets: [{
+                              label: 'Quiz Poll Type',
+                              data: my_data,
+                                borderColor: [
+                                  'rgba(255, 26, 104, 0.2)',
+                                  'rgba(54, 162, 235, 0.2)',
+                                  'rgba(255, 206, 86, 0.2)',
+                                  'rgba(75, 192, 192, 0.2)',
+                                  'rgba(153, 102, 255, 0.2)',
+                                  'rgba(255, 159, 64, 0.2)',
+                                  'rgba(0, 0, 0, 0.2)',
+                                  'rgba(255, 26, 104, 0.2)',
+                                  'rgba(54, 162, 235, 0.2)',
+                                  'rgba(255, 206, 86, 0.2)',
+                                  'rgba(75, 192, 192, 0.2)',
+                                  'rgba(153, 102, 255, 0.2)',
+                                  'rgba(255, 159, 64, 0.2)',
+                                  'rgba(0, 0, 0, 0.2)',
+                                ],
+                                backgroundColor: [
+                                  'rgba(255, 26, 104, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(0, 0, 0, 1)'
+                                ],
+                                //size of bar
+                                borderWidth: 0,
+                                borderSkipped: false,
+                                borderRadius: 5,
+                                barPercentage: 0.5,
+                                categoryPercentage: 0.8,
+                              }]
+                            };
+                            // progressBar plugin block
+                 
+                  const progressBar = {
+                      id: 'progressBar',
+                      beforeDatasetsDraw(chart,args,pluginOptions){
+                          const { ctx, data, chartArea: { top,bottom,left,right,width,height}
+                          , scales: {x, y} } = chart;
+                          ctx.save();
+                          const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
+                          
+                      data.datasets[0].data.forEach((datapoint, index)=>{
+                      //label txt
+                      ctx.font = '20px sans-serif';
+                      ctx.fillStyle = 'rgba(102,102,102,1)';
+                      ctx.textAlign = 'left';
+                      ctx.textBaseline = 'middle';
+                      ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
+                      
+                      //value txt
+                      const fontDatapoint = 20;
+                      ctx.font = '20px sans-serif';
+                      ctx.fillStyle = 'rgba(102,102,102,1)';
+                      ctx.textAlign = 'right';
+                      ctx.textBaseline = 'middle';
+                      ctx.fillText(datapoint+" / "+res.TotalCount,right,y.getPixelForValue(index)-barHeight);
 
-        }
-        const progressBar = {
-            id: 'progressBar',
-            beforeDatasetsDraw(chart,args,pluginOptions){
-                const { ctx, data, chartArea: { top,bottom,left,right,width,height}
-                , scales: {x, y} } = chart;
-                ctx.save();
-                const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
-                
-            data.datasets[0].data.forEach((datapoint, index)=>{
-            //label txt
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
-            
-            //value txt
-            const fontDatapoint = 20;
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(datapoint+" / "+res.TotalCount,right,y.getPixelForValue(index)-barHeight);
-
-            //bg color progress bar
-            ctx.beginPath();
-            ctx.fillStyle= data.datasets[0].borderColor[index];
-            ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
-            })
-          
-            }
-            
-        }
-        // config 
-        const config = {
-          type: 'bar',
-          data,
-          options: {
-            responsive: true,
-            indexAxis: 'y',
-            layout: {
-                padding: {
-                    top: 20
-                }
-            },
-            hover: {
-                mode: 'dataset'
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                },
-              
-            },
-            scales: {
-                x: {
-                    suggestedMax: res.TotalCount,
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false,
-                }
-              },
-              y: {
-                beginAtZero: true,
-              
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false
-                }
-              }
-              
-            }
-          },
-          plugins: [progressBar]
-        };
-        // JS - Destroy exiting Chart Instance to reuse <canvas> element
-        let chartStatus = Chart.getChart("myChart"); // <canvas> id
-        if (chartStatus != undefined) {
-          chartStatus.destroy();
-        }
-    //-- End of chart destroy   
-        var chartCanvas = $('#myChart'); //<canvas> id
-        chartInstance = new Chart(chartCanvas, config);
-        // render init block
-        setInterval(function() {
-      chartInstance.data.datasets[0].data = updated_data;
-                    chartInstance.update();
-                    //console.log(updated_data);
+                      //bg color progress bar
+                      ctx.beginPath();
+                      ctx.fillStyle= data.datasets[0].borderColor[index];
+                      ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
+                      })
                     
-            }, 5000);
+                      }
+                      
+                  }
+                  // config 
+                  const config = {
+                    type: 'bar',
+                    data,
+                    options: {
+                      responsive: true,
+                      indexAxis: 'y',
+                      layout: {
+                          padding: {
+                              top: 20
+                          }
+                      },
+                      hover: {
+                          mode: 'dataset'
+                      },
+                      plugins: {
+                          legend: {
+                              display: false,
+                          },
+                        
+                      },
+                      scales: {
+                          x: {
+                              suggestedMax: res.TotalCount,
+                          grid: {
+                              display: false,
+                              drawBorder:false
+                          },
+                          ticks: {
+                              display: false,
+                          }
+                        },
+                        y: {
+                          beginAtZero: true,
+                        
+                          grid: {
+                              display: false,
+                              drawBorder:false
+                          },
+                          ticks: {
+                              display: false
+                          }
+                        }
+                        
+                      }
+                    },
+                    plugins: [progressBar]
+                  };
+                  // JS - Destroy exiting Chart Instance to reuse <canvas> element
+                  let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                  if (chartStatus != undefined) {
+                    chartStatus.destroy();
+                  }
+              //-- End of chart destroy   
+                  var chartCanvas = $('#myChart'); //<canvas> id
+                  chartInstance = new Chart(chartCanvas, config);
+                  // render init block
+                  setInterval(function() {
+                        chartInstance.data.datasets[0].data = updated_data;
+                        chartInstance.update();
+                        //console.log(updated_data);
+                              
+                      }, 5000);
 
-      }else if(res.poll_type=="Rating"){
-        $('.poll-container').hide();
-        console.log(res);
-            var updated_data=[];
-            updated_data=res.data_values;
-            var my_data=updated_data;
-              //AJAX call for updating values
-              setInterval(function() {
-                  $.ajax({
+                }else if(res.poll_type=="Rating"){
+                  $('.poll-container').hide();
+                  
+                      var updated_data=[];
+                      updated_data=res.data_values;
+                      var my_data=updated_data;
+                        //AJAX call for updating values
+                        setInterval(function() {
+                          $.ajax({
                           type:"POST",
                           url: "view-analytics.php",
                           datatype:'json',
@@ -586,360 +579,360 @@ if ($result = mysqli_query($link, $sql)) {
                                
                               document.getElementById('question').innerHTML=res.poll_question;
                               const data = {
-          labels: res.data_labels,
-          datasets: [{
-            label: 'Rating Poll Type',
-            data: my_data,
-            borderColor: [
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-            ],
-            backgroundColor: [
-              'rgba(255, 26, 104, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(0, 0, 0, 1)'
-            ],
-            //size of bar
-            borderWidth: 0,
-            borderSkipped: false,
-            borderRadius: 5,
-            barPercentage: 0.5,
-            categoryPercentage: 0.8,
-          }]
-        };
-        // progressBar plugin block
-        const progressBar = {
-            id: 'progressBar',
-            beforeDatasetsDraw(chart,args,pluginOptions){
-                const { ctx, data, chartArea: { top,bottom,left,right,width,height}
-                , scales: {x, y} } = chart;
-                ctx.save();
-                const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
-                
-            data.datasets[0].data.forEach((datapoint, index)=>{
-            //label txt
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
-            
-            //value txt
-            const fontDatapoint = 20;
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(datapoint,right,y.getPixelForValue(index)-barHeight);
-
-            //bg color progress bar
-            ctx.beginPath();
-            ctx.fillStyle= data.datasets[0].borderColor[index];
-            ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
-            })
-          
-            }
-            
-        }
-        // config 
-        const config = {
-          type: 'bar',
-          data,
-          options: {
-            responsive: true,
-            indexAxis: 'y',
-            layout: {
-                padding: {
-                    top: 20
-                }
-            },
-            hover: {
-                mode: 'dataset'
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                },
-              
-            },
-            scales: {
-                x: {
-                    suggestedMax: Math.max(res.data_values),
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false,
-                }
-              },
-              y: {
-                beginAtZero: true,
-              
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false
-                }
-              }
-              
-            }
-          },
-          plugins: [progressBar]
-        };
-        // JS - Destroy exiting Chart Instance to reuse <canvas> element
-        let chartStatus = Chart.getChart("myChart"); // <canvas> id
-        if (chartStatus != undefined) {
-          chartStatus.destroy();
-        }
-    //-- End of chart destroy   
-        var chartCanvas = $('#myChart'); //<canvas> id
-        chartInstance = new Chart(chartCanvas, config);
-        // render init block
-        setInterval(function() {
-      chartInstance.data.datasets[0].data = updated_data;
-                    chartInstance.update();
-                    //console.log(updated_data);
-                    
-            }, 5000);
-
-
-        }else if(res.poll_type=="Open Text"){  
-          $('.chartCard').hide();
-          var updated_data=[];
-          var updated_names=[];
-          updated_data=res.messages;
-          var my_data=updated_data;
-                      //AJAX call for updating values
-          document.querySelector('.msger-header-title').innerHTML=res.poll_question;
-          var user_id = document.querySelector('.msger-chat');
-          
-          for(var i=0;i<=(res.user_id).length-1;i++){
-          user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>'; 
-                      setInterval(function() {
-                        $.ajax({
-                      type:"POST",
-                      url: "view-analytics.php",
-                      datatype:'json',
-                                      
-                      data: {
-                          'event_id': event_id,
-                          'poll_code': poll_code,
-                                          
-                        },
-                      success: function(db_call) {
-                        var res2 = jQuery.parseJSON(db_call);   
-                       
-                        updated_data=res2.messages;
-                        updated_names=res2.user_id;
-                        var messages_count = $(".msg-info-name").length;
-                        
-                        if(messages_count != updated_data.length){
-            
-                          for(var j=updated_data.length-1; j>=messages_count;  j--){
-                            user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+updated_names[j]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[j]+'</div></div></div>'; 
+                        labels: res.data_labels,
+                        datasets: [{
+                          label: 'Rating Poll Type',
+                          data: my_data,
+                          borderColor: [
+                            'rgba(255, 26, 104, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(0, 0, 0, 0.2)',
+                            'rgba(255, 26, 104, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)',
+                            'rgba(0, 0, 0, 0.2)',
+                          ],
+                          backgroundColor: [
+                            'rgba(255, 26, 104, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)',
+                            'rgba(0, 0, 0, 1)'
+                          ],
+                          //size of bar
+                          borderWidth: 0,
+                          borderSkipped: false,
+                          borderRadius: 5,
+                          barPercentage: 0.5,
+                          categoryPercentage: 0.8,
+                        }]
+                      };
+                      // progressBar plugin block
+                      const progressBar = {
+                          id: 'progressBar',
+                          beforeDatasetsDraw(chart,args,pluginOptions){
+                              const { ctx, data, chartArea: { top,bottom,left,right,width,height}
+                              , scales: {x, y} } = chart;
+                              ctx.save();
+                              const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
+                              
+                          data.datasets[0].data.forEach((datapoint, index)=>{
+                          //label txt
+                          ctx.font = '20px sans-serif';
+                          ctx.fillStyle = 'rgba(102,102,102,1)';
+                          ctx.textAlign = 'left';
+                          ctx.textBaseline = 'middle';
+                          ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
                           
+                          //value txt
+                          const fontDatapoint = 20;
+                          ctx.font = '20px sans-serif';
+                          ctx.fillStyle = 'rgba(102,102,102,1)';
+                          ctx.textAlign = 'right';
+                          ctx.textBaseline = 'middle';
+                          ctx.fillText(datapoint,right,y.getPixelForValue(index)-barHeight);
+
+                          //bg color progress bar
+                          ctx.beginPath();
+                          ctx.fillStyle= data.datasets[0].borderColor[index];
+                          ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
+                          })
+                        
                           }
-                        }
+                          
                       }
-                    });
-                  
-                }, 5000);
-                           
-
-          }
-          
-        }else if(res.poll_type=="Ranking"){
-        $('.poll-container').hide();
-        console.log(res);
-            var updated_data=[];
-            updated_data=res.data_values;
-            var my_data=updated_data;
-              //AJAX call for updating values
-              setInterval(function() {
-                  $.ajax({
-                          type:"POST",
-                          url: "view-analytics.php",
-                          datatype:'json',
-                                          
-                          data: {
-                              'event_id': event_id,
-                              'poll_code': poll_code,
-                                              
-                            },
-                          success: function(db_call) {
-                            var res2 = jQuery.parseJSON(db_call);
-                            var x=0;
+                      // config 
+                      const config = {
+                        type: 'bar',
+                        data,
+                        options: {
+                          responsive: true,
+                          indexAxis: 'y',
+                          layout: {
+                              padding: {
+                                  top: 20
+                              }
+                          },
+                          hover: {
+                              mode: 'dataset'
+                          },
+                          plugins: {
+                              legend: {
+                                  display: false,
+                              },
                             
-                            updated_data=res2.data_values;
+                          },
+                          scales: {
+                              x: {
+                                  suggestedMax: Math.max(res.data_values),
+                              grid: {
+                                  display: false,
+                                  drawBorder:false
+                              },
+                              ticks: {
+                                  display: false,
+                              }
+                            },
+                            y: {
+                              beginAtZero: true,
+                            
+                              grid: {
+                                  display: false,
+                                  drawBorder:false
+                              },
+                              ticks: {
+                                  display: false
+                              }
+                            }
                             
                           }
-                        });
+                        },
+                        plugins: [progressBar]
+                      };
+                      // JS - Destroy exiting Chart Instance to reuse <canvas> element
+                      let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                      if (chartStatus != undefined) {
+                        chartStatus.destroy();
+                      }
+                  //-- End of chart destroy   
+                      var chartCanvas = $('#myChart'); //<canvas> id
+                      chartInstance = new Chart(chartCanvas, config);
+                      // render init block
+                      setInterval(function() {
+                    chartInstance.data.datasets[0].data = updated_data;
+                                  chartInstance.update();
+                                  //console.log(updated_data);
+                                  
+                          }, 5000);
+
+
+                    }else if(res.poll_type=="Open Text"){  
+                      $('.chartCard').hide();
+                      var updated_data=[];
+                      var updated_names=[];
+                      updated_data=res.messages;
+                      var my_data=updated_data;
+                                  //AJAX call for updating values
+                      document.querySelector('.msger-header-title').innerHTML=res.poll_question;
+                      var user_id = document.querySelector('.msger-chat');
                       
-                    }, 5000);   
-                               
-                              document.getElementById('question').innerHTML=res.poll_question;
-                              const data = {
-          labels: res.data_labels,
-          datasets: [{
-            label: 'Rating Poll Type',
-            data: my_data,
-            borderColor: [
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-              'rgba(255, 26, 104, 0.2)',
-              'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
-              'rgba(153, 102, 255, 0.2)',
-              'rgba(255, 159, 64, 0.2)',
-              'rgba(0, 0, 0, 0.2)',
-            ],
-            backgroundColor: [
-              'rgba(255, 26, 104, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(0, 0, 0, 1)'
-            ],
-            //size of bar
-            borderWidth: 0,
-            borderSkipped: false,
-            borderRadius: 5,
-            barPercentage: 0.5,
-            categoryPercentage: 0.8,
-          }]
-        };
-        // progressBar plugin block
-        const progressBar = {
-            id: 'progressBar',
-            beforeDatasetsDraw(chart,args,pluginOptions){
-                const { ctx, data, chartArea: { top,bottom,left,right,width,height}
-                , scales: {x, y} } = chart;
-                ctx.save();
-                const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
-                
-            data.datasets[0].data.forEach((datapoint, index)=>{
-            //label txt
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'left';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
-            
-            //value txt
-            const fontDatapoint = 20;
-            ctx.font = '20px sans-serif';
-            ctx.fillStyle = 'rgba(102,102,102,1)';
-            ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(datapoint,right,y.getPixelForValue(index)-barHeight);
+                      for(var i=0;i<=(res.user_id).length-1;i++){
+                      user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+res.user_id[i]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[i]+'</div></div></div>'; 
+                                  setInterval(function() {
+                                    $.ajax({
+                                  type:"POST",
+                                  url: "view-analytics.php",
+                                  datatype:'json',
+                                                  
+                                  data: {
+                                      'event_id': event_id,
+                                      'poll_code': poll_code,
+                                                      
+                                    },
+                                  success: function(db_call) {
+                                    var res2 = jQuery.parseJSON(db_call);   
+                                  
+                                    updated_data=res2.messages;
+                                    updated_names=res2.user_id;
+                                    var messages_count = $(".msg-info-name").length;
+                                    
+                                    if(messages_count != updated_data.length){
+                        
+                                      for(var j=updated_data.length-1; j>=messages_count;  j--){
+                                        user_id.innerHTML +='<div class="msg left-msg"><div class="msg-img"></div><div class="msg-bubble"><div class="msg-info"><div class="msg-info-name">'+updated_names[j]+'</div><div class="msg-info-time"></div></div><div class="msg-text">'+updated_data[j]+'</div></div></div>'; 
+                                      
+                                      }
+                                    }
+                                  }
+                                });
+                              
+                            }, 5000);
+                                      
 
-            //bg color progress bar
-            ctx.beginPath();
-            ctx.fillStyle= data.datasets[0].borderColor[index];
-            ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
-            })
-          
-            }
-            
-        }
-        // config 
-        const config = {
-          type: 'bar',
-          data,
-          options: {
-            responsive: true,
-            indexAxis: 'y',
-            layout: {
-                padding: {
-                    top: 20
-                }
-            },
-            hover: {
-                mode: 'dataset'
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                },
-              
-            },
-            scales: {
-                x: {
-                    suggestedMax: Math.max(res.data_values),
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false,
-                }
-              },
-              y: {
-                beginAtZero: true,
-              
-                grid: {
-                    display: false,
-                    drawBorder:false
-                },
-                ticks: {
-                    display: false
-                }
-              }
-              
-            }
-          },
-          plugins: [progressBar]
-        };
-        // JS - Destroy exiting Chart Instance to reuse <canvas> element
-        let chartStatus = Chart.getChart("myChart"); // <canvas> id
-        if (chartStatus != undefined) {
-          chartStatus.destroy();
-        }
-    //-- End of chart destroy   
-        var chartCanvas = $('#myChart'); //<canvas> id
-        chartInstance = new Chart(chartCanvas, config);
-        // render init block
-        setInterval(function() {
-      chartInstance.data.datasets[0].data = updated_data;
-                    chartInstance.update();
-                    //console.log(updated_data);
+                      }
+                      
+                    }else if(res.poll_type=="Ranking"){
+                    $('.poll-container').hide();
                     
-            }, 5000);
+                        var updated_data=[];
+                        updated_data=res.data_values;
+                        var my_data=updated_data;
+                          //AJAX call for updating values
+                          setInterval(function() {
+                              $.ajax({
+                                      type:"POST",
+                                      url: "view-analytics.php",
+                                      datatype:'json',
+                                                      
+                                      data: {
+                                          'event_id': event_id,
+                                          'poll_code': poll_code,
+                                                          
+                                        },
+                                      success: function(db_call) {
+                                        var res2 = jQuery.parseJSON(db_call);
+                                        var x=0;
+                                        
+                                        updated_data=res2.data_values;
+                                        
+                                      }
+                                    });
+                                  
+                                }, 5000);   
+                                          
+                                document.getElementById('question').innerHTML=res.poll_question;
+                                const data = {
+                      labels: res.data_labels,
+                      datasets: [{
+                        label: 'Rating Poll Type',
+                        data: my_data,
+                        borderColor: [
+                          'rgba(255, 26, 104, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(0, 0, 0, 0.2)',
+                          'rgba(255, 26, 104, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 206, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(0, 0, 0, 0.2)',
+                        ],
+                        backgroundColor: [
+                          'rgba(255, 26, 104, 1)',
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 206, 86, 1)',
+                          'rgba(75, 192, 192, 1)',
+                          'rgba(153, 102, 255, 1)',
+                          'rgba(255, 159, 64, 1)',
+                          'rgba(0, 0, 0, 1)'
+                        ],
+                        //size of bar
+                        borderWidth: 0,
+                        borderSkipped: false,
+                        borderRadius: 5,
+                        barPercentage: 0.5,
+                        categoryPercentage: 0.8,
+                      }]
+                    };
+                    // progressBar plugin block
+                    const progressBar = {
+                        id: 'progressBar',
+                        beforeDatasetsDraw(chart,args,pluginOptions){
+                            const { ctx, data, chartArea: { top,bottom,left,right,width,height}
+                            , scales: {x, y} } = chart;
+                            ctx.save();
+                            const barHeight= height/y.ticks.length * data.datasets[0].barPercentage*data.datasets[0].categoryPercentage;
+                            
+                        data.datasets[0].data.forEach((datapoint, index)=>{
+                        //label txt
+                        ctx.font = '20px sans-serif';
+                        ctx.fillStyle = 'rgba(102,102,102,1)';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(data.labels[index],left,y.getPixelForValue(index)- barHeight);
+                        
+                        //value txt
+                        const fontDatapoint = 20;
+                        ctx.font = '20px sans-serif';
+                        ctx.fillStyle = 'rgba(102,102,102,1)';
+                        ctx.textAlign = 'right';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(datapoint,right,y.getPixelForValue(index)-barHeight);
+
+                        //bg color progress bar
+                        ctx.beginPath();
+                        ctx.fillStyle= data.datasets[0].borderColor[index];
+                        ctx.fillRect(left,y.getPixelForValue(index)-barHeight/2,width, barHeight);
+                        })
+                      
+                        }
+                        
+                    }
+                    // config 
+                    const config = {
+                      type: 'bar',
+                      data,
+                      options: {
+                        responsive: true,
+                        indexAxis: 'y',
+                        layout: {
+                            padding: {
+                                top: 20
+                            }
+                        },
+                        hover: {
+                            mode: 'dataset'
+                        },
+                        plugins: {
+                            legend: {
+                                display: false,
+                            },
+                          
+                        },
+                        scales: {
+                            x: {
+                                suggestedMax: Math.max(res.data_values),
+                            grid: {
+                                display: false,
+                                drawBorder:false
+                            },
+                            ticks: {
+                                display: false,
+                            }
+                          },
+                          y: {
+                            beginAtZero: true,
+                          
+                            grid: {
+                                display: false,
+                                drawBorder:false
+                            },
+                            ticks: {
+                                display: false
+                            }
+                          }
+                          
+                        }
+                      },
+                      plugins: [progressBar]
+                    };
+                    // JS - Destroy exiting Chart Instance to reuse <canvas> element
+                    let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                    if (chartStatus != undefined) {
+                      chartStatus.destroy();
+                    }
+                //-- End of chart destroy   
+                    var chartCanvas = $('#myChart'); //<canvas> id
+                    chartInstance = new Chart(chartCanvas, config);
+                    // render init block
+                    setInterval(function() {
+                  chartInstance.data.datasets[0].data = updated_data;
+                                chartInstance.update();
+                                //console.log(updated_data);
+                                
+                        }, 5000);
 
 
-        }       
-    } 
-  }
-  });
+                    }       
+                } 
+              }
+            });
 
-});           
+          });           
 </script>
 
 

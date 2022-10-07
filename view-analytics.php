@@ -151,7 +151,7 @@ if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
             array_push($data_labels, $row4['answer_option']);
             array_push($data_values, number_format((float)$row4['answer_rank'], 2, '.', ''));
           }
-                
+          
             $res = [
               'status' => 200,
               'message' => 'View successfully.',
