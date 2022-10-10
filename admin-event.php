@@ -2,7 +2,7 @@
 // Initialize the session
 
 session_start();
-require_once('config.php');
+require_once('config/config.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -30,122 +30,8 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
-       
-<script language="Javascript">
-  var option_counter=1;
-  var question_counter=1;
-  const textquestion="quizquestion-";
-const labelquestion="quiztextquestion-";
-const textoption="option-";
-const labeloption="textoption-";
-const labeloptionrank="textoptionrank-";
-function add_choices_multiple_choice() {
-  if (document.getElementById('select_option').value){
-	//Create an input type dynamically.
- 
-  var div = document.createElement("div");
-  var radio = document.createElement("input");
-  var radio_value=document.getElementById('select_option').value;
-  div.setAttribute('class','form-group');
-  div.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('class','form-group');
-  radio.setAttribute('type','radio');
-  radio.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('name','options');
-  radio.setAttribute('value',radio_value);
-  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"'><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
+       <script src=js/admin-event-functions.js></script>
 
-	var foo = document.getElementById("choices");
-      div.innerHTML=textbox;
-
-      foo.appendChild(div);
-      document.getElementById('counterbox').value=option_counter;
-      option_counter=option_counter+1;
-  }
-}
-function add_question() {
-
-var div = document.createElement("div");
-var question = document.createElement("input");
-var question_value=document.getElementById('add_quiz_question').value;
-div.setAttribute('class','form-group');
-div.setAttribute('id','box_'+question_counter);
-question.setAttribute('class','form-group');
-question.setAttribute('type','text');
-question.setAttribute('id','box_'+question_counter);
-question.setAttribute('name','question');
-question.setAttribute('value',question_value);
-
-var textbox = "<div class='question_block' id='question_block'><span id='quiz_question'><input type='text' value='"+question_value+"' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'></span>"
-var concat_question = document.getElementById("quiz_container");
-    div.innerHTML=textbox;
-
-    concat_question.appendChild(div);
-    document.getElementById('question_counterbox').value=question_counter;
-    question_counter=question_counter+1;
-}
-function add_choices_quiz() {
-
-if (document.getElementById('select_option_quiz').value){
-
-
-//Create an input type dynamically.
-const textoption="quizoption-";
-const labeloption="quiztextoption-";
-var div = document.createElement("div");
-var radio = document.createElement("input");
-var radio_value=document.getElementById('select_option_quiz').value;
-div.setAttribute('class','form-group');
-div.setAttribute('id','box_'+option_counter);
-radio.setAttribute('class','form-group');
-radio.setAttribute('type','radio');
-radio.setAttribute('id','box_'+option_counter);
-radio.setAttribute('name','options');
-radio.setAttribute('value',radio_value);
-var textbox = "<input type='radio' name='"+textoption + question_counter+"' value='"+radio_value+"' required><span name='span-" + question_counter+"' id='span-" + question_counter+"' ><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly></span> <input type='button' value='-' onclick='removeBox(this)'>"
-
-var foo = document.getElementById("quiz_container");
-    div.innerHTML=textbox;
-
-    foo.appendChild(div);
-    document.getElementById('option_counter').value=option_counter;
-    option_counter=option_counter+1;
-  }
-}
-function add_choices_ranking() {
-  if (document.getElementById('select_option_ranking').value){
-	//Create an input type dynamically.
-  
-  var div = document.createElement("div");
-  var radio = document.createElement("input");
-  var radio_value=document.getElementById('select_option_ranking').value;
-  div.setAttribute('class','form-group');
-  div.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('class','form-group');
-  radio.setAttribute('type','radio');
-  radio.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('name','options');
-  radio.setAttribute('value',radio_value);
-  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"'><input type='text' value='"+radio_value+"' name='"+labeloptionrank+option_counter+"' id='"+labeloptionrank+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
-
-	var foo = document.getElementById("choices_ranking");
-      div.innerHTML=textbox;
-
-      foo.appendChild(div);
-      document.getElementById('counterbox_ranking').value=option_counter;
-      option_counter=option_counter+1;
-  }
-}
-function removeBox(ele){
-  ele.parentNode.remove();
-}
-//array of delimited choices per question
-
-
-
-
-
-		</script>
 </head>
 <body>
 <div class="dropdown">
@@ -163,213 +49,37 @@ function removeBox(ele){
         </div>
         
     </div>
-<a href="analytics.php?event_id=<?=$_SESSION['event_id']?>" >Analytics</a>
-<!-- Multiple Choice Modal -->
-<div class="modal fade" id="add-event-multiple" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Multiple Choice</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
-        <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
-        
-        <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="counterbox" id="counterbox"  hidden/>  
-        
-        <input type="text" value="" name="select_option" id="select_option"/><input type="button" value="add option" onclick="add_choices_multiple_choice()"/>
-    
-		<span id="choices">&nbsp;</span>
-            
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Word Cloud Modal -->
-<div class="modal fade" id="add-event-wordcloud" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Word Cloud</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
-        <input type="text" name="wordcloud_question" id="wordcloud_question" placeholder="What would you like to ask?" required/><br>
-        
-        <input type="text" value="Word Cloud" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Quiz Modal -->
-<div class="modal fade" id="add-event-quiz" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Quiz</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form  id="quiz-form" action="create-poll-quiz.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
-        <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" /><br> 
-        <input type="text" name="add_quiz_question" id="add_quiz_question" placeholder="What would you like to ask?" required/><input type="button" value="add question" onclick="add_question()"/>
-        
-        <input type="text" value="Quiz" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
-        <input type="text" value="" name="option_counter" id="option_counter"  hidden />  
-        <input type="text" value="" name="question_counterbox" id="question_counterbox" hidden  /> 
-        <input type="text" value="" name="choices_array" id="choices_array"  hidden /> 
-        <input type="text" value="" name="select_option_quiz" id="select_option_quiz"/><input type="button" value="add option" onclick="add_choices_quiz()"/>
-    <div class="quiz_container" id='quiz_container'>
+<?php 
 
-        
-    </div>     
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Rating Modal -->
-<div class="modal fade" id="add-event-rating" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Rating</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form  action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
-        <input type="text" name="rating_question" id="rating_question" placeholder="What would you like to ask?" required/><br>
-
-        <input type="text" value="Rating" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
-    <div class="quiz_container" id='quiz_container'>
-      <span id="max_text">Max Value: </span><input type="text" id="max_value" name="max_value" value="5" readonly/>
-      
-    <ul class="rate-area">
-    <?php 
-       
-        for ($i=10; $i>=1; $i--){
-          echo ($i ===5) ? '<input type="radio" id="'.($i).'-star" name="answer" value="'.($i).'" onclick="star_rate(event)" checked/><label for="'.($i).'-star">'.($i).' stars</label>' :
-          '<input type="radio" id="'.($i).'-star" name="answer" value="'.($i).'" onclick="star_rate(event)"/><label for="'.($i).'-star">'.($i).' stars</label>';
-        }
-        
-        ?>
-      
-    </ul>
-    <script>
-      function star_rate(event){
-     
-        document.getElementById('max_value').value=event.target.value;
+  function poll($link){
+    $poll_code=rand(1000000,9999999);
+    $select = "SELECT poll_code FROM poll_list WHERE poll_code = $poll_code";
+    $result2 = mysqli_query($link, $select);
+      if(mysqli_num_rows($result2)==0){
+        echo $poll_code;
+      }else{
+        poll($link);
       }
-       
-      </script>  
-    </div>     
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Open Text Modal -->
-<div class="modal fade" id="add-event-opentext" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Open Text</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/>
-        <input type="text" name="opentext_question" id="opentext_question" placeholder="What would you like to ask?" required/><br>
-        
-        <input type="text" value="Open Text" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>   
-         
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Ranking Modal -->
-<div class="modal fade" id="add-event-ranking" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Ranking</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form action="create-poll.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
-        Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php echo(rand(1000000,9999999)); ?>" readonly/><br>
-        <input type="text" name="ranking_question" id="ranking_question" placeholder="What would you like to ask?" required/><br>
-        
-        <input type="text" value="Ranking" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="counterbox_ranking" id="counterbox_ranking"  hidden/>  
-        
-        <input type="text" value="" name="select_option_ranking" id="select_option_ranking"/><input type="button" value="add option" onclick="add_choices_ranking()"/>
-    
-		<span id="choices_ranking">&nbsp;</span>
-            
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Create Poll</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+ 
+  }
+  
+
+?>
+<a href="analytics.php?event_id=<?=$_SESSION['event_id']?>" >Analytics</a>
+    <!-- Multiple Choice Modal -->
+      <?php include 'modals/modal_multiple_choice.php'?>
+    <!-- Word Cloud Modal -->
+      <?php include 'modals/modal_word_cloud.php'?>
+    <!-- Quiz Modal -->
+      <?php include 'modals/modal_quiz.php'?>
+    <!-- Rating Modal -->
+      <?php include 'modals/modal_rating.php'?>
+    <!-- Open Text Modal -->
+      <?php include 'modals/modal_open_text.php'?>
+    <!-- Ranking Modal -->
+      <?php include 'modals/modal_ranking.php'?>
+
+
 <div class="flex-container">
   <div class="my_polls" id="my_polls">
   <?php
@@ -438,36 +148,8 @@ if ($result = mysqli_query($link, $sql)) {
           
           });
         });
-        </script>
-<script>
-  $(document).on('click', '#deletePollBtn', function (e) {
-            e.preventDefault();
-            
-            if(confirm('Are you sure you want to delete this data?'))
-            {
-              var id = $(this).val();
-                $.ajax({
-                    type: "POST",
-                    url: "delete-poll.php",
-                    data: {
-                        'id': id
-                    },
-                    success: function (response) {
-
-                        var res = jQuery.parseJSON(response);
-                        if(res.status == 500) {
-
-                            alert(res.message);
-                        }else{
-                            alertify.set('notifier','position', 'top-right');
-                            alertify.success(res.message);
-                            $('#my_polls').load(location.href + " #my_polls");
-                        }
-                    }
-                });
-            }
-        });
 </script>
+
 <script>
 
 let dropdown=document.querySelector('.dropdown'); 
@@ -482,27 +164,6 @@ dropdown.onclick=function(){
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
 </body>
-<script>
-  function copy(copy_id) {
-  // Get the text field
-  const link="http://localhost/miles-polling/";
 
 
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(link+copy_id);
-
-  // Alert the copied text
-  alertify.set('notifier','position', 'top-left');
-  alertify.success('Copied to clipboard');
-  
-}
-
-        </script>
-          <!-- <script>
-   $(document).ready(function(){
-   window.setInterval(function(){
-     $("#poll_question").load(window.location.href + " #poll_question" );
-   }, 5000);
-   });
-</script>  -->
 </html>

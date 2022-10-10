@@ -3,7 +3,7 @@
 // Process delete operation after confirmation
 if(isset($_POST["event_id"]) && !empty($_POST["event_id"])){
     // Include config file
-    require_once "config.php";
+    require_once "../config/config.php";
     $event_id= mysqli_real_escape_string($link,$_POST['event_id']);  
     $poll_code= mysqli_real_escape_string($link,$_POST['poll_code']);  
     // Prepare a delete statement

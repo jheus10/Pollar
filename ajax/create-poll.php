@@ -12,7 +12,7 @@
     <center>
         <?php
         $event_ids=$_GET['event_id'];
- require_once('config.php');
+ require_once('../config/config.php');
        
         
         $poll_type=  mysqli_real_escape_string($link,$_POST['poll_type']);
@@ -40,7 +40,7 @@
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
-                header("Location:admin-event.php?event_id=".$event_ids);
+                header("Location:../admin-event.php?event_id=".$event_ids);
      
             } else{
                 echo "ERROR: Hush! Sorry $sql. "
@@ -56,7 +56,7 @@
                 $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
                  
                 if(mysqli_query($link, $sql)){
-                    header("Location:admin-event.php?event_id=".$event_ids);
+                    header("Location:../admin-event.php?event_id=".$event_ids);
          
                 } else{
                     echo "ERROR: Hush! Sorry $sql. "
@@ -70,7 +70,7 @@
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$max_value','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
-                header("Location:admin-event.php?event_id=".$event_ids);
+                header("Location:../admin-event.php?event_id=".$event_ids);
      
             } else{
                 echo "ERROR: Hush! Sorry $sql. "
@@ -84,7 +84,7 @@
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
-                header("Location:admin-event.php?event_id=".$event_ids);
+                header("Location:../admin-event.php?event_id=".$event_ids);
      
             } else{
                 echo "ERROR: Hush! Sorry $sql. "
@@ -111,7 +111,7 @@
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
-                header("Location:admin-event.php?event_id=".$event_ids);
+                header("Location:../admin-event.php?event_id=".$event_ids);
      
             } else{
                 echo "ERROR: Hush! Sorry $sql. "

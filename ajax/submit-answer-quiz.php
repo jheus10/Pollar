@@ -9,7 +9,7 @@
 <body>
     <center>
         <?php
- require_once('config.php');
+ require_once('../config/config.php');
         
         
         
@@ -38,7 +38,7 @@
         
         
         
-        header("Location:poll.php?event_id=".$event_id."&poll_code=".$poll_code);
+        header("Location:../poll.php?event_id=".$event_id."&poll_code=".$poll_code);
         ?>
         <script>
             alert('your answer has been recorded');

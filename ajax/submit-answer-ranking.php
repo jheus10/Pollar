@@ -1,6 +1,6 @@
 
 <?php
- require_once('config.php');
+ require_once('../config/config.php');
         
  if(isset($_GET["ranking_array"]) && !empty($_GET["ranking_array"])){
         $poll_answer = mysqli_real_escape_string($link,$_GET['ranking_array']);

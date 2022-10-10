@@ -9,7 +9,7 @@
     <center>
         <?php
         $event_ids=$_GET['event_id'];
- require_once('config.php');
+ require_once('../config/config.php');
        
         $poll_type=  mysqli_real_escape_string($link,$_POST['poll_type']);
         $event_id= mysqli_real_escape_string($link,$_POST['event_id']);
@@ -54,7 +54,7 @@
         $sql = "INSERT INTO poll_list(poll_type,poll_title,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type','$poll_title',' $questions','$correct_choice','$choices_array','$poll_code','$event_id')";
          
         if(mysqli_query($link, $sql)){
-            header("Location:admin-event.php?event_id=".$event_ids);
+            header("Location:../admin-event.php?event_id=".$event_ids);
         }
          
         // Close connection

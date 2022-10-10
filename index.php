@@ -3,7 +3,7 @@
 
 session_start();
  
-require_once('config.php');
+require_once('config/config.php');
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     header("location: login.php");
@@ -46,7 +46,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         </button>
       </div>
       <div class="modal-body">
-        <form action="insert-data.php" method="POST">
+        <form action="ajax/create-event.php" method="POST">
         Event Name:<input type="text" name="event_name" id="event_name" placeholder="Event name" required/><br>   
         <input type="text" name="user_id" id="user_id" value=<?= $_SESSION["username"]?> hidden>
       </div>
@@ -80,12 +80,12 @@ if (!empty($result) && $result->num_rows > 0) {
     echo '<a href="admin-event.php?event_id='. $row['id'] .'"><h3>'.$row['event_name'].'</h3></a>';
     echo "</div>";
     if ($row['active_status']==0){
-      echo '<div class="button-wrapper"><a class="view-button" href="activate-event.php?id='. $row['id'] .'">Activate </a></div>';
+      echo '<div class="button-wrapper"><a class="view-button" href="ajax/activate-event.php?id='. $row['id'] .'">Activate </a></div>';
     }else{
-      echo '<div class="button-wrapper"><a class="view-button" href="deactivate-event.php?id='. $row['id'] .'">Deactivate </a></div>';
+      echo '<div class="button-wrapper"><a class="view-button" href="ajax/deactivate-event.php?id='. $row['id'] .'">Deactivate </a></div>';
     }
     
-    echo '<div class="button-wrapper"><a class="view-button" href="delete-event.php?id='. $row['id'] .'">Delete</a></div>';
+    echo '<div class="button-wrapper"><a class="view-button" href="ajax/delete-event.php?id='. $row['id'] .'">Delete</a></div>';
     echo "</div>";
   }
 } else {
