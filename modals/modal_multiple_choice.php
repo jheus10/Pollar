@@ -16,8 +16,8 @@
         <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
         <input type="text" value="" name="counterbox" id="counterbox"  hidden/>  
         
-        <input type="text" value="" name="select_option" id="select_option"/><input type="button" value="add option" onclick="add_choices_multiple_choice()"/>
-    
+        <input type='text' value='' placeholder="option 1" name='textoption-0' id='textoption-0' onblur="add_choices_multiple_choice()">
+
 		<span id="choices">&nbsp;</span>
             
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>

@@ -5,32 +5,35 @@ const labelquestion="quiztextquestion-"; // FOR QUIZ FORM
 const textoption="option-";// FOR GENERAL CHOICES
 const labeloption="textoption-";// FOR GENERAL CHOICES
 const labeloptionrank="textoptionrank-"; // FOR RANK FORM 
+var placeholder_counter=2;
 
 //ADD CHOICES FOR MULTIPLE CHOICE POLL
 function add_choices_multiple_choice() {
-  
-    if (document.getElementById('select_option').value){
+  if (document.getElementById('textoption-0').value){
 	//Create an input type dynamically.
- 
   var div = document.createElement("div");
-  var radio = document.createElement("input");
-  var radio_value=document.getElementById('select_option').value;
+  // var radio = document.createElement("input");
+  // var radio_value=document.getElementById('textoption-0').value;
   div.setAttribute('class','form-group');
   div.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('class','form-group');
-  radio.setAttribute('type','radio');
-  radio.setAttribute('id','box_'+option_counter);
-  radio.setAttribute('name','options');
-  radio.setAttribute('value',radio_value);
-  var textbox = "<input type='radio' name='options_radio' value='"+radio_value+"'><input type='text' value='"+radio_value+"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
+  // radio.setAttribute('class','form-group');
+  // radio.setAttribute('type','radio');
+  // radio.setAttribute('id','box_'+option_counter);
+  // radio.setAttribute('name','options');
+  // radio.setAttribute('value',radio_value);
+  var textbox = /*<input type='radio' name='options_radio' value='"+radio_value+"'>*/"<input type='text' value='' placeholder='option"+placeholder_counter +"' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' onfocus='add_choices_multiple_choice()'> <input type='button' value='X' onclick='removeBox(this)'>"
 
 	var foo = document.getElementById("choices");
       div.innerHTML=textbox;
 
       foo.appendChild(div);
       document.getElementById('counterbox').value=option_counter;
+
       option_counter=option_counter+1;
+      placeholder_counter=placeholder_counter+1;
+     
   }
+
 }
 
 // ADD QUIZ POLL QUESTION DYNAMICALLY
@@ -61,8 +64,6 @@ function add_question() {
 function add_choices_quiz() {
 
 if (document.getElementById('select_option_quiz').value){
-
-
 //Create an input type dynamically.
     const textoption="quizoption-";
     const labeloption="quiztextoption-";

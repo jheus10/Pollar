@@ -53,10 +53,10 @@
                     "value" => $_POST['textoption-'.$x]
                 ));
                 
-                $choices .= $choice_container.",*/";    
-                $x++;
+                    $choices .= $choice_container.",*/";    
+                    $x++;
                 }else{
-                $x++;
+                    $x++;
                 }
              }
             }

@@ -6,7 +6,9 @@ session_start();
 if(isset($_SESSION["current_page"]) && $_SESSION["current_page"] === true){
  header("Location: index.php");
 }
- 
+if(isset($_SESSION["loggedin"]) && $_SESSION["loggedin"]){
+    header("Location: index.php");
+   }
 // Include config file
 require_once "config/config.php";
  
