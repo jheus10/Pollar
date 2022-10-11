@@ -8,7 +8,7 @@ if(isset($_SESSION["current_page"]) && $_SESSION["current_page"] === true){
 }
  
 // Include config file
-require_once "config.php";
+require_once "config/config.php";
  
 // Define variables and initialize with empty values
 $username = $password = "";

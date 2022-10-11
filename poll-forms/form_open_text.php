@@ -45,8 +45,7 @@
             
             </main>
             </div>
-  <form class="msger-inputarea" method = 'post' action='ajax/submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
-    <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+  <form class="msger-inputarea" method = 'post' action='ajax/submit-answer.php?user_id=<?=$_SESSION["username"]?>&event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
     <input type="text" class="msger-input" id="answer" name="answer" value="" placeholder="Enter your message..." autocomplete=off>
     <button type="submit" class="msger-send-btn">Send</button>
   </form>

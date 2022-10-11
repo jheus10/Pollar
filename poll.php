@@ -33,7 +33,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       $sql = "SELECT * FROM poll_list WHERE event_id = $event_id AND poll_code = $poll_code";
       $sql2 = "SELECT * FROM event_list WHERE id = $event_id";
       $result2=mysqli_query($link,$sql2);
-      $sql_check_answered = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code";
+      $sql_check_answered = "SELECT * FROM poll_answers WHERE event_id = $event_id AND poll_code = $poll_code AND user_id='$username'";
       $check_if_answered=mysqli_query($link,$sql_check_answered);
       
 

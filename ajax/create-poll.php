@@ -25,19 +25,44 @@
             $counter= mysqli_real_escape_string($link,$_POST['counterbox']); //DETERMINES HOW MANY CHOICES IN THE FORM
             $question_counter= mysqli_real_escape_string($link,$_POST['question_counterbox']);//DETERMINES HOW MANY QUESTIONS
             
-            $correct = mysqli_real_escape_string($link,$_POST['options_radio']);
+            $correct =  mysqli_real_escape_string($link,$_POST['options_radio']);
+            
             $choices = ",*/";
+            $mydata=array (
+  
+                // Every array will be converted
+                // to an object
+                
+            );
+            
+            
+            
             while($x <= $counter){
-                if (!empty($_POST['textoption-'.$x])){
+                
+                if(strpos($_POST['textoption-'.$x],"*/")!==false){
+                    
+                    header("Location:../admin-event.php?event_id=".$event_ids);
+                    break;
+                }else{
+
+                if (!empty(mysqli_real_escape_string($link,$_POST['textoption-'.$x]))){
+               
                 $choice_container = $_POST['textoption-'.$x];
+                array_push($mydata,array(
+                    "choice_no" => "choice".$x,
+                    "value" => $_POST['textoption-'.$x]
+                ));
+                
                 $choices .= $choice_container.",*/";    
                 $x++;
                 }else{
                 $x++;
                 }
+             }
             }
+            $myjson=json_encode($mydata);
          
-            $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices','$poll_code','$event_id')";
+            $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices ','$poll_code','$event_id')";
              
             if(mysqli_query($link, $sql)){
                 header("Location:../admin-event.php?event_id=".$event_ids);
@@ -121,7 +146,7 @@
         
         
         else{
-            echo " HEYYYY";
+            header('Location:error.php');
         }
 
         

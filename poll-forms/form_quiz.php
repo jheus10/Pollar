@@ -6,9 +6,34 @@
             
         ?>
 <center>
+    <script>
+        function submit_info(){
+            if(!confirm('Are you sure you want to submit this quiz?')){
+                return false;
+            }else{
+                return true;
+            }
+        }
+        
+        </script>
     <div class="poll-container">
+    
        <h1><?=$row["poll_title"]?>
-        <form method = 'post' action='ajax/submit-answer-quiz.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+       <?php
+       
+            if (!isset($_GET['answer'])){
+                
+            }else{
+                $answer_check=$_GET['answer'];
+                if ($answer_check=='empty'){
+                    echo "<script>alert('Please answer the poll before submitting')</script>";
+                    
+                }else if($answer_check=='successful'){
+                    echo "<p style='color:green'>Answered Successfully</p>";
+                }
+            }
+         ?>
+        <form method = 'post' action='ajax/submit-answer-quiz.php?user_id=<?=$_SESSION["username"]?>&event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
         
         
         <?php
@@ -28,9 +53,8 @@
          }
          echo '<input type="text" name="counter" id="counter" value='.--$j.' hidden>';
         ?>
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
         </div>
-        <button type="submit" class="btn btn-primary">Submit Poll</button>
+        <button type="submit" class="btn btn-primary" onclick="return submit_info()">Submit Poll</button>
         </form>    
         <?php
          

@@ -9,7 +9,7 @@
         ?>
         <div class="poll-container">
             <div class="question"><?php echo $row['poll_question']?></div>
-            <form method = 'post' action='ajax/submit-answer.php?event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
+            <form method = 'post' action='ajax/submit-answer.php?user_id=<?=$_SESSION["username"]?>&event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
         <div class="rate-container">
             <ul class="rate-area">
         <?php 
@@ -22,7 +22,7 @@
         
         </ul>
         </div> 
-            <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden >
+
             </div>
             <br><br><br>
             <button type="submit" class="btn btn-primary">Submit Poll</button>
