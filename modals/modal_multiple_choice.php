@@ -15,8 +15,8 @@
         <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
         <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
         <input type="text" value="" name="counterbox" id="counterbox"  hidden/>  
-        
-        <input type='text' value='' placeholder="option 1" name='textoption-0' id='textoption-0' onblur="add_choices_multiple_choice()">
+        Choices:
+        <button type='button' onclick="add_choices_multiple_choice()">Add choices</button>
 
 		<span id="choices">&nbsp;</span>
             

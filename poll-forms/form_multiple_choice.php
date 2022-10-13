@@ -12,15 +12,14 @@
         <form method = 'post' action='ajax/submit-answer.php?user_id=<?=$_SESSION["username"]?>&event_id=<?php echo $event_id ?>&poll_code=<?php echo $poll_code ?>' >
         <?php
        
-            if (!isset($_GET['answer'])){
-                
-            }else{
+            if (isset($_GET['answer'])){
+
                 $answer_check=$_GET['answer'];
                 if ($answer_check=='empty'){
                     echo "<p style='color:red'>Please answer the poll before submitting</p>";
                     
                 }else if($answer_check=='successful'){
-                    echo "<p style='color:green'>Answered Successfully</p>";
+                    //echo "<p style='color:green'>Answered Successfully</p>";
                 }
             }
          ?>

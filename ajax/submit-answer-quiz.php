@@ -3,7 +3,7 @@
 <html>
  
 <head>
-    <title>Submit Page page</title>
+    <title>Submit Page</title>
 </head>
  
 <body>

@@ -98,9 +98,9 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<h3>'.$row['poll_type'].'</h3>';
     echo '<h2>'.$row['poll_title'].'</h2>';
     echo "</div>";
-    echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
-    echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
-    echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'>Delete</button></div>';
+    echo '<div class="button-wrapper-present"><button class="view-button" name="view-poll" target="_blank" onclick=window.open("present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'")><i class="fa-solid fa-person-chalkboard"></i></button></div>';
+    echo '<div class="button-wrapper-copy"><button class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#"><i class="fa-regular fa-copy"></i> </button></div>'; 
+    echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'><i class="fa-solid fa-trash"></i></button></div>';
     echo "</div>";
 
     }
@@ -112,9 +112,9 @@ if ($result = mysqli_query($link, $sql)) {
     echo '<h3>'.$row['poll_type'].'</h3>';
     echo '<h2>'.$row['poll_question'].'</h2>';
     echo "</div>";
-    echo '<div class="button-wrapper-present"><a class="view-button" name="view-poll" target="_blank" href="present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'">Present</a></div>';
-    echo '<div class="button-wrapper-copy"><a class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#">Copy </a></div>'; 
-    echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'>Delete</button></div>';
+    echo '<div class="button-wrapper-present"><button class="view-button" name="view-poll" target="_blank" onclick=window.open("present-poll-live.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'")><i class="fa-solid fa-person-chalkboard"></i></button></div>';
+    echo '<div class="button-wrapper-copy"><button class="view-button" name="view-poll" onclick="copy(this.id)" id="poll.php?event_id='.$row['event_id'].'&poll_code='.$row['poll_code'].'" href="#"><i class="fa-regular fa-copy"></i> </button></div>'; 
+    echo '<div class="button-wrapper-delete"><button class="view-button" id="deletePollBtn" value='.$row['id'].'><i class="fa-solid fa-trash"></i></button></div>';
     echo "</div>";
   }else {
   echo "0 results";

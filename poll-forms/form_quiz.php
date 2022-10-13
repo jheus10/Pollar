@@ -41,7 +41,9 @@
     
         for ($j=1; $j<count($exploded_quiz_option);$j++){
             $explode=explode("," ,$exploded_quiz_option[$j]);
+            if(!empty($exploded_quiz_option[$j])){
             echo '<div class="question">'.$exploded_quiz_question[$j].'</div>';
+            }
             for ($f=1; $f<count($explode);$f++){
                 if (!empty($explode[$f])){
                 echo '<div class="option-child"><input type="radio" name=q-'.$counter.' id=q-'.$counter.' value="'.($explode[$f]).'"><input type="text" value="'.($explode[$f]).'" readonly></div>';
