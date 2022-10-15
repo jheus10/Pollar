@@ -12,10 +12,8 @@
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
         <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" />
         <input type="button" value="add question" onclick="add_question()"/>      
-        <input type="text" value="Quiz" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
-        <input type="text" value="" name="option_counter" id="option_counter"  hidden />  
-        <input type="text" value="" name="question_counterbox" id="question_counterbox" hidden  /> 
+    
+   
         
     <div class="quiz_container" id='quiz_container'>
 
@@ -26,11 +24,11 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
-        <button  type="button" id="test" class="btn btn-primary">test</button>
         </form>
 
         <script>
-   $(document).submit('#quiz-form', function (e) {
+   $('#submit-poll-quiz').submit( function (e) {
+    
     var choices_con=[];
     
     var inputIdcounter="question_block".concat(question_counter-1);
@@ -62,7 +60,9 @@
     }   
      //GET json of choices names 
     var json_choices=JSON.stringify(choices_con);
-   
+   if($('#poll_title').val()!==null){
+
+  
     $.ajax({
       type: "POST",
       url: "ajax/create-poll-quiz.php?json_choices="+json_choices+"&question_counterbox="+question_counter+"&option_counter="+option_counter+"&poll_type=Quiz&event_id=<?=$_SESSION['event_id']?>",
@@ -80,6 +80,9 @@
           }
       }
   });
+}else{
+  return false;
+}
   });
    
   </script>

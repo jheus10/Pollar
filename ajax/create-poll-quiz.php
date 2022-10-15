@@ -17,7 +17,7 @@
         $x=0;
         $y=0;
         $z=0;
-
+        
         for($i=0;$i<count($choices_names);$i++){
             if($choices_names[$i]=="--"){
                 $quiz_choices.="--";
@@ -56,7 +56,7 @@
         $sql = "INSERT INTO poll_list(poll_type,poll_title,poll_question,poll_correct,poll_choices,poll_code,event_id)  VALUES ('$poll_type','$poll_title',' $questions','$correct_choice','$quiz_choices','$poll_code','$event_id')";
          
         if(mysqli_query($link, $sql)){
-            //header("Location:../admin-event.php?event_id=".$event_ids);
+            header("Location:../admin-event.php?event_id=".$event_ids);
             $res = [
                 'status' => 200,
                 '$poll_type' =>  $poll_type,  
@@ -73,21 +73,23 @@
             ];
             echo json_encode($res);
             return;
+        }else{
+            $res = [
+                'status' => 500,
+                '$poll_type' =>  $poll_type,  
+                '$event_id' => $event_id, 
+                '$option_counter' => $option_counter,
+                '$question_counter' => $question_counter,
+                '$poll_code' => $poll_code,
+              
+                '$poll_title' => $poll_title,
+                '$correct_choice' => $correct_choice,
+                '$choices_names'=>$choices_names,
+            ];
+            echo json_encode($res);
+            return;
+            // Close connection
+            mysqli_close($link);
         }
-        $res = [
-            'status' => 500,
-            '$poll_type' =>  $poll_type,  
-            '$event_id' => $event_id, 
-            '$option_counter' => $option_counter,
-            '$question_counter' => $question_counter,
-            '$poll_code' => $poll_code,
-          
-            '$poll_title' => $poll_title,
-            '$correct_choice' => $correct_choice,
-            '$choices_names'=>$choices_names,
-        ];
-        echo json_encode($res);
-        return;
-        // Close connection
-        mysqli_close($link);
+        
         ?>
