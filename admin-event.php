@@ -122,34 +122,7 @@ if ($result = mysqli_query($link, $sql)) {
   }
 }
 ?>
-<script>
-    
-     $(document).ready(function(){
 
-          
-          $("#submit-poll-quiz").on("click",function(e) {
-            
-            var choices_array=[];
-            var event_id=<?=$_SESSION['event_id']?>;
-            var poll_code= document.getElementById('poll_code').value;
-            var username = '<?=$_SESSION["username"]?>';
-        
-            var x=2;
-            while(x<=question_counter){
-            var divIds = $.map($('#span-'+ x+'> input'), span => span.value);
-            choices_array.push("//-");
-              for (var i=0; i<divIds.length;i++){
-                choices_array.push(divIds[i]);
-                
-              }           
-              x++
-            };
-            document.getElementById('choices_array').value=choices_array;
-           
-          
-          });
-        });
-</script>
 
 <script>
 

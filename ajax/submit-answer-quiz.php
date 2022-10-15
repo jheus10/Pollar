@@ -14,7 +14,7 @@
         
         
         $counter = mysqli_real_escape_string($link,$_POST['counter']);
-        for ($i=1;$i<=$counter;$i++){
+        for ($i=1;$i<=$counter+1;$i++){
         $poll_code =  $_GET['poll_code'];
         $event_id =  $_GET['event_id'];
         $user_id =  mysqli_real_escape_string($link,$_GET['user_id']);
@@ -26,7 +26,7 @@
         if(empty($poll_answer)){
             $answer_error="Answer all fields";
             header("Location:../poll.php?answer=empty&event_id=".$event_id."&poll_code=".$poll_code);
-             exit();
+            
         }
         else{
 

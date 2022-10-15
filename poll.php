@@ -48,7 +48,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
                 $trimmed_quiz_question=trim($row['poll_question']);
                 $exploded_quiz_question= explode(",*/" ,$trimmed_quiz_question);
                 $trimmed_quiz_option=trim($row['poll_choices']);
-                $exploded_quiz_option= explode("//-" ,$trimmed_quiz_option);
+                $exploded_quiz_option= explode("--" ,$trimmed_quiz_option);
 
             }else{
                 $trimmed=trim($row['poll_choices']);

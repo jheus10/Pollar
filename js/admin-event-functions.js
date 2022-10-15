@@ -36,46 +36,43 @@ function add_choices_multiple_choice() {
 // ADD QUIZ POLL QUESTION DYNAMICALLY
 function add_question() {
 
-    var div = document.createElement("div");
-    var question = document.createElement("input");
+  var div = document.createElement("div");
+  var question = document.createElement("input");
 
-    div.setAttribute('class','form-group');
-    div.setAttribute('id','box_'+question_counter);
-    question.setAttribute('class','form-group');
-    question.setAttribute('type','text');
-    question.setAttribute('id','box_'+question_counter);
-    question.setAttribute('name','question');
+  // div.setAttribute('class','form-group');
+  // div.setAttribute('id','box_'+question_counter);
+  // question.setAttribute('class','form-group');
+  // question.setAttribute('type','text');
+  // question.setAttribute('id','box_'+question_counter);
+  // question.setAttribute('name','question');
 
 
-    var textbox = "<div class='question_block' id='question_block'><span id='quiz_question'><input type='text' value='' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button</span></button><input type='button' value='add option' onclick='add_choices_quiz()'/>";
-    var concat_question = document.getElementById("quiz_container");
-        div.innerHTML=textbox;
+  var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
+  var concat_question = document.getElementById("quiz_container");
+      div.innerHTML=textbox;
 
-        concat_question.appendChild(div);
-        document.getElementById('question_counterbox').value=question_counter;
-        question_counter=question_counter+1;
+      concat_question.appendChild(div);
+      document.getElementById('question_counterbox').value=question_counter;
+      question_counter=question_counter+1;
 }
-
 
 // ADD QUIZ POLL CHOICES DYNAMICALLY
 function add_choices_quiz() {
-
 
 //Create an input type dynamically.
     const textoption="quizoption-";
     const labeloption="quiztextoption-";
     var div = document.createElement("div");
-    var radio = document.createElement("input");
+    // var radio = document.createElement("input");
 
-    div.setAttribute('class','form-group');
-    div.setAttribute('id','box_'+option_counter);
-    radio.setAttribute('class','form-group');
-    radio.setAttribute('type','radio');
-    radio.setAttribute('id','box_'+option_counter);
-    radio.setAttribute('name','options');
+    // div.setAttribute('class','form-group');
+    // div.setAttribute('id','box_'+option_counter);
+    // radio.setAttribute('class','form-group');
+    // radio.setAttribute('type','radio');
+    // radio.setAttribute('id','box_'+option_counter);
+    // radio.setAttribute('name','options');
 
-    var textbox = "<input type='radio' name='"+textoption + question_counter+"' id='radio-"+ option_counter+"' value='' required><span name='span-" + question_counter+"' id='span-" + question_counter+"' ><input type='text' value='' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"'></span> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-x'></i></button";
-
+    var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
     var foo = document.getElementById("quiz_container");
         div.innerHTML=textbox;
 
@@ -84,23 +81,42 @@ function add_choices_quiz() {
         option_counter=option_counter+1;
   
 }
-//ASSIGN RADIO BUTTON VALUES ON QUIZ FORM
-$("#quiz-form").submit(function (event) {
-  
-  for(i=1;i<=option_counter-1;i++){
-    
-    radio_button=document.getElementById("radio-" + i);
-    if((document.getElementById("quiztextoption-"+i))&&(document.getElementById("quiztextoption-"+i).value)){
-    input_value=document.getElementById("quiztextoption-"+i).value;
-    
+
+// ADD QUIZ POLL CHOICES DYNAMICALLY
+function add_choices_quiz(node) {
+
+  //Create an input type dynamically.
+      const textoption="quizoption-";
+      const labeloption="quiztextoption-";
      
-      radio_button.setAttribute("value",input_value); 
-  }
+      var div = document.createElement("div");
+      var radio = document.createElement("input");
   
-    
-    
-  }    
-});
+       div.setAttribute('class','form-group');
+      // div.setAttribute('id','choices-for-question-'+question_counter);
+      // radio.setAttribute('class','form-group');
+      // radio.setAttribute('type','radio');
+      // radio.setAttribute('id','box_'+option_counter);
+      // radio.setAttribute('name','options');
+  
+      var textbox = "<input type='radio' name='"+textoption + node.parentNode.id+"' id='radio-"+ option_counter+"' value='' required><input type='text' value='' placeholder='add option' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-x'></i></button";
+  
+      var choices_container = document.getElementById(node.parentNode.id);
+      div.innerHTML=textbox;
+      
+          choices_container.appendChild(div);
+          document.getElementById('option_counter').value=option_counter;
+          option_counter=option_counter+1;
+  
+         
+  }
+
+
+  
+
+ 
+
+
 
 // ADD RANKING POLL CHOICES DYNAMICALLY
 function add_choices_ranking() {

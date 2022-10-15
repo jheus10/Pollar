@@ -8,7 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <form  id="quiz-form" action="ajax/create-poll-quiz.php?event_id=<?= $_SESSION['event_id']?>" method="POST">
+        <form  id="quiz-form"  method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
         <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" />
         <input type="button" value="add question" onclick="add_question()"/>      
@@ -16,7 +16,6 @@
         <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
         <input type="text" value="" name="option_counter" id="option_counter"  hidden />  
         <input type="text" value="" name="question_counterbox" id="question_counterbox" hidden  /> 
-        <input type="text" value="" name="choices_array" id="choices_array"  hidden /> 
         
     <div class="quiz_container" id='quiz_container'>
 
@@ -27,10 +26,62 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
+        <button  type="button" id="test" class="btn btn-primary">test</button>
         </form>
 
         <script>
+   $(document).submit('#quiz-form', function (e) {
+    var choices_con=[];
+    
+    var inputIdcounter="question_block".concat(question_counter-1);
+    for(j=0;j<=(question_counter)-1;j++){
+      var inputIdcounter="question_block".concat(j);
+    
+      var inputIds = $.map($('#'+inputIdcounter+' :input'), input => input.id);
+      for(i=0;i<=(inputIds.length)-1;i++){
+        if(inputIds[i].includes('quiztextoption-')){
+          choices_con.push(inputIds[i])
+        }
+        else{
+          continue;
+        }
+     
+    }
+    choices_con.push("--")
+    }
+    //ASSIGN RADIO BUTTON VALUES ON QUIZ FORM
+    for(i=1;i<=option_counter-1;i++){
+    
+      radio_button=document.getElementById("radio-" + i);
+      if((document.getElementById("quiztextoption-"+i))&&(document.getElementById("quiztextoption-"+i).value)){
+      input_value=document.getElementById("quiztextoption-"+i).value;
       
+       
+        radio_button.setAttribute("value",input_value); 
+    }
+    }   
+     //GET json of choices names 
+    var json_choices=JSON.stringify(choices_con);
+   
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll-quiz.php?json_choices="+json_choices+"&question_counterbox="+question_counter+"&option_counter="+option_counter+"&poll_type=Quiz&event_id=<?=$_SESSION['event_id']?>",
+      data: $('#quiz-form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+  });
+   
   </script>
       </div>
     </div>
