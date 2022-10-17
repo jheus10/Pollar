@@ -83,7 +83,6 @@ function add_choices_quiz(node) {
       div.innerHTML=textbox;
       
           choices_container.appendChild(div);
-          document.getElementById('option_counter').value=option_counter;
           option_counter=option_counter+1;
   
          

@@ -25,33 +25,72 @@ $('.poll-container').hide();
                               
                             }, 5000);   
 
-
+                            const size= 20;
+                            const words = res.data_values;
+                            document.getElementById('question').innerHTML=res.poll_question;
                             const config = {
                               type: "wordCloud",
                               data: {
-                                labels: my_data.map((d) => d.key),
+                                labels: words.map((d) => d.key),
                                 datasets: [
                                   {
+                                   
                                     label: "Score",
-                                    data: my_data.map((d) => 10 + d.value * 20)
+                                    data: words.map((d) =>  d.value * 15)
                                   }
                                 ]
                               },
                               options: {
+                               family: "Verdana",
+                               minRotation: 0,
+                               maxRotation: 0,
+                               
+                               hoverColor:[
+                                'rgba(255, 26, 104, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(153, 102, 255, 0.5)',
+                                'rgba(255, 159, 64, 0.5',
+                                'rgba(0, 0, 0, 0.5)',
+                                'rgba(255, 26, 104, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(255, 206, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(153, 102, 255, 0.5)',
+                                'rgba(255, 159, 64, 0.5)',
+                                'rgba(0, 0, 0, 0.5)',
+                               ],
+                                color:[
+                                  'rgba(255, 26, 104,1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(0, 0, 0, 1)',
+                                  'rgba(255, 26, 104, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(0, 0, 0, 1)',
+                                  ],
+                                minAngle: 0,
                                 title: {
                                   display: false,
                                   text: "Word Cloud Poll"
                                 },
                                 plugins: {
+                                 
                                   legend: {
                                     display: false
                                   }
                                 }
                               }
                             }
-                            // render init block
-                          // JS - Destroy exiting Chart Instance to reuse <canvas> element
-                          let chartStatus = Chart.getChart("myChart"); // <canvas> id
+                            let chartStatus = Chart.getChart("myChart"); // <canvas> id
                             if (chartStatus != undefined) {
                               chartStatus.destroy();
                             }
@@ -59,10 +98,11 @@ $('.poll-container').hide();
                             var chartCanvas = $('#myChart'); //<canvas> id
                             chartInstance = new Chart(chartCanvas, config);
                             // render init block
-                        
+                     
+                            // UPDATES THE DATA TO THE CHART
                             setInterval(function() {
                               chartInstance.data.labels = updated_data.map((d) => d.key);
-                              chartInstance.data.datasets[0].data = updated_data.map((d) => 10 + d.value * 20);
+                              chartInstance.data.datasets[0].data = updated_data.map((d) =>  d.value * 15);
                               chartInstance.update();
                               //.log(updated_data);
                             },5000);

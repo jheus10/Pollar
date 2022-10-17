@@ -1,16 +1,70 @@
-<div class="modal fade" id="add-event-quiz" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" id="add-event-quiz" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
+<script>
+  
+    function discardChanges_quiz(){
+      if($('#poll_title').val()){
+        
+      
+        $('#discard_message_quiz').modal('show');
+        
+        }
+        else{
+        $('#add-event-quiz').modal('toggle');
+      }
+    
+    }
+      
+      
+      function discard_quiz(){
+        
+        $('#add-event-quiz').on('hidden.bs.modal', function () {
+        $(this).find('#quiz-form').trigger('reset');
+        
+        });
+        $('#add-event-quiz').modal('toggle');
+        $('#discard_message_quiz').modal('toggle');
+        $("#quiz-form").load(location.href + " #quiz-form");
+      }
+      function close_quiz(){
+        $('#discard_message_quiz').modal('toggle');
+      }
+    </script>
+
+<!-- Modal -->
+<div class="modal fade" id="discard_message_quiz" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Unsaved changes</h5>
+      </div>
+      <div class="modal-body">
+      Would you like to close without saving current poll?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="close_quiz()">Cancel</button>
+        <button type="button" class="btn btn-danger" id="discard_change" onclick="discard_quiz()">Discard changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Quiz</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <!-- <button type="button" class="close" onclick="discardChanges_quiz()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> -->
       </div>
       <div class="modal-body">
         <form  id="quiz-form"  method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
-        <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" />
+        <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" required/>
         <input type="button" value="add question" onclick="add_question()"/>      
     
    
@@ -22,12 +76,12 @@
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" onclick="discardChanges_quiz()">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
         </form>
 
         <script>
-   $('#submit-poll-quiz').submit( function (e) {
+   $('#quiz-form').submit( function (e) {
     
     var choices_con=[];
     
