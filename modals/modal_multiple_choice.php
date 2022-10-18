@@ -51,24 +51,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Multiple Choice</h5>
-        <!-- <button type="button" class="close" onclick=" discardChanges_multiple_choice()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+      
       </div>
       <div class="modal-body">
-        <form action="ajax/create-poll.php?event_id=<?= $_SESSION['event_id']?>" id="multiple_choice_form" method="POST">
+        <form id="multiple_choice_form" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php  poll($link) ?>" readonly/><br>
         <input type="text" name="multiple_question" id="multiple_question" placeholder="What would you like to ask?" required/><br>
         
-        <input type="text" value="Multiple Choice" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="counterbox" id="counterbox"  hidden/>  
+       
         Choices:
         <button type='button' onclick="add_choices_multiple_choice()">Add choices</button>
 
 		<span id="choices">&nbsp;</span>
             
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary"  onclick=" discardChanges_multiple_choice()">Close</button>
@@ -78,3 +74,32 @@
     </div>
   </div>
 </div>
+<script>
+   $('#multiple_choice_form').submit( function (e) {
+    
+    
+   if($('#multiple_question').val()!==null){
+  
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll.php?poll_type=Multiple Choice&option_counter="+option_counter+"&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
+      data: $('#multiple_choice_form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+}else{
+  return false;
+}
+  });
+   
+  </script>

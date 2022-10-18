@@ -49,18 +49,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Word Cloud</h5>
-        <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+      
       </div>
       <div class="modal-body">
-        <form action="ajax/create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" id="wordcloud_form" method="POST">
+        <form  id="wordcloud_form" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
         <input type="text" name="wordcloud_question" id="wordcloud_question" placeholder="What would you like to ask?" required/><br>
         
-        <input type="text" value="Word Cloud" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_wordcloud()">Close</button>
@@ -70,3 +65,33 @@
     </div>
   </div>
 </div>
+<script>
+   $('#wordcloud_form').submit( function (e) {
+    
+    
+   if($('#wordcloud_question').val()!==null){
+ 
+  
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll.php?poll_type=Word Cloud&username=<?php echo $_SESSION["username"]?>&event_id=<?=$_SESSION['event_id']?>",
+      data: $('#wordcloud_form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+}else{
+  return false;
+}
+  });
+   
+  </script>

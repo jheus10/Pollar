@@ -50,24 +50,18 @@
 
 
 
-
   <div class="modal-dialog modal-dialog-centered " role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Open Text</h5>
-        <!-- <button type="button" class="close" onclick=" discardChanges_opentext()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+
       </div>
       <div class="modal-body">
-        <form action="ajax/create-poll.php?event_id=<?php echo $_SESSION['event_id']?>" id="opentext_form" method="POST">
+        <form  id="opentext_form" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
         <input type="text" name="opentext_question" id="opentext_question" placeholder="What would you like to ask?" required/><br>
         
-        <input type="text" value="Open Text" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?php echo $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>   
-         
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
+      
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick=" discardChanges_opentext()">Close</button>
@@ -77,3 +71,32 @@
     </div>
   </div>
 </div>
+<script>
+   $('#opentext_form').submit( function (e) {
+    
+    
+   if($('#opentext_question').val()!==null){
+  
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll.php?poll_type=Open Text&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
+      data: $('#opentext_form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+}else{
+  return false;
+}
+  });
+   
+  </script>

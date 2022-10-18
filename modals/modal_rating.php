@@ -57,17 +57,14 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Rating</h5>
-        <!-- <button type="button" class="close" onclick="discardChanges_rating()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+    
       </div>
       <div class="modal-body">
-        <form  action="ajax/create-poll.php?event_id=<?= $_SESSION['event_id']?>" id="rating_form" method="POST">
+        <form  id="rating_form" method="POST">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/><br>
         <input type="text" name="rating_question" id="rating_question" placeholder="What would you like to ask?" required/><br>
 
-        <input type="text" value="Rating" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden />  
+     
     <div class="quiz_container" id='quiz_container'>
       <span id="max_text">Max Value: </span><input type="text" id="max_value" name="max_value" value="5" readonly/>
       
@@ -100,3 +97,32 @@
     </div>
   </div>
 </div>
+<script>
+   $('#rating_form').submit( function (e) {
+    
+    
+   if($('#rating_question').val()!==null){
+  
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll.php?poll_type=Rating&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
+      data: $('#rating_form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+}else{
+  return false;
+}
+  });
+   
+  </script>

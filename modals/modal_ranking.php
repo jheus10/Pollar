@@ -55,21 +55,15 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Ranking</h5>
-        <!-- <button type="button" class="close" onclick="discardChanges_ranking()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+
       </div>
       <div class="modal-body">
-        <form action="ajax/create-poll.php?event_id=<?= $_SESSION['event_id']?>" id="ranking_form" method="POST">
+        <form method="POST" id="ranking_form">
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/><br>
         <input type="text" name="ranking_question" id="ranking_question" placeholder="What would you like to ask?" required/><br>
         
-        <input type="text" value="Ranking" name="poll_type" id="poll_type" hidden/>  
-        <input type="text" value="<?= $_SESSION['event_id']?>" name="event_id" id="event_id" hidden/>  
-        <input type="text" value="" name="counterbox_ranking" id="counterbox_ranking"  hidden/>  
-        
-        <input type="text" value="" name="select_option_ranking" id="select_option_ranking"/><input type="button" value="add option" onclick="add_choices_ranking()"/>
-    
+        Choices:
+        <button type='button' onclick="add_choices_ranking()">Add choices</button>
 		<span id="choices_ranking">&nbsp;</span>
             
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
@@ -82,3 +76,32 @@
     </div>
   </div>
 </div>
+<script>
+   $('#ranking_form').submit( function (e) {
+   
+    
+   if($('#ranking_question').val()!==null){
+  
+    $.ajax({
+      type: "POST",
+      url: "ajax/create-poll.php?poll_type=Ranking&counterbox_ranking="+option_counter+"&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
+      data: $('#ranking_form').serialize(),
+      success: function (response) {
+  
+          var res = jQuery.parseJSON(response);
+          if(res.status == 500) {
+  
+              console.log(res);
+          }else{
+              alertify.set('notifier','position', 'top-right');
+              alertify.success(res.message);
+              $('#my_polls').load(location.href + " #my_polls");
+          }
+      }
+  });
+}else{
+  return false;
+}
+  });
+   
+  </script>

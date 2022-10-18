@@ -51,13 +51,15 @@ $_SESSION['event_id'] = $_GET['event_id'];
         
     </div>
 <?php 
+date_default_timezone_set('Asia/Manila');
 
   function poll($link){
     $poll_code=rand(1000000,9999999);
     $select = "SELECT poll_code FROM poll_list WHERE poll_code = $poll_code";
     $result2 = mysqli_query($link, $select);
       if(mysqli_num_rows($result2)==0){
-        echo $poll_code;
+        echo $poll_code.date(time());
+      
       }else{
         poll($link);
       }

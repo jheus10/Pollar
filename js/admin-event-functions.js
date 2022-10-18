@@ -22,7 +22,7 @@ function add_choices_multiple_choice() {
       div.innerHTML=textbox;
 
       foo.appendChild(div);
-      document.getElementById('counterbox').value=option_counter;
+
 
       option_counter=option_counter+1;
 
@@ -90,28 +90,22 @@ function add_choices_quiz(node) {
 
 // ADD RANKING POLL CHOICES DYNAMICALLY
 function add_choices_ranking() {
-  if (document.getElementById('select_option_ranking').value){
+
 	//Create an input type dynamically.
   
         var div = document.createElement("div");
-        var radio = document.createElement("input");
-        var radio_value=document.getElementById('select_option_ranking').value;
         div.setAttribute('class','form-group');
         div.setAttribute('id','box_'+option_counter);
-        radio.setAttribute('class','form-group');
-        radio.setAttribute('type','radio');
-        radio.setAttribute('id','box_'+option_counter);
-        radio.setAttribute('name','options');
-        radio.setAttribute('value',radio_value);
-        var textbox = "<input type='text' value='"+radio_value+"' name='"+labeloptionrank+option_counter+"' id='"+labeloptionrank+option_counter+"' readonly> <input type='button' value='-' onclick='removeBox(this)'>"
+
+        var textbox = "<input type='text' value='' placeholder='Add option' name='"+labeloptionrank+option_counter+"' id='"+labeloptionrank+option_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-sharp fa-solid fa-xmark'></i></button>"
 
             var foo = document.getElementById("choices_ranking");
             div.innerHTML=textbox;
 
             foo.appendChild(div);
-            document.getElementById('counterbox_ranking').value=option_counter;
+          
             option_counter=option_counter+1;
-  }
+  
 }
 
 

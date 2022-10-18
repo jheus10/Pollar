@@ -57,9 +57,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLongTitle">Quiz</h5>
-        <!-- <button type="button" class="close" onclick="discardChanges_quiz()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button> -->
+
       </div>
       <div class="modal-body">
         <form  id="quiz-form"  method="POST">
