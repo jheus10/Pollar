@@ -92,5 +92,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
 
             mysqli_close($link);
       ?>
+
 </body>
 </html>

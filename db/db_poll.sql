@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 15, 2022 at 06:55 AM
+-- Generation Time: Oct 18, 2022 at 07:52 AM
 -- Server version: 10.4.19-MariaDB
 -- PHP Version: 8.0.6
 
@@ -50,7 +50,7 @@ INSERT INTO `event_list` (`id`, `event_name`, `date_create`, `active_status`, `u
 
 CREATE TABLE `poll_answers` (
   `id` int(11) NOT NULL,
-  `poll_code` int(11) NOT NULL,
+  `poll_code` varchar(50) NOT NULL,
   `answer_option` varchar(1000) NOT NULL,
   `date_answered` datetime NOT NULL DEFAULT current_timestamp(),
   `answer_status` varchar(20) NOT NULL,
@@ -63,7 +63,16 @@ CREATE TABLE `poll_answers` (
 --
 
 INSERT INTO `poll_answers` (`id`, `poll_code`, `answer_option`, `date_answered`, `answer_status`, `event_id`, `user_id`) VALUES
-(2, 8056504, 'Manuel is nice ❤', '2022-10-15 12:54:58', '', 1, 'admin');
+(1, '15379731666071696', 'Its a nice department', '2022-10-18 13:42:11', '', 1, 'admin'),
+(2, '15379731666071696', 'Its a nice department', '2022-10-18 13:42:13', '', 1, 'admin'),
+(3, '15379731666071696', 'Its a nice department', '2022-10-18 13:42:19', '', 1, 'admin'),
+(4, '15379731666071696', 'Manuel is nice ❤', '2022-10-18 13:42:26', '', 1, 'admin'),
+(5, '15379731666071696', 'Manuel is nice ❤', '2022-10-18 13:42:27', '', 1, 'admin'),
+(6, '15379731666071696', 'Manuel is nice ❤', '2022-10-18 13:42:29', '', 1, 'admin'),
+(7, '15379731666071696', 'Manuel is nice ❤', '2022-10-18 13:42:30', '', 1, 'admin'),
+(8, '15379731666071696', 'Manuel is nice ❤', '2022-10-18 13:42:31', '', 1, 'admin'),
+(9, '15379731666071696', 'more funding wohoo', '2022-10-18 13:42:39', '', 1, 'admin'),
+(10, '15379731666071696', 'raise salary of intern woooo', '2022-10-18 13:42:55', '', 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -80,17 +89,18 @@ CREATE TABLE `poll_list` (
   `poll_choices` varchar(4000) NOT NULL,
   `show_answer` tinyint(1) NOT NULL DEFAULT 0,
   `lock_voting` tinyint(1) NOT NULL DEFAULT 0,
-  `poll_code` int(11) NOT NULL,
+  `poll_code` varchar(50) NOT NULL,
   `date_created` datetime NOT NULL DEFAULT current_timestamp(),
-  `event_id` int(11) NOT NULL
+  `event_id` int(11) NOT NULL,
+  `user_id` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `poll_list`
 --
 
-INSERT INTO `poll_list` (`id`, `poll_type`, `poll_title`, `poll_question`, `poll_correct`, `poll_choices`, `show_answer`, `lock_voting`, `poll_code`, `date_created`, `event_id`) VALUES
-(1, 'Word Cloud', '', ' What do you think about MARS?', '', '', 0, 0, 8056504, '2022-10-15 12:53:34', 1);
+INSERT INTO `poll_list` (`id`, `poll_type`, `poll_title`, `poll_question`, `poll_correct`, `poll_choices`, `show_answer`, `lock_voting`, `poll_code`, `date_created`, `event_id`, `user_id`) VALUES
+(1, 'Word Cloud', '', ' What do you think about EDith?', '', '', 0, 0, '15379731666071696', '2022-10-18 13:41:59', 1, 'admin');
 
 -- --------------------------------------------------------
 
@@ -161,7 +171,7 @@ ALTER TABLE `event_list`
 -- AUTO_INCREMENT for table `poll_answers`
 --
 ALTER TABLE `poll_answers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `poll_list`
