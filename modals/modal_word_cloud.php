@@ -20,7 +20,7 @@
         });
         $('#add-event-wordcloud').modal('toggle');
         $('#discard_message_wordcloud').modal('toggle');
-        $("#wordcloud_form").load(location.href + " #wordcloud_form");
+        location.reload();
       }
       function close_wordcloud(){
         $('#discard_message_wordcloud').modal('toggle');

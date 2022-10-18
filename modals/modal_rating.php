@@ -22,7 +22,7 @@
         });
         $('#add-event-rating').modal('toggle');
         $('#discard_message_rating').modal('toggle');
-        $("#rating_form").load(location.href + " #rating_form");
+        location.reload();
       }
       function close_rating(){
         $('#discard_message_rating').modal('toggle');

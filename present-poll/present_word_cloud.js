@@ -5,6 +5,13 @@ $('.poll-container').hide();
                     document.getElementById('question').innerHTML=res.poll_question;
                     document.getElementById("chartBox").style.height = "80%";
                     //AJAX call for updating values
+                    
+                    
+                    
+                    if(my_data.length==0){
+                      document.getElementById('no_data').innerHTML="No responses yet.";
+                   
+                    }
                     setInterval(function() {
                                     $.ajax({
                                   type:"POST",
@@ -22,9 +29,16 @@ $('.poll-container').hide();
                                     
                                   }
                                 });
-                              
+                              if(my_data.length==0){
+                                
+                                location.reload();
+                              }
+                               
+                             
                             }, 5000);   
-
+                            var canvas = document.getElementById("myChart");
+                            var ctx = canvas.getContext("2d");
+                            ctx.fillText("Hello World", 10, 50);
                             const size= 20;
                             const words = res.data_values;
                             document.getElementById('question').innerHTML=res.poll_question;
@@ -106,3 +120,4 @@ $('.poll-container').hide();
                               chartInstance.update();
                               //.log(updated_data);
                             },5000);
+                         

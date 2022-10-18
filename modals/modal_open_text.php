@@ -22,7 +22,7 @@
         });
         $('#add-event-opentext').modal('toggle');
         $('#discard_message_opentext').modal('toggle');
-        $("#opentext_form").load(location.href + " #opentext_form");
+        location.reload();
       }
       function close_opentext(){
         $('#discard_message_opentext').modal('toggle');

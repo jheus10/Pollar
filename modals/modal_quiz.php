@@ -23,7 +23,7 @@
         });
         $('#add-event-quiz').modal('toggle');
         $('#discard_message_quiz').modal('toggle');
-        $("#quiz-form").load(location.href + " #quiz-form");
+        location.reload();
       }
       function close_quiz(){
         $('#discard_message_quiz').modal('toggle');

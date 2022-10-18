@@ -21,7 +21,7 @@
         });
         $('#add-event-ranking').modal('toggle');
         $('#discard_message_ranking').modal('toggle');
-        $("#ranking_form").load(location.href + " #ranking_form");
+        location.reload();
       }
       function close_ranking(){
         $('#discard_message_ranking').modal('toggle');

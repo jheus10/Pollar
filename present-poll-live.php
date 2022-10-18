@@ -58,6 +58,10 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       .question{
         margin-bottom: 0px;
       }
+      #no_data{
+        display: flex;
+        justify-content: center;
+      }
      
     </style>
   </head>
@@ -84,8 +88,9 @@ if ($result = mysqli_query($link, $sql)) {
   <div class="chartCard">    
       <div class="chartBox" id="chartBox" >
       <div class="question" id="question"></div>
+      <div class="no_data" id="no_data"></div>
         <canvas id="myChart"></canvas>
-
+        
       </div>
   </div> 
       
@@ -97,9 +102,9 @@ if ($result = mysqli_query($link, $sql)) {
             </div>
               <div class="msger-header-options"></div>           
           </header> 
-              <div class="container" id="#container">
-                <main class="msger-chat">
-      
+              <div class="container" id="container">
+                <main class="msger-chat" id="msger-chat">
+                    
               </div>
               </div>
               </div>

@@ -21,6 +21,8 @@
         $('#add-event-multiple').modal('toggle');
         $('#discard_message_multiple').modal('toggle');
         $("#multiple_choice_form").load(location.href + " #multiple_choice_form");
+        location.reload();
+       
       }
       function close_multiple_choice(){
         $('#discard_message_multiple').modal('toggle');
@@ -76,7 +78,7 @@
 </div>
 <script>
    $('#multiple_choice_form').submit( function (e) {
-    
+
     
    if($('#multiple_question').val()!==null){
   

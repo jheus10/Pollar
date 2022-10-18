@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html>
- 
-<head>
-    <title>Insert Page page</title>
-</head>
- 
-<body>
-    <script>
-    
-    </script>
-    <center>
-        <?php
+
+
+
+
+
+        <?php 
+        if(isset($_GET['event_id']) && $_GET['event_id'] === true && isset($_GET['poll_type']) && isset($_GET['username']) && isset($_POST['poll_code'])){
         $event_ids=$_GET['event_id'];
+        }else{
+            header("Location:../responses/error.php");
+        }
  require_once('../config/config.php');
        
         
@@ -179,14 +176,10 @@
             echo json_encode($res);
             return;
             
-             
+        }
             // Close connection
             mysqli_close($link);
-        }
+        
        
         
         ?>
-    </center>
-</body>
- 
-</html>
