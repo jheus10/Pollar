@@ -66,7 +66,6 @@
         <button type='button' onclick="add_choices_ranking()">Add choices</button>
 		<span id="choices_ranking">&nbsp;</span>
             
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_ranking()">Close</button>

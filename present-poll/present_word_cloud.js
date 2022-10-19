@@ -36,61 +36,64 @@ $('.poll-container').hide();
                                
                              
                             }, 5000);   
-                            var canvas = document.getElementById("myChart");
-                            var ctx = canvas.getContext("2d");
-                            ctx.fillText("Hello World", 10, 50);
-                            const size= 20;
+                           
                             const words = res.data_values;
                             document.getElementById('question').innerHTML=res.poll_question;
                             const config = {
                               type: "wordCloud",
                               data: {
                                 labels: words.map((d) => d.key),
+                                
                                 datasets: [
                                   {
                                    
                                     label: "Score",
-                                    data: words.map((d) =>  d.value * 15)
+                                    data: words.map((d) =>  d.value )
                                   }
                                 ]
                               },
+                              
                               options: {
+                               
                                family: "Verdana",
                                minRotation: 0,
                                maxRotation: 0,
                                
                                hoverColor:[
-                                'rgba(255, 26, 104, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(255, 206, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(255, 159, 64, 0.5',
-                                'rgba(0, 0, 0, 0.5)',
-                                'rgba(255, 26, 104, 0.5)',
-                                'rgba(54, 162, 235, 0.5)',
-                                'rgba(255, 206, 86, 0.5)',
-                                'rgba(75, 192, 192, 0.5)',
-                                'rgba(153, 102, 255, 0.5)',
-                                'rgba(255, 159, 64, 0.5)',
-                                'rgba(0, 0, 0, 0.5)',
+                                  '#ff1a68',
+                                  '#36a2eb',
+                                  '#ffce56',
+                                  '#4bc0c0',
+                                  '#9966ff',
+                                  '#ff9f40',
+                                  '#000000',
+                                  '#ff1a68',
+                                  '#36a2eb',
+                                  '#ffce56',
+                                  '#4bc0c0',
+                                  '#9966ff',
+                                  '#ff9f40',
+                                  '#000000',
                                ],
                                 color:[
-                                  'rgba(255, 26, 104,1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)',
-                                  'rgba(0, 0, 0, 1)',
-                                  'rgba(255, 26, 104, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)',
-                                  'rgba(0, 0, 0, 1)',
+                                  '#ff1a68',
+                                  '#36a2eb',
+                                  '#ffce56',
+                                  '#4bc0c0',
+                                  '#9966ff',
+                                  '#ff9f40',
+                                  '#000000',
+                                  '#ff1a68',
+                                  '#36a2eb',
+                                  '#ffce56',
+                                  '#4bc0c0',
+                                  '#9966ff',
+                                  '#ff9f40',
+                                  '#000000',
                                   ],
+                                
+                                
+                                  padding: 30,
                                 minAngle: 0,
                                 title: {
                                   display: false,
@@ -116,7 +119,7 @@ $('.poll-container').hide();
                             // UPDATES THE DATA TO THE CHART
                             setInterval(function() {
                               chartInstance.data.labels = updated_data.map((d) => d.key);
-                              chartInstance.data.datasets[0].data = updated_data.map((d) =>  d.value * 15);
+                              chartInstance.data.datasets[0].data = updated_data.map((d) =>  d.value );
                               chartInstance.update();
                               //.log(updated_data);
                             },5000);

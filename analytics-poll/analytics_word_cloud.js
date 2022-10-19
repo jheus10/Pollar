@@ -3,6 +3,7 @@ $('.msger').hide();
             $('.question').show();
             const words = res.data_values;
             document.getElementById('question').innerHTML=res.poll_question;
+            
             const config = {
               type: "wordCloud",
               data: {
@@ -10,7 +11,7 @@ $('.msger').hide();
                 datasets: [
                   {
                     label: "Score",
-                    data: words.map((d) => 10+ d.value * 5)
+                    data: words.map((d) => d.value)
                   }
                 ]
               },

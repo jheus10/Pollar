@@ -87,7 +87,6 @@
        
       </script>  
     </div>     
-        <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_rating()">Close</button>

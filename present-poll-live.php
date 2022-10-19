@@ -17,7 +17,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     <title>Present Poll</title>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://unpkg.com/chartjs-chart-wordcloud@3"></script>
+    <script src="js/chartjs-chart-wordcloud@3.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
 
@@ -33,19 +33,19 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       .chartCard {
         width: 100%;
         height: calc(100vh - 20px);
-        background: rgba(255, 26, 104, 0.2);
+        background: #11360d;
         display: flex;
         align-items: center;
         justify-content: center;
-       
+        opacity: .9;
         overflow: hidden;
       }
       .chartBox {
         position: relative;
         width: 1200px;
         padding: 20px;
-        border-radius: 20px;
-        background: white;
+        border-radius: 50px;
+        background: #1e1f21;
         max-height: 80%;
         overflow-y:scroll;
         
@@ -53,12 +53,13 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
       .chartBox::-webkit-scrollbar {
         display: none;
       }
-      #word_cloud{
-
-        
-      }
+     #myChart{
+      /* margin-left:-300px; */
+     }
       .question{
         margin-bottom: 0px;
+        color: white;
+        font-family: "Arial";
       }
       #no_data{
         display: flex;

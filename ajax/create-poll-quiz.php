@@ -3,7 +3,6 @@
         <?php
         $event_ids=$_GET['event_id'];
  require_once('../config/config.php');
-        if(isset($_GET['event_id']) && $_GET['event_id'] === true && isset($_GET['poll_type']) && isset($_GET['username']) && isset($_POST['poll_code'])){
         $poll_type=  mysqli_real_escape_string($link,$_GET['poll_type']);
         $event_id= mysqli_real_escape_string($link,$_GET['event_id']);
         $option_counter= mysqli_real_escape_string($link,$_GET['option_counter']);
@@ -18,10 +17,8 @@
         $x=0;
         $y=0;
         $z=0;
-        }
-        else{
-            header("Location: ../responses/error.php ");
-        }
+        
+       
         for($i=0;$i<count($choices_names);$i++){
             if($choices_names[$i]=="--"){
                 $quiz_choices.="--";
@@ -60,7 +57,7 @@
         $sql = "INSERT INTO poll_list(poll_type,poll_title,poll_question,poll_correct,poll_choices,poll_code,event_id,user_id)  VALUES ('$poll_type','$poll_title',' $questions','$correct_choice','$quiz_choices','$poll_code','$event_id','$user_id')";
          
         if(mysqli_query($link, $sql)){
-            header("Location:../admin-event.php?event_id=".$event_ids);
+            //header("Location:../admin-event.php?event_id=".$event_ids);
             $res = [
                 'status' => 200,
                 'message' => "Poll created."

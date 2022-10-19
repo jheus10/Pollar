@@ -48,11 +48,6 @@
   </div>
 </div>
 
-
-
-
-
-
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -64,12 +59,8 @@
         Event Code: <input type="text" name="poll_code" id="poll_code" value="<?php poll($link) ?>" readonly/>
         <input type="text" value="" name="poll_title" id="poll_title" placeholder="Enter Quiz Title" required/>
         <input type="button" value="add question" onclick="add_question()"/>      
-    
-   
-        
+            
     <div class="quiz_container" id='quiz_container'>
-
-        
     </div>     
         <input type="text" name="user_id" id="user_id" value=<?php echo $_SESSION["username"]?> hidden>
       </div>
@@ -77,10 +68,8 @@
         <button type="button" class="btn btn-secondary" onclick="discardChanges_quiz()">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
         </form>
-
         <script>
    $('#quiz-form').submit( function (e) {
-    
     var choices_con=[];
     
     var inputIdcounter="question_block".concat(question_counter-1);
@@ -117,7 +106,7 @@
   
     $.ajax({
       type: "POST",
-      url: "ajax/create-poll-quiz.php?json_choices="+json_choices+"&question_counterbox="+question_counter+"&option_counter="+option_counter+"&poll_type=Quiz&event_id=<?=$_SESSION['event_id']?>",
+      url: "ajax/create-poll-quiz.php?json_choices="+json_choices+"&question_counterbox="+question_counter+"&option_counter="+option_counter+"&poll_type=Quiz&event_id=<?=$_SESSION['event_id']?>&user_id=<?=$_SESSION['username']?>",
       data: $('#quiz-form').serialize(),
       success: function (response) {
   

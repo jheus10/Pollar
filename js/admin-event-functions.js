@@ -1,3 +1,5 @@
+
+
 var option_counter=1;//DETERMINE THE NUMBER OF CHOICES CREATED
 var question_counter=1; //DETERMINE THE NUMBER OF QUESTIONS CREATED
 const textquestion="quizquestion-"; // FOR QUIZ FORM 
@@ -158,4 +160,3 @@ function copy(copy_id) {
         });
     }
 });
-
