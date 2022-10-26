@@ -17,8 +17,7 @@ function add_choices_multiple_choice() {
 
   div.setAttribute('class','form-group');
   div.setAttribute('id','box_'+option_counter);
-  
-  var textbox = "<input type='text' value='' placeholder='Add option' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-sharp fa-solid fa-xmark'></i></button>"
+  var textbox = "<input type='text' value='' placeholder='Add option' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-sharp fa-solid fa-xmark'></i></button>";
 
 	var foo = document.getElementById("choices");
       div.innerHTML=textbox;
@@ -35,9 +34,6 @@ function add_question() {
 
   var div = document.createElement("div");
   var question = document.createElement("input");
-
-
-
   var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
   var concat_question = document.getElementById("quiz_container");
       div.innerHTML=textbox;

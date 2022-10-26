@@ -39,16 +39,14 @@ $_SESSION['event_id'] = $_GET['event_id'];
     <div class="textbox"><li><a>Create Poll</a></li></div>
     
 <!-- Poll Choices -->    
-        <div class="option">
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-multiple"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-quiz"><ion-icon name="list-outline"></ion-icon>Quiz</button></div>
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-rating"><ion-icon name="list-outline"></ion-icon>Rating</button></div>
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-opentext"><ion-icon name="list-outline"></ion-icon>Open Text</button></div>
-            <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-ranking"><ion-icon name="list-outline"></ion-icon>Ranking</button></div>
-
-        </div>
-        
+      <div class="option">
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-multiple"><ion-icon name="list-outline"></ion-icon>Multiple Choice</button></div>
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-wordcloud"><ion-icon name="list-outline"></ion-icon>Word Cloud</button></div>
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-quiz"><ion-icon name="list-outline"></ion-icon>Quiz</button></div>
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-rating"><ion-icon name="list-outline"></ion-icon>Rating</button></div>
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-opentext"><ion-icon name="list-outline"></ion-icon>Open Text</button></div>
+          <div><button type="button" class="create-event" data-toggle="modal" data-target="#add-event-ranking"><ion-icon name="list-outline"></ion-icon>Ranking</button></div>
+      </div>
     </div>
 <?php 
 date_default_timezone_set('Asia/Manila');
