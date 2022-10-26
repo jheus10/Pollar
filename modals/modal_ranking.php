@@ -70,17 +70,40 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_ranking()">Close</button>
         <button type="submit" class="btn btn-primary">Create Poll</button>
+        <button type="button" id="test" class="btn btn-primary">test Poll</button>
         </form>
       </div>
     </div>
   </div>
 </div>
 <script>
+
    $('#ranking_form').submit( function (e) {
    
     
    if($('#ranking_question').val()!==null){
-  
+    
+    var inputIdcounter="choices_ranking";
+    choiceContainer=[];
+    var inputIds = $.map($('#'+inputIdcounter+' :input'), input => input.id);
+    for(i=0;i<=inputIds.length;i++){
+      if(inputIds[i]!==undefined&&inputIds[i]!==""){
+      choiceContainer.push(inputIds[i])
+      }
+    }
+   
+    for(j=0;j<=choiceContainer.length;j++){
+      if($("#"+choiceContainer[j]).val()==""){
+        
+        alert("Fill out all choices")
+        return false;
+      }
+      if(choiceContainer.length<2){
+      
+      alert("Please put atleast 2 choices");
+      return false;
+    }
+  }
     $.ajax({
       type: "POST",
       url: "ajax/create-poll.php?poll_type=Ranking&counterbox_ranking="+option_counter+"&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
@@ -98,9 +121,11 @@
           }
       }
   });
-}else{
+}
+else{
+  alert("Add question before submitting.")
   return false;
 }
-  });
+});
    
   </script>

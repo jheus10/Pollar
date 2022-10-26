@@ -554,12 +554,17 @@
 	        ctx.save();
 	        const f = helpers.toFont({ ...options, size: options.size * props.scale });
 	        ctx.font = f.string;
-			ctx.fillStyle = options.color+"20";
-			
+			var size_increment=10;
+			var opacity=20;
 			var width=ctx.measureText(props.text).width;
+			ctx.strokeStyle = options.color;
+			roundRect(ctx,props.x-(width/2)-size_increment, props.y-options.size, width+size_increment+20, options.size+size_increment,10,options.color,true);
+			ctx.fillStyle = options.color+opacity;
 			
-			ctx.fillRect(props.x-(width/2), props.y-options.size, width+10, options.size+10);
+			roundRect(ctx,props.x-(width/2)-size_increment, props.y-options.size, width+size_increment+20, options.size+size_increment,10,options.color,true);
+			
 	        ctx.fillStyle = options.color;
+			
 			ctx.textAlign="center";
 			
 			
@@ -572,8 +577,32 @@
 	            ctx.strokeText(props.text, 0, 0);
 				
 	        }
-			
-	        ctx.fillText(props.text, 0, 0);
+			function roundRect(ctx, x, y, width, height, radius, fill, stroke) {
+				if (typeof stroke == "undefined" ) {
+				  stroke = true;
+				}
+				if (typeof radius === "undefined") {
+				  radius = 5;
+				}
+				ctx.beginPath();
+				ctx.moveTo(x + radius, y);
+				ctx.lineTo(x + width - radius, y);
+				ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+				ctx.lineTo(x + width, y + height - radius);
+				ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+				ctx.lineTo(x + radius, y + height);
+				ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+				ctx.lineTo(x, y + radius);
+				ctx.quadraticCurveTo(x, y, x + radius, y);
+				ctx.closePath();
+				if (stroke) {
+				  ctx.stroke();
+				}
+				if (fill) {
+				  ctx.fill();
+				}        
+			  }
+	        ctx.fillText(props.text,0, 2);
 			
 	        ctx.restore();
 	    }
@@ -637,7 +666,7 @@
 	            .padding((d) => d.options.padding)
 	            .rotate((d) => d.options.rotate)
 	            .font((d) => d.options.family)
-	            .fontSize((d) => d.options.size)
+	            .fontSize((d) => d.options.size+50)
 	            .fontStyle((d) => d.options.style)
 	            .fontWeight((d) => { var _a; return (_a = d.options.weight) !== null && _a !== void 0 ? _a : 1; });
 	        this.rand = Math.random;

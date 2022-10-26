@@ -76,7 +76,7 @@
                 echo json_encode($res);
                 return;
             } else{
-                echo "ERROR: Hush! Sorry $sql. "
+                echo "ERROR: Hush! Sorry . "
                     . mysqli_error($link);
                     $res = [
                         'status' => 500,

@@ -32,15 +32,29 @@ function add_choices_multiple_choice() {
 // ADD QUIZ POLL QUESTION DYNAMICALLY
 function add_question() {
 
+
+
   var div = document.createElement("div");
   var question = document.createElement("input");
   var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
   var concat_question = document.getElementById("quiz_container");
+  var validation= question_counter-1;
+    if(question_counter<=2){
       div.innerHTML=textbox;
 
       concat_question.appendChild(div);
   
       question_counter=question_counter+1;
+
+    }else if($("#"+labelquestion + validation).val()!==""){
+      div.innerHTML=textbox;
+
+      concat_question.appendChild(div);
+  
+      question_counter=question_counter+1;
+    }else{
+      alert("Fill out all questions first.")
+    }
 }
 
 // ADD QUIZ POLL CHOICES DYNAMICALLY

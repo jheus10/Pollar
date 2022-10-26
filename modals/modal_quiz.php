@@ -79,7 +79,7 @@
       var inputIds = $.map($('#'+inputIdcounter+' :input'), input => input.id);
       for(i=0;i<=(inputIds.length)-1;i++){
         if(inputIds[i].includes('quiztextoption-')){
-          choices_con.push(inputIds[i])
+          choices_con.push(inputIds[i]);
         }
         else{
           continue;
@@ -88,6 +88,7 @@
     }
     choices_con.push("--")
     }
+    
     //ASSIGN RADIO BUTTON VALUES ON QUIZ FORM
     for(i=1;i<=option_counter-1;i++){
     

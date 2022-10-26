@@ -55,7 +55,7 @@ $('.poll-container').hide();
                               
                               options: {
                                
-                               family: "Verdana",
+                               family: "Tahoma",
                                minRotation: 0,
                                maxRotation: 0,
                                
@@ -66,14 +66,14 @@ $('.poll-container').hide();
                                   '#4bc0c0',
                                   '#9966ff',
                                   '#ff9f40',
-                                  '#000000',
-                                  '#ff1a68',
-                                  '#36a2eb',
-                                  '#ffce56',
-                                  '#4bc0c0',
-                                  '#9966ff',
-                                  '#ff9f40',
-                                  '#000000',
+                                  '#21b849',
+                                  '#FF5733',
+                                  '#FFBD33',
+                                  '#33FF57',
+                                  '#DBFF33',
+                                  '#75FF33',
+                                  '#08C3CD',
+                                  '#CD08C3',
                                ],
                                 color:[
                                   '#ff1a68',
@@ -82,18 +82,18 @@ $('.poll-container').hide();
                                   '#4bc0c0',
                                   '#9966ff',
                                   '#ff9f40',
-                                  '#000000',
-                                  '#ff1a68',
-                                  '#36a2eb',
-                                  '#ffce56',
-                                  '#4bc0c0',
-                                  '#9966ff',
-                                  '#ff9f40',
-                                  '#000000',
+                                  '#21b849',
+                                  '#FF5733',
+                                  '#FFBD33',
+                                  '#33FF57',
+                                  '#DBFF33',
+                                  '#75FF33',
+                                  '#08C3CD',
+                                  '#CD08C3',
                                   ],
                                 
                                 
-                                  padding: 30,
+                                  
                                 minAngle: 0,
                                 title: {
                                   display: false,

@@ -81,7 +81,26 @@
 
     
    if($('#multiple_question').val()!==null){
-  
+    var inputIdcounter="choices";
+    choiceContainer=[];
+    var inputIds = $.map($('#'+inputIdcounter+' :input'), input => input.id);
+    for(i=0;i<=inputIds.length;i++){
+      if(inputIds[i]!==undefined&&inputIds[i]!==""){
+      choiceContainer.push(inputIds[i])
+      }
+    }
+    for(j=0;j<=choiceContainer.length;j++){
+      if($("#"+choiceContainer[j]).val()==""){
+        
+        alert("Fill out all choices")
+        return false;
+      }
+      if(choiceContainer.length<2){
+      
+      alert("Please put atleast 2 choices");
+      return false;
+    }
+  }
     $.ajax({
       type: "POST",
       url: "ajax/create-poll.php?poll_type=Multiple Choice&option_counter="+option_counter+"&event_id=<?=$_SESSION['event_id']?>&user_id=<?php echo $_SESSION["username"]?>",
@@ -100,6 +119,7 @@
       }
   });
 }else{
+  alert("Add question before submitting.")
   return false;
 }
   });
