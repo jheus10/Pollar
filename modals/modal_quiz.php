@@ -67,7 +67,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_quiz()">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
-        <button  type="button" id="test" class="btn btn-primary">test</button>
         </form>
         <script>
         
@@ -94,7 +93,7 @@
     
     choices_con.push("--")
     }
-    // Validation for Questions
+    // Validation for Quiz Questions
     for(i=0; i<=question_con.length;i++){
 
       if($("#"+question_con[i]).val()==""){
@@ -111,7 +110,7 @@
         choice_counter=0;
       }
     }
-    // NUMBER OF CHOICES VALIDATION FOR QUIZ
+    // NUMBER OF CHOICES VALIDATION for every question
     if (choice_counter<2){
       alert("Each question require atleast 2 choices");
       return false;
