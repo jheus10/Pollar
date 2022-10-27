@@ -32,11 +32,9 @@ function add_choices_multiple_choice() {
 // ADD QUIZ POLL QUESTION DYNAMICALLY
 function add_question() {
 
-
-
   var div = document.createElement("div");
-  var question = document.createElement("input");
-  var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
+
+  var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"' required> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
   var concat_question = document.getElementById("quiz_container");
   var validation= question_counter-1;
     if(question_counter<=2){
@@ -57,24 +55,7 @@ function add_question() {
     }
 }
 
-// ADD QUIZ POLL CHOICES DYNAMICALLY
-function add_choices_quiz() {
 
-//Create an input type dynamically.
-    const textoption="quizoption-";
-    const labeloption="quiztextoption-";
-    var div = document.createElement("div");
-   
-
-    var textbox = "<div class='question_block"+question_counter+"' id='question_block"+question_counter+"'><input type='text' value='' placeholder='What would you like to ask?' name='"+labelquestion + question_counter+"' id='"+labelquestion + question_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-trash'></i></button></button><button type='button' id='add-option-"+question_counter+"'  onclick='add_choices_quiz(this)'>add option</button>";
-    var foo = document.getElementById("quiz_container");
-        div.innerHTML=textbox;
-
-        foo.appendChild(div);
-     
-        option_counter=option_counter+1;
-  
-}
 
 // ADD QUIZ POLL CHOICES DYNAMICALLY
 function add_choices_quiz(node) {
@@ -89,7 +70,7 @@ function add_choices_quiz(node) {
        div.setAttribute('class','form-group');
  
   
-      var textbox = "<input type='radio' name='"+textoption + node.parentNode.id+"' id='radio-"+ option_counter+"' value='' required><input type='text' value='' placeholder='add option' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"'> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-x'></i></button";
+      var textbox = "<input type='radio' name='"+textoption + node.parentNode.id+"' id='radio-"+ option_counter+"' value='' required><input type='text' value='' placeholder='add option' name='"+labeloption+option_counter+"' id='"+labeloption+option_counter+"' required> <button type='button' onclick='removeBox(this)'><i class='fa-solid fa-x'></i></button";
   
       var choices_container = document.getElementById(node.parentNode.id);
       div.innerHTML=textbox;

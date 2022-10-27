@@ -67,11 +67,13 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_quiz()">Close</button>
         <button  type="submit" id="submit-poll-quiz" class="btn btn-primary">Create Poll</button>
+        <button  type="button" id="test" class="btn btn-primary">test</button>
         </form>
         <script>
+        
    $('#quiz-form').submit( function (e) {
     var choices_con=[];
-    
+            var question_con=[];
     var inputIdcounter="question_block".concat(question_counter-1);
     for(j=0;j<=(question_counter)-1;j++){
       var inputIdcounter="question_block".concat(j);
@@ -80,15 +82,40 @@
       for(i=0;i<=(inputIds.length)-1;i++){
         if(inputIds[i].includes('quiztextoption-')){
           choices_con.push(inputIds[i]);
+          
+        } else if(inputIds[i].includes('quiztextquestion-')){
+          question_con.push(inputIds[i]);
         }
         else{
           continue;
         }
      
     }
+    
     choices_con.push("--")
     }
-    
+    // Validation for Questions
+    for(i=0; i<=question_con.length;i++){
+
+      if($("#"+question_con[i]).val()==""){
+       
+        alert("Fill out all questions");
+        return false;
+      }
+    }
+    var choice_counter=0;
+    for(i=0; i<choices_con.length-1;i++){
+      if(choices_con[i]!=="--"){
+        choice_counter++;
+      }else{
+        choice_counter=0;
+      }
+    }
+    // NUMBER OF CHOICES VALIDATION FOR QUIZ
+    if (choice_counter<2){
+      alert("Each question require atleast 2 choices");
+      return false;
+    }
     //ASSIGN RADIO BUTTON VALUES ON QUIZ FORM
     for(i=1;i<=option_counter-1;i++){
     
@@ -103,7 +130,10 @@
      //GET json of choices names 
     var json_choices=JSON.stringify(choices_con);
    if($('#poll_title').val()!==null){
-
+    if (question_con.length==0){
+      alert("Have atleast 1 question in your quiz.");
+      return false;
+    }
   
     $.ajax({
       type: "POST",

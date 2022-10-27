@@ -70,7 +70,6 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" onclick="discardChanges_ranking()">Close</button>
         <button type="submit" class="btn btn-primary">Create Poll</button>
-        <button type="button" id="test" class="btn btn-primary">test Poll</button>
         </form>
       </div>
     </div>
