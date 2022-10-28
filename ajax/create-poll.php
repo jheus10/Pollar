@@ -62,7 +62,7 @@
             $sql = "INSERT INTO poll_list(poll_type,poll_question,poll_correct,poll_choices,poll_code,event_id,user_id)  VALUES ('$poll_type',' $poll_question','$correct','$choices ','$poll_code','$event_id','$user_id')";
              
             if(mysqli_query($link, $sql)){
-                //header("Location:../admin-event.php?event_id=".$event_ids);
+                header("Location:../admin-event.php?event_id=".$event_ids);
                 $res = [
                     'status' => 200,
                     'message' => "Poll created.",

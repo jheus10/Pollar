@@ -111,6 +111,7 @@
           if(res.status == 500) {
   
               console.log(res);
+              $('#my_polls').load(location.href + " #my_polls");
           }else{
               alertify.set('notifier','position', 'top-right');
               alertify.success(res.message);
