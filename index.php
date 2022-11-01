@@ -26,9 +26,7 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
         <a href="logout.php" class="btn btn-danger ml-3">Sign Out of Your Account</a>
     </p>
     <div class="issuer-table">
-  <div class="search-box">
-  <ion-icon name="search-outline"></ion-icon> <input type="text" class="search-input" placeholder="Search Issuer">
-  </div>
+
 
 <!-- Button trigger modal -->
   <button type="button" class="create-event" data-toggle="modal" data-target="#add-event">Create Event</button>

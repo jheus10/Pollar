@@ -544,6 +544,7 @@
 	    tooltipPosition() {
 	        return this.getCenterPoint();
 	    }
+		//For drawing and manipulating elements inside the canvas of word clouds.
 	    draw(ctx) {
 	        const { options } = this;
 	        const props = this.getProps(['x', 'y', 'width', 'height', 'text', 'scale']);
