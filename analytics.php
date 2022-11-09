@@ -30,7 +30,7 @@ $_SESSION['event_id'] = $_GET['event_id'];
         <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
         <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="js/chartjs-chart-wordcloud@3.js"></script>
+        <script src="js/analytics-chartjs-chart-wordcloud@3.js"></script>
         <link href="css/open-text.css" rel="stylesheet">
         <style>
         .poll_preview {
